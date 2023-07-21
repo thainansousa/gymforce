@@ -1,0 +1,70 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+{% block 'title' %}GymForce - Novo usuário{% endblock %}
+
+{% block 'head' %}{% endblock %}
+
+{% block 'body' %}
+    <div class="container">
+        <h1 class="fs-3">Novo usuário</h1>
+
+        <div class="card">
+            <div class="card-body">
+                <form action="">
+                    <div class="row mb-4">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                        </div>
+                        <div class="col">
+                            <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <input type="number" class="form-control" placeholder="Número de Telefone" aria-label="Número de Telefone">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="CPF" aria-label="CPF">
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <input type="password" class="form-control" placeholder="Senha" aria-label="Senha">
+                        </div>
+                        <div class="col">
+                            <input type="password" class="form-control" placeholder="Confirme sua senha" aria-label="Confirme sua senha">
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <select class="form-select">
+                                <option selected disabled>Selecione o nivel administrativo</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-select">
+                                <option selected disabled>Selecione o status</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 d-grid">
+                            <button type="submit" class="btn btn-outline-primary">Cadastrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>       
+    </div>
+{% endblock %}

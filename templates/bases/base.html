@@ -12,7 +12,7 @@
         {% block 'head'%}{% endblock %}
     </head>
     <body>
-            <nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
+            <nav class="navbar bg-primary navbar-expand-lg mb-4" data-bs-theme="dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="#">GymForce</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,8 @@
                                     <li><a class="dropdown-item" href="#">Dados da empresa</a></li>
                                     <li><a class="dropdown-item" href="#">Gerenciar empresa</a></li>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#">Novo usuário</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'novoUsuario' %}">Novo usuário</a></li>
+                                    <li><a class="dropdown-item" href="#">Gerenciar usuários</a></li>
                                 </ul>
                             </li>
                         </ul>
