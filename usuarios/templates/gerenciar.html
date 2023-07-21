@@ -1,0 +1,68 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+{% block 'title' %}GymForce - Gerenciar usuários{% endblock %}
+
+{% block 'head' %}{% endblock %}
+
+{% block 'body' %}
+
+    <div class="container">
+        <h1 class="fs-3">Gerenciar usuários</h1>
+
+        <div class="row mt-4">
+                <form action="" class="row">
+                    <div class="col-4">
+                        <input type="text" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                    </div>
+                    <div class="col-2 d-grid">
+                        <button type="submit" class="btn btn-primary">Filtrar</button>
+                    </div>
+                </form>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col">
+                <table class="table table table-striped border">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">CPF</th>
+                            <th scope="col">Acesso</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>Normal</td>
+                            <td>Ativo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                            <td>Normal</td>
+                            <td>Ativo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td colspan="2">Larry the Bird</td>
+                            <td>@twitter</td>
+                            <td>Normal</td>
+                            <td>Ativo</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
