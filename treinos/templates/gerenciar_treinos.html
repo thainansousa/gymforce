@@ -2,14 +2,13 @@
 
 {% load static %}
 
-{% block 'title' %}GymForce - Gerenciar usuários{% endblock %}
+{% block 'title' %}GymForce - Gerenciar Treinos{% endblock %}
 
 {% block 'head' %}{% endblock %}
 
 {% block 'body' %}
-
-    <div class="container">
-        <h1 class="fs-3">Gerenciar Usuários</h1>
+     <div class="container">
+        <h1 class="fs-3">Gerenciar Treinos</h1>
 
         <div class="row mt-4">
                 <form action="" class="row">
@@ -24,14 +23,11 @@
         
         <div class="row mt-4">
             <div class="col">
-                <table class="table table table-striped border">
+                <table class="table table-striped border">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">CPF</th>
-                            <th scope="col">Acesso</th>
                             <th scope="col">Status</th>
                             <th scope="col"></th>
                         </tr>
@@ -40,9 +36,6 @@
                         <tr>
                             <th scope="row">1</th>
                             <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Normal</td>
                             <td>Ativo</td>
                             <div>
                                 <td>Editar</td>
@@ -53,9 +46,6 @@
                         <tr>
                             <th scope="row">2</th>
                             <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            <td>Normal</td>
                             <td>Ativo</td>
                             <div>
                                 <td>Editar</td>
@@ -65,9 +55,7 @@
                         </tr>
                         <tr>
                             <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                            <td>Normal</td>
+                            <td>Larry the Bird</td>
                             <td>Ativo</td>
                             <div>
                                 <td>Editar</td>
@@ -80,5 +68,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}
