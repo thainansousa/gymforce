@@ -1,6 +1,5 @@
 from django.db import models
-'''
-from treinos.models import Treino_Aluno
+
 from financeiro.models import Mensalidade
 
 class Aluno(models.Model):
@@ -10,7 +9,6 @@ class Aluno(models.Model):
     data_nascimento = models.DateField()
     telefone = models.CharField(max_length=25)
     email = models.CharField(max_length=255)
-    treino = models.ForeignKey(Treino_Aluno, on_delete=models.DO_NOTHING)
     mensalidade = models.ForeignKey(Mensalidade, on_delete=models.DO_NOTHING)
     status = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -18,4 +16,3 @@ class Aluno(models.Model):
 
     def __str__(self):
         return self.email
-'''
