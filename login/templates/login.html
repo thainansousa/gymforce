@@ -1,0 +1,35 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GymForce - Login</title>
+        <link rel="stylesheet" href="{% static 'login/css/login.css' %}">
+    </head>
+    <body>
+        <div class="container">
+            <div class="card">
+                <h3>GymForce - Login</h3>
+                <form action="">
+                    <div class="form-input">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" placeholder="Informe seu email"/>
+                    </div>
+
+                     <div class="form-input">
+                        <label for="password">Senha</label>
+                        <input type="password" name="password" id="password" placeholder="Informe sua senha"/>
+                    </div>
+
+                    <button type="submit" class="btn-login">Entrar</button>
+                </form>
+                
+                <div class="recuperar-senha">
+                    <a href="#">Recuperar senha</a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
