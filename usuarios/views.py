@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-def novoUsuario(request):
-    return render(request, 'novo.html')
+def novo(request):
+    return render(request, 'novo_usuario.html')
 
-def gerenciarUsuario(request):
-    return render(request, 'gerenciar.html')
+def gerenciar(request):
+    return render(request, 'gerenciar_usuarios.html')

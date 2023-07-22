@@ -1,0 +1,136 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+{% block 'title' %}GymForce - Novo Aluno{% endblock %}
+
+{% block 'head' %}{% endblock %}
+
+{% block 'body' %}
+    <div class="container mb-4">
+        <h1 class="fs-3">Novo aluno</h1>
+         <div class="card">
+            <div class="card-body">
+                <form action="">
+
+                    <div class="row mb-2 mt-2">
+                        <div class="col">
+                            <h3 class="fs-5">Informações Gerais</h3>
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="RG" aria-label="RG">
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Data de nascimento" aria-label="Data de nascimento">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="CPF" aria-label="CPF">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row mb-2 mt-2">
+                        <div class="col">
+                            <h3 class="fs-5 bold">Contatos</h3>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <input type="number" class="form-control" placeholder="Telefone" aria-label="Telefone">
+                        </div>
+                        <div class="col">
+                            <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row mb-2 mt-2">
+                        <div class="col">
+                            <h3 class="fs-5 bold">Financeiro</h3>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <select class="form-select">
+                                <option selected disabled>Selecione o plano de mensalidade</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <select class="form-select">
+                                <option selected disabled>Selecione o convenio</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row mb-2 mt-2">
+                        <div class="col">
+                            <h3 class="fs-5 bold">Treino</h3>
+                        </div>
+                    </div>
+
+                     <div class="row mb-4">
+                       <div class="col">
+                            <select class="form-select">
+                                <option selected disabled>Selecione o treino</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control" placeholder="Series" aria-label="Series">
+                        </div>
+                    </div>
+
+                     <div class="row mb-4">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Repetição" aria-label="Repetição">
+                        </div>
+                        <div class="col">
+                            <select class="form-select">
+                                <option selected disabled>Dia da semana</option>
+                                <option value="1">Segunda</option>
+                                <option value="2">Terça</option>
+                                <option value="3">Quarta</option>
+                                <option value="4">Quinta</option>
+                                <option value="5">Sexta</option>
+                                <option value="6">Sabado</option>
+                                <option value="7">Domingo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row mt-4">
+                        <div class="col-3 d-grid">
+                            <button type="submit" class="btn btn-outline-primary">Cadastrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div> 
+    </div>
+{% endblock %}

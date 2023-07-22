@@ -2,14 +2,14 @@
 
 {% load static %}
 
-{% block 'title' %}GymForce - Gerenciar usuários{% endblock %}
+{% block 'title' %}GymForce - Gerenciar Alunos{% endblock %}
 
 {% block 'head' %}{% endblock %}
 
 {% block 'body' %}
 
     <div class="container">
-        <h1 class="fs-3">Gerenciar usuários</h1>
+        <h1 class="fs-3">Gerenciar alunos</h1>
 
         <div class="row mt-4">
                 <form action="" class="row">
@@ -33,6 +33,7 @@
                             <th scope="col">CPF</th>
                             <th scope="col">Acesso</th>
                             <th scope="col">Status</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,6 +44,11 @@
                             <td>@mdo</td>
                             <td>Normal</td>
                             <td>Ativo</td>
+                            <div>
+                                <td>Editar</td>
+                                <td>Detalhes</td>
+                                <td>Inativar</td>
+                            </div>
                         </tr>
                         <tr>
                             <th scope="row">2</th>
@@ -51,6 +57,11 @@
                             <td>@fat</td>
                             <td>Normal</td>
                             <td>Ativo</td>
+                            <div>
+                                <td>Editar</td>
+                                <td>Detalhes</td>
+                                <td>Inativar</td>
+                            </div>
                         </tr>
                         <tr>
                             <th scope="row">3</th>
@@ -58,11 +69,15 @@
                             <td>@twitter</td>
                             <td>Normal</td>
                             <td>Ativo</td>
+                            <div>
+                                <td>Editar</td>
+                                <td>Detalhes</td>
+                                <td>Inativar</td>
+                            </div>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
 {% endblock %}
