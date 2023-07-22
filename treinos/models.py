@@ -1,6 +1,6 @@
 from django.db import models
 
-'''from alunos.models import Aluno
+#from alunos.models import Aluno
 
 class Treino(models.Model):
     nome = models.CharField(max_length=80)
@@ -11,6 +11,7 @@ class Treino(models.Model):
     def __self__(self):
         return self.nome
 
+'''
 class Treino_Aluno(models.Model):
 
     choice_diasDaSemana = (

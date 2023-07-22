@@ -1,8 +1,9 @@
 from django.db import models
-#from treinos.models import Treino, Treino_Aluno
-#from financeiro.models import Mensalidade
+'''
+from treinos.models import Treino_Aluno
+from financeiro.models import Mensalidade
 
-'''class Aluno(models.Model):
+class Aluno(models.Model):
     nome = models.CharField(max_length=255)
     rg = models.CharField(max_length=25)
     cpf = models.CharField(max_length=25)
