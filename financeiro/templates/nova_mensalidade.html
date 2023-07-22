@@ -1,0 +1,36 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+{% block 'title' %}GymForce - Nova Mensalidade{% endblock %}
+
+{% block 'head' %}{% endblock %}
+
+{% block 'body' %}
+    <div class="container">
+        <h1 class="fs-3">Novo Plano de Mensalidade</h1>
+        <div class="card">
+            <div class="card-body">
+                <form action="">
+                    <div class="row mb-2 mt-2">
+                        <div class="col">
+                            <h3 class="fs-5">Informações Gerais</h3>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-4">
+                            <input type="text" class="form-control" placeholder="Nome do plano de mensalidade" aria-label="Nome do plano de mensalidade">
+                        </div>
+                        <div class="col-4">
+                            <input type="number" class="form-control" placeholder="Valor" aria-label="Valor">
+                        </div>
+                        <div class="col-3 d-grid">
+                            <button type="submit" class="btn btn-outline-primary">Cadastrar Plano</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
