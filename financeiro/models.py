@@ -1,6 +1,6 @@
 from django.db import models
 
-'''class Mensalidade(models.Model):
+class Mensalidade(models.Model):
     nome = models.CharField(max_length=255)
     valor = models.FloatField()
     status = models.BooleanField()
@@ -9,4 +9,3 @@ from django.db import models
 
     def __str__(self):
         return self.nome
-'''

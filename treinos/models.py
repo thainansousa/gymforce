@@ -1,7 +1,8 @@
 from django.db import models
-#from alunos.models import Aluno
 
-'''class Treino(models.Model):
+'''from alunos.models import Aluno
+
+class Treino(models.Model):
     nome = models.CharField(max_length=80)
     status = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
