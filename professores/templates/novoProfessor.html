@@ -1,0 +1,64 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+{% block 'title' %}GymForce - Novo Professor{% endblock %}
+
+{% block 'head' %}{% endblock %}
+
+{% block 'body' %}
+
+    <div class="container">
+        <h1 class="fs-3">Novo Professor</h1>
+        <div class="card">
+            <div class="card-body">
+                <form action="">
+
+                    <div class="row mb-2 mt-2">
+                        <div class="col">
+                            <h3 class="fs-5">Informações Gerais</h3>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="CPF" aria-label="CPF">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" placeholder="Nº registro" aria-label="Nº registro">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                     <div class="row mb-2 mt-2">
+                        <div class="col">
+                            <h3 class="fs-5">Contatos</h3>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-4">
+                            <input type="text" class="form-control" placeholder="Telefone" aria-label="Telefone">
+                        </div>
+                        <div class="col">
+                            <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+                        </div>
+                    </div>
+
+                    <hr>
+
+                     <div class="row mt-4">
+                        <div class="col-3 d-grid">
+                            <button type="submit" class="btn btn-outline-primary">Cadastrar Professor</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
