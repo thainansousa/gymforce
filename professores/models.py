@@ -6,7 +6,7 @@ class Professor(models.Model):
     telefone = models.CharField(max_length=25)
     cpf = models.CharField(max_length=25)
     registro = models.CharField(max_length=50)
-    status = models.BooleanField()
+    status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

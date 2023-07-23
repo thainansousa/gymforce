@@ -10,9 +10,16 @@
 
     <div class="container">
         <h1 class="fs-3">Novo Professor</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{message.tags}}">{{message}}</div>
+            {% endfor %}
+        {% endif %}
+
         <div class="card">
             <div class="card-body">
-                <form action="">
+                <form action="{% url 'cadastrarProfessor' %}" method="POST">{% csrf_token %}
 
                     <div class="row mb-2 mt-2">
                         <div class="col">
@@ -22,13 +29,13 @@
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                            <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="CPF" aria-label="CPF">
+                            <input type="text" name="cpf" class="form-control" placeholder="CPF" aria-label="CPF">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Nº registro" aria-label="Nº registro">
+                            <input type="text" name="registro" class="form-control" placeholder="Nº registro" aria-label="Nº registro">
                         </div>
                     </div>
 
@@ -42,10 +49,10 @@
 
                     <div class="row mb-4">
                         <div class="col-4">
-                            <input type="text" class="form-control" placeholder="Telefone" aria-label="Telefone">
+                            <input type="text" name="telefone" class="form-control" placeholder="Telefone" aria-label="Telefone">
                         </div>
                         <div class="col">
-                            <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email">
                         </div>
                     </div>
 
