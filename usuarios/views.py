@@ -68,7 +68,6 @@ def cadastrar_usuario(request):
 
 def alterar_status_usuario(request, id):
 
-
     try:
 
         usuario = Usuario.objects.get(id=id)
