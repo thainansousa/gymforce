@@ -4,7 +4,9 @@
 
 {% block 'title' %}GymForce - Gerenciar usuários{% endblock %}
 
-{% block 'head' %}{% endblock %}
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static '/global/css/global.css' %}">
+{% endblock %}
 
 {% block 'body' %}
 
@@ -31,7 +33,7 @@
         
         <div class="row mt-4">
             <div class="col">
-                <table class="table table table-striped border shadow-sm rounded">
+                <table class="table table-striped border shadow-sm rounded align-middle">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -68,9 +70,9 @@
                                 <td>Inativo</td>
                             {% endif %}
                             <div>
-                                <td><a href="#">Editar</a></td>
-                                <td><a href="#">Detalhes</a></td>
-                                <td><a href="/usuario/deletar_usuario/{{usuario.id}}">Inativar</a></td>
+                                <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
+                                <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
+                                <td class="icon-container"><a href="/usuario/deletar_usuario/{{usuario.id}}" class="bg-danger text-white link-underline link-underline-opacity-0"><i class="fa fa-ban fa-lg" aria-hidden="true" title="Inativar"></i></a></td>
                             </div>
                     {% endfor %}
                         </tr>

@@ -1,0 +1,7 @@
+.icon-container a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    height: 2rem;
+}
