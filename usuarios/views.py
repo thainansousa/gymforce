@@ -13,10 +13,10 @@ def gerenciar(request):
     nome = request.GET.get('nome')
 
     if nome:
-        usuarios = Usuario.objects.filter(nome=nome)
+        usuarios = Usuario.objects.filter(nome=nome).order_by('-id')
         usuariosLen = len(usuarios)
     else:
-        usuarios = Usuario.objects.all()
+        usuarios = Usuario.objects.all().order_by('-id')
         usuariosLen = len(usuarios)
 
     return render(request, 'gerenciar_usuarios.html', 
