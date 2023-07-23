@@ -15,7 +15,15 @@
 
         {% if messages %}
             {% for message in messages %}       
-                <div class="alert {{message.tags}}">{{message}}</div>
+               <div class="alert {{message.tags}}">
+                    {% if message.tags == 'alert-success' %}
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        {{message}}
+                    {% else %}
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        {{message}}
+                    {% endif %}
+                </div>
             {% endfor %}
         {% endif %}
 
@@ -43,6 +51,12 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                    {% if mensalidadesLen == 0 %}
+                        <tr>
+                            <td colspan="5" class="text-center">Nenhuma mensalidade encontrada</td>
+                        </tr>
+                    {% endif %}
 
                     {% for mensalidade in mensalidades %}
                         <tr>

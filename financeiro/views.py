@@ -13,12 +13,13 @@ def gerenciar(request):
     nome = request.GET.get('plano')
 
     if nome:
-        mensalidades = Mensalidade.objects.filter(nome=nome)
-        return render(request, 'gerenciar_mensalidades.html', {'mensalidades': mensalidades})
+        mensalidades = Mensalidade.objects.filter(nome=nome).order_by('-id')
+        mensalidadesLen = len(mensalidades)
     else:
         mensalidades = Mensalidade.objects.all().order_by('-id')
-        return render(request, 'gerenciar_mensalidades.html', {'mensalidades': mensalidades})
+        mensalidadesLen = len(mensalidades)
 
+    return render(request, 'gerenciar_mensalidades.html', {'mensalidades': mensalidades, 'mensalidadesLen': mensalidadesLen})
 
 def cadastrar_mensalidade(request):
     
@@ -47,16 +48,22 @@ def cadastrar_mensalidade(request):
 
 def alterar_status_mensalidade(request, id):
 
-    mensalidade = Mensalidade.objects.get(id=id)
 
-    mensalidade.status = not mensalidade.status
+    try:
 
-    mensalidade.save()
+        mensalidade = Mensalidade.objects.get(id=id)
+
+        mensalidade.status = not mensalidade.status
+
+        mensalidade.save()
 
 
-    if mensalidade.status:
-        messages.add_message(request, constants.SUCCESS, 'Mensalidade ativada com sucesso!')
-    else:
-        messages.add_message(request, constants.SUCCESS, 'Mensalidade inativada com sucesso!')
+        if mensalidade.status:
+            messages.add_message(request, constants.SUCCESS, f'A mensalidade {mensalidade.nome} foi ativada com sucesso!')
+        else:
+            messages.add_message(request, constants.SUCCESS, f'A mensalidade {mensalidade.nome} foi inativada com sucesso!')
 
-    return redirect('/financeiro/gerenciar')
+        return redirect('/financeiro/gerenciar')
+    except Mensalidade.DoesNotExist:
+        messages.add_message(request, constants.ERROR, "A mensalidade informada não existe!")
+        return redirect('/financeiro/gerenciar')
