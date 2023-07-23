@@ -66,11 +66,16 @@ def cadastrar_usuario(request):
     return redirect('/usuario/novo')
 
 
-def deletar_usuario(request, id):
+def alterar_status_usuario(request, id):
     usuario = Usuario.objects.get(id=id)
 
-    usuario.delete()
+    usuario.status = not usuario.status
 
-    messages.add_message(request, constants.SUCCESS, "Usuario deletado com sucesso!")
+    usuario.save()
+
+    if usuario.status:
+        messages.add_message(request, constants.SUCCESS, "Usuario ativado com sucesso!")
+    else:
+        messages.add_message(request, constants.SUCCESS, "Usuario inativado com sucesso!")
 
     return redirect('/usuario/gerenciar')

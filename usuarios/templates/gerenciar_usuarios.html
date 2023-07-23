@@ -72,7 +72,31 @@
                             <div>
                                 <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
                                 <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
-                                <td class="icon-container"><a href="/usuario/deletar_usuario/{{usuario.id}}" class="bg-danger text-white link-underline link-underline-opacity-0"><i class="fa fa-ban fa-lg" aria-hidden="true" title="Inativar"></i></a></td>
+                                <td class="icon-container">
+                                {% if usuario.status %}
+                                    <a href="/usuario/alterar_status_usuario/{{usuario.id}}" 
+                                    class="bg-danger 
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-ban fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Inativar">
+                                        </i>
+                                    </a>
+                                {% else %}
+                                    <a href="/usuario/alterar_status_usuario/{{usuario.id}}" 
+                                    class="bg-success
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-check fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Ativar">
+                                        </i>
+                                    </a>
+                                {% endif %}
+                                </td>
                             </div>
                     {% endfor %}
                         </tr>
