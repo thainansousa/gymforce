@@ -12,7 +12,11 @@ def gerenciar(request):
 
     usuarios = Usuario.objects.all()
 
-    return render(request, 'gerenciar_usuarios.html', {'usuarios': usuarios})
+    usuariosLen = len(usuarios)
+
+    return render(request, 'gerenciar_usuarios.html', 
+    {'usuarios': usuarios,
+     'usuariosLen': usuariosLen})
 
 def cadastrar_usuario(request):
 
@@ -55,3 +59,13 @@ def cadastrar_usuario(request):
     messages.add_message(request, constants.SUCCESS, "Cadastrado com sucesso!")
 
     return redirect('/usuario/novo')
+
+
+def deletar_usuario(request, id):
+    usuario = Usuario.objects.get(id=id)
+
+    usuario.delete()
+
+    messages.add_message(request, constants.SUCCESS, "Usuario deletado com sucesso!")
+
+    return redirect('/usuario/gerenciar')

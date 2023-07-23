@@ -11,6 +11,13 @@
     <div class="container">
         <h1 class="fs-3">Gerenciar Usuários</h1>
 
+
+        {% if messages %}
+            {% for message in messages%}
+                <div class="alert {{message.tags}}">{{message}}</div>
+            {% endfor %}
+        {% endif %}
+
         <div class="row mt-4">
                 <form action="" class="row">
                     <div class="col-4">
@@ -37,6 +44,11 @@
                         </tr>
                     </thead>
                     <tbody>
+                    {% if usuariosLen == 0 %}
+                        <tr class="text-center">
+                            <td colspan="7">Nenhum usuario cadastrado</td>
+                        </tr>
+                    {% endif %}
 
                     {% for usuario in usuarios %}
                         <tr>
@@ -44,12 +56,21 @@
                             <td>{{usuario.nome}}</td>
                             <td>{{usuario.email}}</td>
                             <td>{{usuario.cpf}}</td>
-                            <td>{{usuario.nivel_administrativo}}</td>
-                            <td>{{usuario.status}}</td>
+                            {% if usuario.nivel_administrativo == '2' %}
+                                <td>Administrador</td>
+                            {% else %}
+                                <td>Usuario</td>
+                            {% endif %}
+
+                            {% if usuario.status %}
+                                <td>Ativo</td>
+                            {% else %}
+                                <td>Inativo</td>
+                            {% endif %}
                             <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
+                                <td><a href="#">Editar</a></td>
+                                <td><a href="#">Detalhes</a></td>
+                                <td><a href="/usuario/deletar_usuario/{{usuario.id}}">Inativar</a></td>
                             </div>
                     {% endfor %}
                         </tr>
