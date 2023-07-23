@@ -67,15 +67,24 @@ def cadastrar_usuario(request):
 
 
 def alterar_status_usuario(request, id):
-    usuario = Usuario.objects.get(id=id)
 
-    usuario.status = not usuario.status
 
-    usuario.save()
+    try:
 
-    if usuario.status:
-        messages.add_message(request, constants.SUCCESS, "Usuario ativado com sucesso!")
-    else:
-        messages.add_message(request, constants.SUCCESS, "Usuario inativado com sucesso!")
+        usuario = Usuario.objects.get(id=id)
 
-    return redirect('/usuario/gerenciar')
+        usuario.status = not usuario.status
+
+        usuario.save()
+
+        if usuario.status:
+            messages.add_message(request, constants.SUCCESS, f"O usuario(a) {usuario.nome} foi ativado com sucesso!")
+        else:
+            messages.add_message(request, constants.SUCCESS, f"O usuario(a) {usuario.nome} foi inativado com sucesso!")
+
+        return redirect('/usuario/gerenciar')
+    except Usuario.DoesNotExist:
+
+        messages.add_message(request, constants.ERROR, "O usuario(a) informada não existe!")
+
+        return redirect('/usuario/gerenciar')

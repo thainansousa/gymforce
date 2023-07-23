@@ -15,8 +15,16 @@
 
 
         {% if messages %}
-            {% for message in messages%}
-                <div class="alert {{message.tags}}">{{message}}</div>
+            {% for message in messages %}
+                <div class="alert {{message.tags}}">
+                    {% if message.tags == 'alert-success' %}
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        {{message}}
+                    {% else %}
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        {{message}}
+                    {% endif %}
+                </div>
             {% endfor %}
         {% endif %}
 
@@ -48,7 +56,7 @@
                     <tbody>
                     {% if usuariosLen == 0 %}
                         <tr class="text-center">
-                            <td colspan="7">Nenhum usuario cadastrado</td>
+                            <td colspan="7">Nenhum usuario encontrado</td>
                         </tr>
                     {% endif %}
 

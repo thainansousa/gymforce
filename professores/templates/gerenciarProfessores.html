@@ -4,16 +4,32 @@
 
 {% block 'title' %}GymForce - Gerenciar Professores{% endblock %}
 
-{% block 'head' %}{% endblock %}
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'global/css/global.css' %}">
+{% endblock %}
 
 {% block 'body' %}
      <div class="container">
         <h1 class="fs-3">Gerenciar Professores</h1>
 
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{message.tags}}">
+                    {% if message.tags == 'alert-success' %}
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        {{message}}
+                    {% else %}
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        {{message}}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <div class="row mt-4">
                 <form action="" class="row">
                     <div class="col-4">
-                        <input type="text" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                        <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
                     </div>
                     <div class="col-2 d-grid">
                         <button type="submit" class="btn btn-primary">Filtrar</button>
@@ -23,56 +39,69 @@
         
         <div class="row mt-4">
             <div class="col">
-                <table class="table table-striped border">
+                <table class="table table-striped border shadow align-middle">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Email</th>
                             <th scope="col">CPF</th>
-                            <th scope="col">Acesso</th>
+                            <th scope="col">Nº Registro</th>
                             <th scope="col">Status</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
+
+                    {% if professoresLen < 1 %}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Normal</td>
-                            <td>Ativo</td>
-                            <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
-                            </div>
+                            <td colspan="7" class="text-center">Nenhum professor encontrado</td>
                         </tr>
+                    {% endif %}
+
+                    {% for professor in professores %}
                         <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            <td>Normal</td>
-                            <td>Ativo</td>
+                            <th scope="row">{{professor.id}}</th>
+                            <td>{{professor.nome}}</td>
+                            <td>{{professor.email}}</td>
+                            <td>{{professor.cpf}}</td>
+                            <td>{{professor.registro}}</td>
+
+                            {% if professor.status %}
+                                <td>Ativo</td>
+                            {% else %}
+                                <td>Inativo</td>
+                            {% endif %}
                             <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
+                                <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
+                                <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
+                                <td class="icon-container">
+                                {% if professor.status %}
+                                    <a href="/professores/alterar_status_professor/{{professor.id}}" 
+                                    class="bg-danger 
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-ban fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Inativar">
+                                        </i>
+                                    </a>
+                                {% else %}
+                                    <a href="/professores/alterar_status_professor/{{professor.id}}" 
+                                    class="bg-success
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-check fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Ativar">
+                                        </i>
+                                    </a>
+                                {% endif %}
+                                </td>
                             </div>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                            <td>Normal</td>
-                            <td>Ativo</td>
-                            <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
-                            </div>
+                    {% endfor %}
                         </tr>
                     </tbody>
                 </table>
