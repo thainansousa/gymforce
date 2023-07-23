@@ -1,3 +1,6 @@
+.icon-container{
+    width: 3rem;
+}
 .icon-container a{
     display: flex;
     align-items: center;

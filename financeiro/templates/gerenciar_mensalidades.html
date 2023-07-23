@@ -4,17 +4,25 @@
 
 {% block 'title' %}GymForce - Gerenciar Mensalidades{% endblock%}
 
-{% block 'head' %}{% endblock %}
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static '/global/css/global.css' %}">
+{% endblock %}
 
 {% block 'body' %}
 
     <div class="container">
         <h1 class="fs-3">Gerenciar Mensalidades</h1>
 
+        {% if messages %}
+            {% for message in messages %}       
+                <div class="alert {{message.tags}}">{{message}}</div>
+            {% endfor %}
+        {% endif %}
+
         <div class="row mt-4">
                 <form action="" class="row">
                     <div class="col-4">
-                        <input type="text" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                        <input type="text" name="plano" class="form-control" placeholder="Nome do Plano" aria-label="Nome do Plano">
                     </div>
                     <div class="col-2 d-grid">
                         <button type="submit" class="btn btn-primary">Filtrar</button>
@@ -24,7 +32,7 @@
         
         <div class="row mt-4">
             <div class="col">
-                <table class="table table-striped border">
+                <table class="table table-striped border shadow-sm rounded align-middle">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -35,39 +43,49 @@
                         </tr>
                     </thead>
                     <tbody>
+
+                    {% for mensalidade in mensalidades %}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>Ativo</td>
+                            <th scope="row">{{mensalidade.id}}</th>
+                            <td>{{mensalidade.nome}}</td>
+                            <td>R$ {{mensalidade.valor}}</td>
+
+                            {% if mensalidade.status %}
+                                 <td>Ativo</td>
+                            {% else %}
+                                 <td>Inativo</td>
+                            {% endif %}
                             <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
+                                <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
+                                <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
+                                <td class="icon-container">
+                                {% if mensalidade.status %}
+                                    <a href="/financeiro/alterar_status_mensalidade/{{mensalidade.id}}" 
+                                    class="bg-danger 
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-ban fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Inativar">
+                                        </i>
+                                    </a>
+                                {% else %}
+                                    <a href="/financeiro/alterar_status_mensalidade/{{mensalidade.id}}" 
+                                    class="bg-success
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-check fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Ativar">
+                                        </i>
+                                    </a>
+                                {% endif %}
+                                </td>
                             </div>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>Ativo</td>
-                            <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
-                            </div>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry the Bird</td>
-                            <td>@twitter</td>
-                            <td>Ativo</td>
-                            <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
-                            </div>
-                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
