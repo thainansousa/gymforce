@@ -9,6 +9,7 @@ class Usuario(models.Model):
 
     nome = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
+    password = models.CharField(max_length=255)
     telefone = models.CharField(max_length=25)
     cpf = models.CharField(max_length=25)
     nivel_administrativo = models.CharField(max_length=1, choices=choices_nivel_adm)

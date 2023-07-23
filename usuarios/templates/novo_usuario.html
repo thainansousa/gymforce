@@ -7,12 +7,18 @@
 {% block 'head' %}{% endblock %}
 
 {% block 'body' %}
-    <div class="container">
+    <div class="container pb-4">
         <h1 class="fs-3">Novo usuário</h1>
 
-        <div class="card">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{message.tags}}">{{message}}</div>
+            {% endfor %}
+        {% endif %}
+
+        <div class="card shadow rounded">
             <div class="card-body">
-                <form action="">
+                <form action="{% url 'cadastrar_usuario' %}" method="POST">{% csrf_token %}
 
                     <div class="row mb-2 mt-2">
                         <div class="col">
@@ -20,23 +26,26 @@
                         </div>
                     </div>
 
+
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                            <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo" required/>
                         </div>
                         <div class="col">
-                            <input type="email" class="form-control" placeholder="Email" aria-label="Email">
+                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email" required/>
                         </div>
                     </div>
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="number" class="form-control" placeholder="Número de Telefone" aria-label="Número de Telefone">
+                            <input type="text" name="telefone" class="form-control" placeholder="Número de Telefone" aria-label="Número de Telefone" required/>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" placeholder="CPF" aria-label="CPF">
+                            <input type="text" name="cpf" class="form-control" placeholder="CPF" aria-label="CPF" required/>
                         </div>
                     </div>
+
+                    <hr>
 
                     <div class="row mb-2 mt-2">
                         <div class="col">
@@ -46,28 +55,26 @@
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="password" class="form-control" placeholder="Senha" aria-label="Senha">
+                            <input type="password" name="password" class="form-control" placeholder="Senha" aria-label="Senha" required/>
                         </div>
                         <div class="col">
-                            <input type="password" class="form-control" placeholder="Confirme sua senha" aria-label="Confirme sua senha">
+                            <input type="password" name="password2" class="form-control" placeholder="Confirme sua senha" aria-label="Confirme sua senha" required/>
                         </div>
                     </div>
 
                     <div class="row mb-4">
                         <div class="col">
-                            <select class="form-select">
-                                <option selected disabled>Selecione o nivel administrativo</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="form-select" name="nivel" required>
+                                <option value="" selected>Selecione o nivel administrativo</option>
+                                <option value="1">Normal</option>
+                                <option value="2">Administrador</option>
                             </select>
                         </div>
                         <div class="col">
-                            <select class="form-select">
-                                <option selected disabled>Selecione o status</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                            <select class="form-select" name="status" required>
+                                <option value="" selected>Selecione o status</option>
+                                <option value="1">Ativo</option>
+                                <option value="0">Inativo</option>
                             </select>
                         </div>
                     </div>
