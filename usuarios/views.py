@@ -10,9 +10,14 @@ def novo(request):
 
 def gerenciar(request):
 
-    usuarios = Usuario.objects.all()
+    nome = request.GET.get('nome')
 
-    usuariosLen = len(usuarios)
+    if nome:
+        usuarios = Usuario.objects.filter(nome=nome)
+        usuariosLen = len(usuarios)
+    else:
+        usuarios = Usuario.objects.all()
+        usuariosLen = len(usuarios)
 
     return render(request, 'gerenciar_usuarios.html', 
     {'usuarios': usuarios,
