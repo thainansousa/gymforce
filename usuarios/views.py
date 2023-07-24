@@ -5,6 +5,8 @@ from django.contrib.messages import constants
 
 from .models import Usuario
 
+import bcrypt
+
 def novo(request):
     return render(request, 'novo_usuario.html')
 
@@ -50,10 +52,18 @@ def cadastrar_usuario(request):
     else:
         dados['status'] = False
 
+
+    password = dados['password']
+
+    bytes = password.encode('utf-8')
+
+    hashed = bcrypt.hashpw(bytes, bcrypt.gensalt())
+
+
     usuario = Usuario(
         nome = dados['nome'],
         email = dados['email'],
-        password = dados['password'],
+        password = hashed,
         telefone = dados['telefone'],
         cpf = dados['cpf'],
         nivel_administrativo = dados['nivel'],
