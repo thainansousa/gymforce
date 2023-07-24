@@ -50,6 +50,10 @@ Instale também a biblioteca para converter HTML em PDF para que você consiga g
 
 <code>pip install weasyprint</code>
 
+Também vamos instalar a biblioteca bcrypt que nos permite encryptar as senhas antes de cadastra-las.
+
+<code>pip install bcrypt</code>
+
 ### Para quem está no windows é preciso executar o seguinte passo para conseguir gerar o extrato em PDF:
 
 Baixe o GTK3 pelo site:
