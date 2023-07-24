@@ -9,10 +9,24 @@
 {% block 'body' %}
     <div class="container">
         <h1 class="fs-3">Novo Treino</h1>
+
+         {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{message.tags}}">
+                    {% if message.tags == 'alert-success' %}
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        {{message}}
+                    {% else %}
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        {{message}}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <div class="card">
             <div class="card-body">
-                <form action="">
-
+                <form action="{% url 'cadastrarTreino' %}" method="POST">{% csrf_token %}
                         <div class="row mb-2 mt-2">
                             <div class="col">
                                 <h3 class="fs-5">Informações Gerais</h3>
@@ -21,7 +35,7 @@
 
                         <div class="row mb-4">
                             <div class="col-6">
-                                <input type="text" class="form-control" placeholder="Nome do Treino" aria-label="Nome do Treino">
+                                <input type="text" name="nome" class="form-control" placeholder="Nome do Treino" aria-label="Nome do Treino">
                             </div>
                                 <div class="col-3 d-grid">
                                     <button type="submit" class="btn btn-outline-primary">Cadastrar Treino</button>

@@ -4,16 +4,32 @@
 
 {% block 'title' %}GymForce - Gerenciar Treinos{% endblock %}
 
-{% block 'head' %}{% endblock %}
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static '/global/css/global.css' %}">
+{% endblock %}
 
 {% block 'body' %}
      <div class="container">
         <h1 class="fs-3">Gerenciar Treinos</h1>
 
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert {{message.tags}}">
+                    {% if message.tags == 'alert-success' %}
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        {{message}}
+                    {% else %}
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        {{message}}
+                    {% endif %}
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <div class="row mt-4">
-                <form action="" class="row">
+                <form action="" class="row" method="GET">
                     <div class="col-4">
-                        <input type="text" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                        <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
                     </div>
                     <div class="col-2 d-grid">
                         <button type="submit" class="btn btn-primary">Filtrar</button>
@@ -23,7 +39,7 @@
         
         <div class="row mt-4">
             <div class="col">
-                <table class="table table-striped border">
+                <table class="table table-striped border shadow align-middle">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -33,36 +49,54 @@
                         </tr>
                     </thead>
                     <tbody>
+
+
+                    {% if treinosLen == 0 %}
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Ativo</td>
-                            <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
+                            <td colspan="4" class="text-center">Nenhum treino encontrado</td>
+                        </tr>
+                    {% endif %}
+
+                    {% for  treino in treinos%}
+                        <tr>
+                            <th scope="row">{{treino.id}}</th>
+                            <td>{{treino.nome}}</td>
+                            {% if treino.status %}
+                                <td>Ativo</td>
+                            {% else %}
+                                <td>Inativo</td>
+                            {% endif %}
+                             <div>
+                                <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
+                                <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
+                                <td class="icon-container">
+                                {% if treino.status %}
+                                    <a href="/treinos/alterar_status_treino/{{treino.id}}" 
+                                    class="bg-danger 
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-ban fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Inativar">
+                                        </i>
+                                    </a>
+                                {% else %}
+                                    <a href="/treinos/alterar_status_treino/{{treino.id}}" 
+                                    class="bg-success
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-check fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Ativar">
+                                        </i>
+                                    </a>
+                                {% endif %}
+                                </td>
                             </div>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Ativo</td>
-                            <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
-                            </div>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry the Bird</td>
-                            <td>Ativo</td>
-                            <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
-                            </div>
-                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>

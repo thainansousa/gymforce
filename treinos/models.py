@@ -4,7 +4,7 @@ from alunos.models import Aluno
 
 class Treino(models.Model):
     nome = models.CharField(max_length=80)
-    status = models.BooleanField()
+    status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
