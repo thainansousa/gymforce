@@ -14,7 +14,7 @@
 
         {% if messages %}
             {% for message in messages %}
-                <div class="alert {{message.tags}}">
+                <div id="globalMessage" class="alert {{message.tags}}">
                     {% if message.tags == 'alert-success' %}
                         <i class="fa fa-check" aria-hidden="true"></i>
                         {{message}}
@@ -108,4 +108,7 @@
             </div>
         </div>
     </div>
+
+    <script src="{% static '/global/js/global.js' %}"></script>
+
 {% endblock %}
