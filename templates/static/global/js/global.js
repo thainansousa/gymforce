@@ -1,7 +1,6 @@
 globalMessage = document.querySelector('#globalMessage')
 
-
-window.onload = function(){
+window.onload = () => {
     setTimeout(() =>{
         globalMessage.remove()
     }, 5000)
