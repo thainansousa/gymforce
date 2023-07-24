@@ -81,9 +81,8 @@ def alterar_status_usuario(request, id):
         else:
             messages.add_message(request, constants.SUCCESS, f"O usuario(a) {usuario.nome} foi inativado com sucesso!")
 
-        return redirect('/usuario/gerenciar')
     except Usuario.DoesNotExist:
 
         messages.add_message(request, constants.ERROR, "O usuario(a) informada não existe!")
 
-        return redirect('/usuario/gerenciar')
+    return redirect('/usuario/gerenciar')

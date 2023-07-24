@@ -10,12 +10,20 @@
     <div class="container pb-4">
         <h1 class="fs-3">Novo usuário</h1>
 
-        {% if messages %}
+       {% if messages %}
             {% for message in messages %}
-                <div class="alert {{message.tags}}">{{message}}</div>
+                <div class="alert {{message.tags}}">
+                    {% if message.tags == 'alert-success' %}
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        {{message}}
+                    {% else %}
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        {{message}}
+                    {% endif %}
+                </div>
             {% endfor %}
         {% endif %}
-
+        
         <div class="card shadow rounded">
             <div class="card-body">
                 <form action="{% url 'cadastrar_usuario' %}" method="POST">{% csrf_token %}

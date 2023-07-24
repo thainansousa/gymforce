@@ -63,7 +63,7 @@ def alterar_status_mensalidade(request, id):
         else:
             messages.add_message(request, constants.SUCCESS, f'A mensalidade {mensalidade.nome} foi inativada com sucesso!')
 
-        return redirect('/financeiro/gerenciar')
     except Mensalidade.DoesNotExist:
         messages.add_message(request, constants.ERROR, "A mensalidade informada não existe!")
-        return redirect('/financeiro/gerenciar')
+    
+    return redirect('/financeiro/gerenciar')

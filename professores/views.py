@@ -66,11 +66,7 @@ def alterar_status_professor(request, id):
         else:
             messages.add_message(request, constants.SUCCESS, f'O professor(a) {professor.nome} foi inativado com sucesso!')
 
-        return redirect('/professores/gerenciar')
-
     except Professor.DoesNotExist:
 
-        professor = None
-
         messages.add_message(request, constants.ERROR, 'O professor informado não existe!')
-        return redirect('/professores/gerenciar')
+    return redirect('/professores/gerenciar')

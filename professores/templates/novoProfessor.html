@@ -13,7 +13,15 @@
 
         {% if messages %}
             {% for message in messages %}
-                <div class="alert {{message.tags}}">{{message}}</div>
+                <div class="alert {{message.tags}}">
+                    {% if message.tags == 'alert-success' %}
+                        <i class="fa fa-check" aria-hidden="true"></i>
+                        {{message}}
+                    {% else %}
+                        <i class="fa fa-ban" aria-hidden="true"></i>
+                        {{message}}
+                    {% endif %}
+                </div>
             {% endfor %}
         {% endif %}
 
@@ -29,13 +37,13 @@
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                            <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo" required/>
                         </div>
                         <div class="col">
-                            <input type="text" name="cpf" class="form-control" placeholder="CPF" aria-label="CPF">
+                            <input type="text" name="cpf" class="form-control" placeholder="CPF" aria-label="CPF" required/>
                         </div>
                         <div class="col">
-                            <input type="text" name="registro" class="form-control" placeholder="Nº registro" aria-label="Nº registro">
+                            <input type="text" name="registro" class="form-control" placeholder="Nº registro" aria-label="Nº registro" required/>
                         </div>
                     </div>
 
@@ -49,10 +57,10 @@
 
                     <div class="row mb-4">
                         <div class="col-4">
-                            <input type="text" name="telefone" class="form-control" placeholder="Telefone" aria-label="Telefone">
+                            <input type="text" name="telefone" class="form-control" placeholder="Telefone" aria-label="Telefone" required/>
                         </div>
                         <div class="col">
-                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email">
+                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email" required/>
                         </div>
                     </div>
 
