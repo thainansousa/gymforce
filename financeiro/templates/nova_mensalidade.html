@@ -10,20 +10,26 @@
     <div class="container">
         <h1 class="fs-3">Novo Plano de Mensalidade</h1>
 
-       {% if messages %}
-            {% for message in messages %}
-                <div id="globalMessage" class="alert {{message.tags}}">
+        {% if messages %}
+            {% for message in messages %}       
+               <div id="globalMessage" class="alert {{message.tags}} messageAnimation">
                     {% if message.tags == 'alert-success' %}
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                        {{message}}
+                        <div>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            {{message}}
+                        </div>
                     {% else %}
-                        <i class="fa fa-ban" aria-hidden="true"></i>
-                        {{message}}
+                        <div>
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                            {{message}}
+                        </div>
                     {% endif %}
+
+                    <div class="spinner-container"></div>
                 </div>
             {% endfor %}
         {% endif %}
-
+        
         <div class="card">
             <div class="card-body">
                 <form action="{% url 'cadastrarMensalidade' %}" method="POST">{% csrf_token %}

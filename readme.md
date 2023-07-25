@@ -44,9 +44,8 @@ Windows
 Agora vamos instalar o django:
 
 <code>pip install django</code>
-<code>pip install pillow</code>
 
-Instale também a biblioteca para converter HTML em PDF para que você consiga gerar o extrato em PDF.
+Instale também a biblioteca para converter HTML em PDF para que você consiga gerar o relatorio em PDF.
 
 <code>pip install weasyprint</code>
 
@@ -54,7 +53,13 @@ Também vamos instalar a biblioteca bcrypt que nos permite encryptar as senhas a
 
 <code>pip install bcrypt</code>
 
-### Para quem está no windows é preciso executar o seguinte passo para conseguir gerar o extrato em PDF:
+Outra biblioteca necessaria é a que gerencia a conexão com o banco de dados postgres:
+
+<code>pip install psycopg2</code>
+
+* Lembrando que é necessário ter instalado o postgresql em sua maquina, rodando na porta padrão 5432, com usuario postgres e senha admin. Além disso precisa ser criado um banco de dados com o nome de gymforce;
+
+### Para quem está no windows é preciso executar o seguinte passo para conseguir gerar o relatório em PDF:
 
 Baixe o GTK3 pelo site:
 

@@ -11,16 +11,22 @@
     <div class="container">
         <h1 class="fs-3">Novo Professor</h1>
 
-        {% if messages %}
-            {% for message in messages %}
-                <div id="globalMessage" class="alert {{message.tags}}">
+         {% if messages %}
+            {% for message in messages %}       
+               <div id="globalMessage" class="alert {{message.tags}} messageAnimation">
                     {% if message.tags == 'alert-success' %}
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                        {{message}}
+                        <div>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            {{message}}
+                        </div>
                     {% else %}
-                        <i class="fa fa-ban" aria-hidden="true"></i>
-                        {{message}}
+                        <div>
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                            {{message}}
+                        </div>
                     {% endif %}
+
+                    <div class="spinner-container"></div>
                 </div>
             {% endfor %}
         {% endif %}

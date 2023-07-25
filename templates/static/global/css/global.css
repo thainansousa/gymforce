@@ -8,3 +8,35 @@
     border-radius: 0.25rem;
     height: 2rem;
 }
+
+.messageAnimation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.messageAnimation .spinner-container{
+    width: 2rem;
+    height: 0.20rem;
+    border-radius: 0.25rem;
+    background-color: #fff;
+}
+
+.spinner-container::after {
+    content: '';
+    width: 2rem;
+    height: 0.20rem;
+    border-radius: 0.25rem;
+    display: block;
+    background-color: #006994;
+    animation: msgAnime 4s forwards;
+}
+
+@keyframes msgAnime {
+    0%{
+        width: 0;
+    }
+    100%{
+        width: 100%;
+    }
+}

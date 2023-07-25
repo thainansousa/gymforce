@@ -11,10 +11,30 @@
     <div class="container">
         <h1 class="fs-3">Gerenciar Alunos</h1>
 
+         {% if messages %}
+            {% for message in messages %}       
+               <div id="globalMessage" class="alert {{message.tags}} messageAnimation">
+                    {% if message.tags == 'alert-success' %}
+                        <div>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            {{message}}
+                        </div>
+                    {% else %}
+                        <div>
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                            {{message}}
+                        </div>
+                    {% endif %}
+
+                    <div class="spinner-container"></div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <div class="row mt-4">
                 <form action="" class="row">
                     <div class="col-4">
-                        <input type="text" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                        <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
                     </div>
                     <div class="col-2 d-grid">
                         <button type="submit" class="btn btn-primary">Filtrar</button>
@@ -32,52 +52,67 @@
                             <th scope="col">Email</th>
                             <th scope="col">CPF</th>
                             <th scope="col">Acesso</th>
-                            <th scope="col">Status</th>
+                            <th scope="col">Mensalidade</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
+
+                    {% if alunosLen == 0 %}
+                            <tr>
+                                <td colspan="6" class="text-center">Nenhum aluno(a) encontrado</td>
+                            </tr>
+                    {% endif %}
+
+                    {% for aluno in alunos %}
+
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>Normal</td>
-                            <td>Ativo</td>
-                            <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
+                            <th scope="row">{{aluno.id}}</th>
+                            <td>{{aluno.nome}}</td>
+                            <td>{{aluno.email}}</td>
+                            <td>{{aluno.cpf}}</td>
+                            <td>{{aluno.mensalidade}}</td>
+                             {% if aluno.status %}
+                                 <td>Ativo</td>
+                            {% else %}
+                                 <td>Inativo</td>
+                            {% endif %}
+                           <div>
+                                <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
+                                <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
+                                <td class="icon-container">
+                                {% if aluno.status %}
+                                    <a href="/alunos/alterar_status_aluno/{{aluno.id}}" 
+                                    class="bg-danger 
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-ban fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Inativar">
+                                        </i>
+                                    </a>
+                                {% else %}
+                                    <a href="/alunos/alterar_status_aluno/{{aluno.id}}" 
+                                    class="bg-success
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-check fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Ativar">
+                                        </i>
+                                    </a>
+                                {% endif %}
+                                </td>
                             </div>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                            <td>Normal</td>
-                            <td>Ativo</td>
-                            <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
-                            </div>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                            <td>Normal</td>
-                            <td>Ativo</td>
-                            <div>
-                                <td>Editar</td>
-                                <td>Detalhes</td>
-                                <td>Inativar</td>
-                            </div>
-                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+    <script src="{% static '/global/js/global.js' %}"></script>
 {% endblock %}
