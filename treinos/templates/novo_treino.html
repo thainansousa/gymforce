@@ -30,7 +30,7 @@
             {% endfor %}
         {% endif %}
 
-        <div class="card">
+        <div class="card shadow rounded">
             <div class="card-body">
                 <form action="{% url 'cadastrarTreino' %}" method="POST">{% csrf_token %}
                         <div class="row mb-2 mt-2">
