@@ -21,6 +21,7 @@ html, body{
 }
 
 .card{
+    width: 23rem;
     background-color: #fff;
     padding: 2%;
     border-radius: 0.25rem;
