@@ -35,7 +35,7 @@ def cadastrar_treino(request):
 
     treino.save()
 
-    messages.add_message(request, constants.SUCCESS, 'Treino cadastrado com sucesso!')
+    messages.add_message(request, constants.SUCCESS, f'Treino {nome} cadastrado com sucesso!')
 
     return redirect('/treinos/novo')
 

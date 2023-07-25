@@ -71,7 +71,7 @@ def cadastrar_usuario(request):
     )
     
     usuario.save()
-    messages.add_message(request, constants.SUCCESS, "Cadastrado com sucesso!")
+    messages.add_message(request, constants.SUCCESS, f"Usuario {dados['nome']} cadastrado com sucesso!")
 
     return redirect('/usuario/novo')
 

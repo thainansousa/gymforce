@@ -47,7 +47,7 @@ def cadastrar_professor(request):
 
     professor.save()
 
-    messages.add_message(request, constants.SUCCESS, 'Professor Cadastrado com sucesso!')
+    messages.add_message(request, constants.SUCCESS, f'Professor {dados["nome"]} cadastrado com sucesso!')
     
     return redirect('/professores/novo')
 

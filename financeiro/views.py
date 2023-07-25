@@ -40,7 +40,7 @@ def cadastrar_mensalidade(request):
 
     mensalidade.save()
         
-    messages.add_message(request, constants.SUCCESS, 'Mensalidade cadastrada com sucesso!')
+    messages.add_message(request, constants.SUCCESS, f'Mensalidade {dados["nome_do_plano"]} cadastrada com sucesso!')
 
     return redirect('/financeiro/novo')
 
