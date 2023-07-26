@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from financeiro.models import Mensalidade
 from .models import Aluno
+from treinos.models import Treino, Treino_Aluno
 from django.contrib.messages import constants
 from django.contrib import messages
 
@@ -80,3 +81,75 @@ def alterar_status_aluno(request, id):
 
     
     return redirect('/alunos/gerenciar')
+
+
+def gerenciarTreinoAluno(request, id):
+
+    if (request.method == 'GET'):
+
+        try:
+            aluno = Aluno.objects.get(id=id)
+            treinos = Treino.objects.all()
+            treinos_aluno = Treino_Aluno.objects.filter(aluno_id=id).order_by('-id')
+            treino_alunoLen = len(treinos_aluno)
+        except Aluno.DoesNotExist:
+
+            messages.add_message(request, constants.ERROR, 'O aluno informado não existe!')
+
+            return redirect(f'/alunos/gerenciar/')
+
+        return render(request, 'gerenciar_treino_alunos.html', {
+            'aluno': aluno, 
+            'treinos': treinos, 
+            'treinos_aluno': treinos_aluno,
+            'treino_alunoLen': treino_alunoLen})
+    
+    elif (request.method == 'POST'):
+
+
+        print(request.POST.get('series'))
+
+        dados = {
+            'treino_id': request.POST.get('treino'),
+            'series': request.POST.get('series'),
+            'rept': request.POST.get('rept'),
+            'dia_semana': request.POST.get('dia_semana')
+        }
+
+        for dado in dados:
+            if len(dados[dado].strip()) == 0:
+                messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
+                return redirect(f'/alunos/gerenciar/treinos/{id}')
+
+
+        treino_aluno = Treino_Aluno(
+            treino_id = dados['treino_id'],
+            treino_series = dados['series'],
+            treino_qtd = dados['rept'],
+            treino_dia = dados['dia_semana'],
+            aluno_id = id
+        )
+
+        treino_aluno.save()
+
+        messages.add_message(request, constants.SUCCESS, 'Treino do aluno cadastrado com sucesso!')
+
+        return redirect(f'/alunos/gerenciar/treinos/{id}')
+    
+
+def excluir_treino_aluno(request, id):
+
+    try:
+        treino_aluno = Treino_Aluno.objects.get(id=id)
+
+        treino_aluno.delete()
+
+        messages.add_message(request, constants.ERROR, 'Treino removido para este aluno!')
+
+        return redirect(f'/alunos/gerenciar/treinos/{treino_aluno.aluno_id}')
+
+    except Treino_Aluno.DoesNotExist:
+
+        messages.add_message(request, constants.ERROR, 'O aluno não possui esse treino cadastrado!')
+    
+    return redirect(f'/alunos/gerenciar/')

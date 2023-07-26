@@ -1,0 +1,112 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+{% block 'title' %}GymForce - Treinos do Aluno{% endblock %}
+
+{% block 'head' %}{% endblock %}
+
+{% block 'body' %}
+     <div class="container">
+        <h1 class="fs-3">{{aluno.nome}}</h1>
+
+        {% if messages %}
+            {% for message in messages %}       
+               <div id="globalMessage" class="alert {{message.tags}} messageAnimation">
+                    {% if message.tags == 'alert-success' %}
+                        <div>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            {{message}}
+                        </div>
+                    {% else %}
+                        <div>
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                            {{message}}
+                        </div>
+                    {% endif %}
+
+                    <div class="spinner-container"></div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+    <div class="row mt-4 mb-4">
+        <form action="" method="POST">{% csrf_token %}
+            <div class="row mb-4">
+                <div class="col">
+                    <select type="number" name="treino" id="treino" class="form-select">
+                        <option value="" selected>Selecione um treino</option>
+
+                        {% for treino in treinos %}
+                            <option value="{{treino.id}}">{{treino.nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col">
+                    <input type="number" name="series" class="form-control" placeholder="Series" aria-label="Series">
+                </div>
+            </div>  
+
+            <div class="row mb-4">
+                <div class="col">
+                    <input type="number" name="rept" class="form-control" placeholder="Quantidade" aria-label="Quantidade">
+                </div>  
+                <div class="col">
+                    <select name="dia_semana" id="dia_semana" class="form-select">
+                        <option value="" selected>Selecione um dia</option>
+                        <option value="SEG">SEGUNDA</option>
+                        <option value="TER">TERÇA</option>
+                        <option value="QUA">QUARTA</option>
+                        <option value="QUI">QUINTA</option>
+                        <option value="SEX">SEXTA</option>
+                        <option value="SAB">SABADO</option>
+                        <option value="DOM">DOMINGO</option>
+                    </select>
+                </div> 
+            </div>
+
+            <button class="btn btn-primary w-max">Adicionar treino para o aluno</button>
+        </form>
+     </div>
+
+        <h1 class="fs-3">Treinos do aluno</h1>
+
+        <div class="row mt-4">
+            <div class="col">
+                <table class="table table-striped border shadow align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Treino</th>
+                            <th scope="col">Series</th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Dia da semana</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% if treino_alunoLen == 0 %}
+                             <td colspan="6" class="text-center">Nenhum treino cadastrado para esse aluno</td>
+                        {% endif %}
+
+                        {% for treino in treinos_aluno %}
+                                <tr>
+                                    <th scope="row">{{treino.id}}</th>
+                                    <td>{{treino.treino.nome}}</td>
+                                    <td>{{treino.treino_series}}</td>
+                                    <td>{{treino.treino_qtd}}</td>
+                                    <td>{{treino.treino_dia}}</td>
+                                    <td class="icon-container"><a href="/alunos/excluir_treino_aluno/{{treino.id}}" class="bg-danger text-white link-underline link-underline-opacity-0"><i class="fa fa-trash fa-lg" aria-hidden="true" title="Excluir treino"></i></a></td>                            </div>
+                                </tr>
+                        
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+<script src="{% static 'global/js/global.js' %}"></script>
+{% endblock %}

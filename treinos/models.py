@@ -25,11 +25,11 @@ class Treino_Aluno(models.Model):
     )
 
     treino = models.ForeignKey(Treino, on_delete=models.DO_NOTHING)
-    treino_series = models.IntegerField
-    treino_qtd = models.IntegerField
+    treino_series = models.IntegerField(default=0)
+    treino_qtd = models.IntegerField(default=0)
     treino_dia = models.CharField(max_length=3, choices=choice_diasDaSemana)
     aluno = models.ForeignKey(Aluno, on_delete=models.DO_NOTHING)
-    status = models.BooleanField()
+    status = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

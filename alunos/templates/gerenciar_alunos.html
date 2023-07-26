@@ -53,7 +53,7 @@
                             <th scope="col">CPF</th>
                             <th scope="col">Mensalidade</th>
                             <th scope="col">Status</th>
-                            <th scope="col"></th>
+                            <th scope="col" colspan="4"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -78,6 +78,7 @@
                                  <td>Inativo</td>
                             {% endif %}
                            <div>
+                                <td class="icon-container"><a href="/alunos/gerenciar/treinos/{{aluno.id}}" class="bg-info text-white link-underline link-underline-opacity-0"><i class="fa fa-bolt fa-lg" aria-hidden="true" title="Treinos"></i></a></td>
                                 <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
                                 <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
                                 <td class="icon-container">
