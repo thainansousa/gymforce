@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'treinos',
     'financeiro',
     'login',
+    'empresas'
 ]
 
 MIDDLEWARE = [

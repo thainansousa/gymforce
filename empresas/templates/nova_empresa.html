@@ -1,0 +1,39 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+{% block 'title' %}GymForce - Nova Empresa{% endblock %}
+
+{% block 'head' %}{% endblock %}
+
+{% block 'body' %}
+
+    <div class="container">
+
+        <h1 class="fs-3">Nova Empresa</h1>
+        <div class="card shadow mt-4">
+            <div class="card-body">
+                <form action="{% url 'novaEmpresa' %}" method="POST">
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" name="razaoSocial" class="form-control" placeholder="Razão Social"/>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" name="fantasia" class="form-control" placeholder="Nome Fantasia"/>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col">
+                            <input type="text" name="cnpj" class="form-control" placeholder="CNPJ"/>
+                        </div>
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary w-100">Cadastrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
