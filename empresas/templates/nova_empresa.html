@@ -11,9 +11,30 @@
     <div class="container">
 
         <h1 class="fs-3">Nova Empresa</h1>
+
+        {% if messages %}
+            {% for message in messages %}       
+               <div id="globalMessage" class="alert {{message.tags}} messageAnimation">
+                    {% if message.tags == 'alert-success' %}
+                        <div>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            {{message}}
+                        </div>
+                    {% else %}
+                        <div>
+                            <i class="fa fa-ban" aria-hidden="true"></i>
+                            {{message}}
+                        </div>
+                    {% endif %}
+
+                    <div class="spinner-container"></div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <div class="card shadow mt-4">
             <div class="card-body">
-                <form action="{% url 'novaEmpresa' %}" method="POST">
+                <form action="{% url 'cadastrarEmpresa' %}" method="POST">{% csrf_token %}
                     <div class="row">
                         <div class="col-6">
                             <input type="text" name="razaoSocial" class="form-control" placeholder="Razão Social"/>
@@ -35,5 +56,7 @@
             </div>
         </div>
     </div>
+    
+  <script src="{% static '/global/js/global.js' %}"></script>
 
 {% endblock %}

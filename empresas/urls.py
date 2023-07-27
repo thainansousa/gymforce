@@ -3,5 +3,7 @@ from . import views
 
 urlpatterns = [
     path('novo/', views.novo, name='novaEmpresa'),
-    path('gerenciar/', views.gerenciar, name='gerenciarEmpresas')
+    path('gerenciar/', views.gerenciar, name='gerenciarEmpresas'),
+    path('cadastrar_empresa/', views.cadastrar_empresa, name='cadastrarEmpresa'),
+    path('alterar_status_empresa/<int:id>', views.alterar_status_empresa, name='alterarStatusEmpresa')
 ]
