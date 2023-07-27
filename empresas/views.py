@@ -11,9 +11,16 @@ def novo(request):
 
 def gerenciar(request):
 
-    empresas = Empresa.objects.all().order_by('-id')
+    fantasia = request.GET.get('fantasia')
 
-    return render(request, 'gerenciar_empresas.html', {'empresas': empresas})
+    if fantasia:
+        empresas = Empresa.objects.filter(fantasia=fantasia).order_by('-id')
+        empresasLen = len(empresas)
+    else:
+        empresas = Empresa.objects.all().order_by('-id')
+        empresasLen = len(empresas)
+
+    return render(request, 'gerenciar_empresas.html', {'empresas': empresas, 'empresasLen': empresasLen})
 
 def cadastrar_empresa(request):
 
