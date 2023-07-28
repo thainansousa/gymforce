@@ -9,5 +9,34 @@
 {% block 'body' %}
     <div class="container">
         <h1 class="fs-3">Dashboard</h1>
+
+        <div class="row mt-4 d-flex justify-content-between">
+            <div class="card col-3 shadow bg-secondary text-white">
+                <div class="card-body">
+                    <div class="d-flex flex-column gap-3">
+                        <strong class="fs-5"><i class="fa fa-users me-1" aria-hidden="true"></i>Total de alunos</strong>
+                        <h3 class="text-end">{{alunosTotal}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-3 shadow bg-primary text-white">
+                <div class="card-body">
+                    <div class="d-flex flex-column gap-3">  
+                        <strong class="fs-5"><i class="fa fa-user me-1" aria-hidden="true"></i>Alunos ativos</strong>
+                        <h3 class="text-end">{{alunosAtivos}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card col-3 shadow bg-success text-white">
+                <div class="card-body">
+                    <div class="d-flex flex-column gap-3">
+                        <strong class="fs-5"><i class="fa fa-money me-1" aria-hidden="true"></i>Receita</strong>
+                        <h3 class="text-end">R$ {{mensalidadesTotal}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
