@@ -10,7 +10,7 @@ def novo(request):
     
         return render(request, 'novoProfessor.html')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def gerenciar(request):
@@ -28,7 +28,7 @@ def gerenciar(request):
             professores = Professor.objects.all().order_by('-id')
             return render(request, 'gerenciarProfessores.html', {'professores': professores})
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def cadastrar_professor(request):
@@ -64,7 +64,7 @@ def cadastrar_professor(request):
         
         return redirect('/professores/novo')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def alterar_status_professor(request, id):
@@ -89,5 +89,5 @@ def alterar_status_professor(request, id):
             messages.add_message(request, constants.ERROR, 'O professor informado não existe!')
         return redirect('/professores/gerenciar')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

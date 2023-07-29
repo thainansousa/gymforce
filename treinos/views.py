@@ -10,7 +10,7 @@ def novo(request):
 
         return render(request, 'novo_treino.html')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def gerenciar(request):
@@ -29,7 +29,7 @@ def gerenciar(request):
 
         return render(request, 'gerenciar_treinos.html', {'treinos': treinos, 'treinosLen': treinosLen})
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def cadastrar_treino(request):
@@ -53,7 +53,7 @@ def cadastrar_treino(request):
 
         return redirect('/treinos/novo')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def alterar_status_treino(request, id):
@@ -79,5 +79,5 @@ def alterar_status_treino(request, id):
         
         return redirect('/treinos/gerenciar')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

@@ -13,7 +13,7 @@ def novo(request):
 
         return render(request, 'novo_aluno.html', {'mensalidades': mensalidades})
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def gerenciar(request):
@@ -30,7 +30,7 @@ def gerenciar(request):
 
         return render(request, 'gerenciar_alunos.html', {'alunos': alunos, 'alunosLen': alunosLen})
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 
@@ -72,7 +72,7 @@ def cadastrar_aluno(request):
 
         return redirect('/alunos/novo')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 
@@ -97,7 +97,7 @@ def alterar_status_aluno(request, id):
     
         return redirect('/alunos/gerenciar')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 
@@ -155,7 +155,7 @@ def gerenciarTreinoAluno(request, id):
 
             return redirect(f'/alunos/gerenciar/treinos/{id}')
         else:
-            messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+            messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
             return redirect('/')
 
 def excluir_treino_aluno(request, id):
@@ -176,5 +176,5 @@ def excluir_treino_aluno(request, id):
     
             return redirect(f'/alunos/gerenciar/')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

@@ -12,7 +12,7 @@ def novo(request):
 
         return render(request, 'novo_usuario.html')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def gerenciar(request):
@@ -32,7 +32,7 @@ def gerenciar(request):
         {'usuarios': usuarios,
         'usuariosLen': usuariosLen})
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def cadastrar_usuario(request):
@@ -76,7 +76,7 @@ def cadastrar_usuario(request):
 
         return redirect('/usuario/novo')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def alterar_status_usuario(request, id):
@@ -103,5 +103,5 @@ def alterar_status_usuario(request, id):
 
         return redirect('/usuario/gerenciar')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

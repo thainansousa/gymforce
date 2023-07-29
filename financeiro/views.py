@@ -10,7 +10,7 @@ def novo(request):
     if request.user.is_authenticated:
         return render(request, 'nova_mensalidade.html')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def gerenciar(request):
@@ -27,7 +27,7 @@ def gerenciar(request):
 
         return render(request, 'gerenciar_mensalidades.html', {'mensalidades': mensalidades, 'mensalidadesLen': mensalidadesLen})
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def cadastrar_mensalidade(request):
@@ -56,7 +56,7 @@ def cadastrar_mensalidade(request):
         return redirect('/financeiro/novo')
     
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def alterar_status_mensalidade(request, id):
@@ -83,5 +83,5 @@ def alterar_status_mensalidade(request, id):
         
         return redirect('/financeiro/gerenciar')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

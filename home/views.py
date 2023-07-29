@@ -23,5 +23,5 @@ def home(request):
             'alunosTotal': len(alunos),
             'alunosAtivos': len(alunosAtivos)})
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

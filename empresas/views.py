@@ -10,7 +10,7 @@ def novo(request):
     if request.user.is_authenticated:
         return render(request, 'nova_empresa.html')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def gerenciar(request):
@@ -27,7 +27,7 @@ def gerenciar(request):
 
         return render(request, 'gerenciar_empresas.html', {'empresas': empresas, 'empresasLen': empresasLen})
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def cadastrar_empresa(request):
@@ -56,7 +56,7 @@ def cadastrar_empresa(request):
 
         return redirect('/empresas/novo')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
 
 def alterar_status_empresa(request, id):
@@ -80,5 +80,5 @@ def alterar_status_empresa(request, id):
     
         return redirect('/empresas/gerenciar')
     else:
-        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
