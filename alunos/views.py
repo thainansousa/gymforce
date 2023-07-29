@@ -8,27 +8,38 @@ from django.contrib import messages
 
 def novo(request):
 
-    mensalidades = Mensalidade.objects.all()
+    if request.user.is_authenticated:
+        mensalidades = Mensalidade.objects.all()
 
-    return render(request, 'novo_aluno.html', {'mensalidades': mensalidades})
+        return render(request, 'novo_aluno.html', {'mensalidades': mensalidades})
+    else:
+        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        return redirect('/')
 
 def gerenciar(request):
 
-    aluno = request.GET.get('nome')
+    if request.user.is_authenticated:
+        aluno = request.GET.get('nome')
 
-    if aluno:
-        alunos = Aluno.objects.filter(nome=aluno)
-        alunosLen = len(alunos)
+        if aluno:
+            alunos = Aluno.objects.filter(nome=aluno)
+            alunosLen = len(alunos)
+        else:
+            alunos = Aluno.objects.all().order_by('-id')
+            alunosLen = len(alunos)
+
+        return render(request, 'gerenciar_alunos.html', {'alunos': alunos, 'alunosLen': alunosLen})
     else:
-        alunos = Aluno.objects.all().order_by('-id')
-        alunosLen = len(alunos)
+        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        return redirect('/')
 
-    return render(request, 'gerenciar_alunos.html', {'alunos': alunos, 'alunosLen': alunosLen})
 
 
 def cadastrar_aluno(request):
 
-    dados = {
+    if request.user.is_authenticated:
+
+        dados = {
         'nome': request.POST.get('nome'),
         'rg': request.POST.get('rg'),
         'dt_nasc': request.POST.get('dt_nasc'),
@@ -39,117 +50,131 @@ def cadastrar_aluno(request):
     }
 
 
-    for dado in dados:
-        if len(dados[dado].strip()) == 0:
-            messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
-            return redirect('/alunos/novo')
-        
+        for dado in dados:
+            if len(dados[dado].strip()) == 0:
+                messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
+                return redirect('/alunos/novo')
+            
 
-    alunos = Aluno(
-        nome = dados['nome'],
-        rg = dados['rg'],
-        cpf = dados['cpf'],
-        data_nascimento = dados['dt_nasc'],
-        telefone = dados['telefone'],
-        email = dados['email'],
-        mensalidade_id = dados['mensalidade']
-    )
+        alunos = Aluno(
+            nome = dados['nome'],
+            rg = dados['rg'],
+            cpf = dados['cpf'],
+            data_nascimento = dados['dt_nasc'],
+            telefone = dados['telefone'],
+            email = dados['email'],
+            mensalidade_id = dados['mensalidade']
+        )
 
-    alunos.save()
+        alunos.save()
 
-    messages.add_message(request, constants.SUCCESS, f'Aluno(a) {dados["nome"]} cadastrado com sucesso!')
+        messages.add_message(request, constants.SUCCESS, f'Aluno(a) {dados["nome"]} cadastrado com sucesso!')
 
-    return redirect('/alunos/novo')
+        return redirect('/alunos/novo')
+    else:
+        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        return redirect('/')
 
 
 def alterar_status_aluno(request, id):
 
-    try:
-        aluno = Aluno.objects.get(id=id)
+    if request.user.is_authenticated:
+        try:
+            aluno = Aluno.objects.get(id=id)
 
-        aluno.status = not aluno.status
+            aluno.status = not aluno.status
 
-        aluno.save()
+            aluno.save()
 
-        if aluno.status:
-            messages.add_message(request, constants.SUCCESS, f'O aluno(a) {aluno.nome} foi ativado com sucesso!')
-        else:
-            messages.add_message(request, constants.SUCCESS, f'O aluno(a) {aluno.nome} foi inativado com sucesso!')
+            if aluno.status:
+                messages.add_message(request, constants.SUCCESS, f'O aluno(a) {aluno.nome} foi ativado com sucesso!')
+            else:
+                messages.add_message(request, constants.SUCCESS, f'O aluno(a) {aluno.nome} foi inativado com sucesso!')
     
-    except Aluno.DoesNotExist:
+        except Aluno.DoesNotExist:
             messages.add_message(request, constants.ERROR, f'O aluno informado não existe!')
 
     
-    return redirect('/alunos/gerenciar')
+        return redirect('/alunos/gerenciar')
+    else:
+        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        return redirect('/')
 
 
 def gerenciarTreinoAluno(request, id):
 
-    if (request.method == 'GET'):
+    if request.user.is_authenticated:
+        if (request.method == 'GET'):
 
-        try:
-            aluno = Aluno.objects.get(id=id)
-            treinos = Treino.objects.all()
-            treinos_aluno = Treino_Aluno.objects.filter(aluno_id=id).order_by('-id')
-            treino_alunoLen = len(treinos_aluno)
-        except Aluno.DoesNotExist:
+            try:
+                aluno = Aluno.objects.get(id=id)
+                treinos = Treino.objects.all()
+                treinos_aluno = Treino_Aluno.objects.filter(aluno_id=id).order_by('-id')
+                treino_alunoLen = len(treinos_aluno)
+            except Aluno.DoesNotExist:
 
-            messages.add_message(request, constants.ERROR, 'O aluno informado não existe!')
+                messages.add_message(request, constants.ERROR, 'O aluno informado não existe!')
 
-            return redirect(f'/alunos/gerenciar/')
+                return redirect(f'/alunos/gerenciar/')
 
-        return render(request, 'gerenciar_treino_alunos.html', {
-            'aluno': aluno, 
-            'treinos': treinos, 
-            'treinos_aluno': treinos_aluno,
-            'treino_alunoLen': treino_alunoLen})
-    
-    elif (request.method == 'POST'):
-
-
-        print(request.POST.get('series'))
-
-        dados = {
-            'treino_id': request.POST.get('treino'),
-            'series': request.POST.get('series'),
-            'rept': request.POST.get('rept'),
-            'dia_semana': request.POST.get('dia_semana')
-        }
-
-        for dado in dados:
-            if len(dados[dado].strip()) == 0:
-                messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
-                return redirect(f'/alunos/gerenciar/treinos/{id}')
+            return render(request, 'gerenciar_treino_alunos.html', {
+                'aluno': aluno, 
+                'treinos': treinos, 
+                'treinos_aluno': treinos_aluno,
+                'treino_alunoLen': treino_alunoLen})
+        
+        elif (request.method == 'POST'):
 
 
-        treino_aluno = Treino_Aluno(
-            treino_id = dados['treino_id'],
-            treino_series = dados['series'],
-            treino_qtd = dados['rept'],
-            treino_dia = dados['dia_semana'],
-            aluno_id = id
-        )
+            print(request.POST.get('series'))
 
-        treino_aluno.save()
+            dados = {
+                'treino_id': request.POST.get('treino'),
+                'series': request.POST.get('series'),
+                'rept': request.POST.get('rept'),
+                'dia_semana': request.POST.get('dia_semana')
+            }
 
-        messages.add_message(request, constants.SUCCESS, 'Treino do aluno cadastrado com sucesso!')
+            for dado in dados:
+                if len(dados[dado].strip()) == 0:
+                    messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
+                    return redirect(f'/alunos/gerenciar/treinos/{id}')
 
-        return redirect(f'/alunos/gerenciar/treinos/{id}')
-    
+
+            treino_aluno = Treino_Aluno(
+                treino_id = dados['treino_id'],
+                treino_series = dados['series'],
+                treino_qtd = dados['rept'],
+                treino_dia = dados['dia_semana'],
+                aluno_id = id
+            )
+
+            treino_aluno.save()
+
+            messages.add_message(request, constants.SUCCESS, 'Treino do aluno cadastrado com sucesso!')
+
+            return redirect(f'/alunos/gerenciar/treinos/{id}')
+        else:
+            messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+            return redirect('/')
 
 def excluir_treino_aluno(request, id):
 
-    try:
-        treino_aluno = Treino_Aluno.objects.get(id=id)
+    if request.user.is_authenticated:
+        try:
+            treino_aluno = Treino_Aluno.objects.get(id=id)
 
-        treino_aluno.delete()
+            treino_aluno.delete()
 
-        messages.add_message(request, constants.ERROR, 'Treino removido para este aluno!')
+            messages.add_message(request, constants.ERROR, 'Treino removido para este aluno!')
 
-        return redirect(f'/alunos/gerenciar/treinos/{treino_aluno.aluno_id}')
+            return redirect(f'/alunos/gerenciar/treinos/{treino_aluno.aluno_id}')
 
-    except Treino_Aluno.DoesNotExist:
+        except Treino_Aluno.DoesNotExist:
 
-        messages.add_message(request, constants.ERROR, 'O aluno não possui esse treino cadastrado!')
+            messages.add_message(request, constants.ERROR, 'O aluno não possui esse treino cadastrado!')
     
-    return redirect(f'/alunos/gerenciar/')
+            return redirect(f'/alunos/gerenciar/')
+    else:
+        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        return redirect('/')

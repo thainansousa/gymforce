@@ -113,3 +113,64 @@ html, body{
         width: 100%;
     }
 }
+
+
+.msgType{
+    font-weight: 500;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
+}
+
+.msgTypeSuccess{
+    background-color: #4ee44e;
+    color: #fff;
+}
+
+.msgTypeDanger{
+    background-color: #ff6961;
+    color: #fff;
+}
+
+.icon-container{
+    width: 3rem;
+}
+.icon-container a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.25rem;
+    height: 2rem;
+}
+
+.messageAnimation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.messageAnimation .spinner-container{
+    width: 2rem;
+    height: 0.20rem;
+    border-radius: 0.25rem;
+    background-color: #fff;
+}
+
+.spinner-container::after {
+    content: '';
+    width: 2rem;
+    height: 0.20rem;
+    border-radius: 0.25rem;
+    display: block;
+    background-color: #006994;
+    animation: msgAnime 4s forwards;
+}
+
+@keyframes msgAnime {
+    0%{
+        width: 0;
+    }
+    100%{
+        width: 100%;
+    }
+}

@@ -6,64 +6,82 @@ from django.contrib.messages import constants
 from django.contrib import messages
 
 def novo(request):
-    return render(request, 'nova_mensalidade.html')
+    
+    if request.user.is_authenticated:
+        return render(request, 'nova_mensalidade.html')
+    else:
+        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        return redirect('/')
 
 def gerenciar(request):
 
-    nome = request.GET.get('plano')
+    if request.user.is_authenticated:
+        nome = request.GET.get('plano')
 
-    if nome:
-        mensalidades = Mensalidade.objects.filter(nome=nome).order_by('-id')
-        mensalidadesLen = len(mensalidades)
+        if nome:
+            mensalidades = Mensalidade.objects.filter(nome=nome).order_by('-id')
+            mensalidadesLen = len(mensalidades)
+        else:
+            mensalidades = Mensalidade.objects.all().order_by('-id')
+            mensalidadesLen = len(mensalidades)
+
+        return render(request, 'gerenciar_mensalidades.html', {'mensalidades': mensalidades, 'mensalidadesLen': mensalidadesLen})
     else:
-        mensalidades = Mensalidade.objects.all().order_by('-id')
-        mensalidadesLen = len(mensalidades)
-
-    return render(request, 'gerenciar_mensalidades.html', {'mensalidades': mensalidades, 'mensalidadesLen': mensalidadesLen})
+        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        return redirect('/')
 
 def cadastrar_mensalidade(request):
+
+    if request.user.is_authenticated:
     
-    dados = {
-        'nome_do_plano': request.POST.get('plano'),
-        'valor': request.POST.get('valor')
-    }
+        dados = {
+            'nome_do_plano': request.POST.get('plano'),
+            'valor': request.POST.get('valor')
+        }
 
-    for dado in dados:
-        if len(dados[dado].strip()) == 0:
-            messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
-            return redirect('/financeiro/novo')
+        for dado in dados:
+            if len(dados[dado].strip()) == 0:
+                messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
+                return redirect('/financeiro/novo')
 
-    mensalidade = Mensalidade(
-        nome = dados['nome_do_plano'],
-        valor = dados['valor']
-    )
+        mensalidade = Mensalidade(
+            nome = dados['nome_do_plano'],
+            valor = dados['valor']
+        )
 
-    mensalidade.save()
-        
-    messages.add_message(request, constants.SUCCESS, f'Mensalidade {dados["nome_do_plano"]} cadastrada com sucesso!')
+        mensalidade.save()
+            
+        messages.add_message(request, constants.SUCCESS, f'Mensalidade {dados["nome_do_plano"]} cadastrada com sucesso!')
 
-    return redirect('/financeiro/novo')
-
-
+        return redirect('/financeiro/novo')
+    
+    else:
+        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        return redirect('/')
 
 def alterar_status_mensalidade(request, id):
 
-
-    try:
-
-        mensalidade = Mensalidade.objects.get(id=id)
-
-        mensalidade.status = not mensalidade.status
-
-        mensalidade.save()
+    if request.user.is_authenticated:
 
 
-        if mensalidade.status:
-            messages.add_message(request, constants.SUCCESS, f'A mensalidade {mensalidade.nome} foi ativada com sucesso!')
-        else:
-            messages.add_message(request, constants.SUCCESS, f'A mensalidade {mensalidade.nome} foi inativada com sucesso!')
+        try:
 
-    except Mensalidade.DoesNotExist:
-        messages.add_message(request, constants.ERROR, "A mensalidade informada não existe!")
-    
-    return redirect('/financeiro/gerenciar')
+            mensalidade = Mensalidade.objects.get(id=id)
+
+            mensalidade.status = not mensalidade.status
+
+            mensalidade.save()
+
+
+            if mensalidade.status:
+                messages.add_message(request, constants.SUCCESS, f'A mensalidade {mensalidade.nome} foi ativada com sucesso!')
+            else:
+                messages.add_message(request, constants.SUCCESS, f'A mensalidade {mensalidade.nome} foi inativada com sucesso!')
+
+        except Mensalidade.DoesNotExist:
+            messages.add_message(request, constants.ERROR, "A mensalidade informada não existe!")
+        
+        return redirect('/financeiro/gerenciar')
+    else:
+        messages.add_message(request, constants.ERROR, 'Vocẽ precisa estar autenticado para acessar esta página.')
+        return redirect('/')
