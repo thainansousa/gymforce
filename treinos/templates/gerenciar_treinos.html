@@ -67,11 +67,7 @@
                         <tr>
                             <th scope="row">{{treino.id}}</th>
                             <td>{{treino.nome}}</td>
-                            {% if treino.status %}
-                                <td>Ativo</td>
-                            {% else %}
-                                <td>Inativo</td>
-                            {% endif %}
+                            <td>{{treino.get_status_display}}</td>
                              <div>
                                 <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
                                 <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>

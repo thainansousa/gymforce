@@ -71,11 +71,7 @@
                             <td>{{usuario.nome}}</td>
                             <td>{{usuario.email}}</td>
                             <td>{{usuario.cpf}}</td>
-                            {% if usuario.nivel_administrativo == '2' %}
-                                <td>Administrador</td>
-                            {% else %}
-                                <td>Usuario</td>
-                            {% endif %}
+                            <td>{{usuario.get_nivel_administrativo_display}}</td>
 
                             {% if usuario.status %}
                                 <td>Ativo</td>
