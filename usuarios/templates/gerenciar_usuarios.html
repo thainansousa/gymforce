@@ -68,12 +68,17 @@
                     {% for usuario in usuarios %}
                         <tr>
                             <th scope="row">{{usuario.id}}</th>
-                            <td>{{usuario.nome}}</td>
+                            <td>{{usuario.username}}</td>
                             <td>{{usuario.email}}</td>
                             <td>{{usuario.cpf}}</td>
-                            <td>{{usuario.get_nivel_administrativo_display}}</td>
 
-                            {% if usuario.status %}
+                            {% if usuario.is_staff %}
+                                <td>Administrador</td>
+                            {% else %}
+                                <td>Usuario</td>
+                            {% endif %}
+
+                            {% if usuario.is_active %}
                                 <td>Ativo</td>
                             {% else %}
                                 <td>Inativo</td>
@@ -82,7 +87,7 @@
                                 <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
                                 <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
                                 <td class="icon-container">
-                                {% if usuario.status %}
+                                {% if usuario.is_active %}
                                     <a href="/usuario/alterar_status_usuario/{{usuario.id}}" 
                                     class="bg-danger 
                                     text-white 

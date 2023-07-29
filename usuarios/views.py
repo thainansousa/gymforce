@@ -22,10 +22,10 @@ def gerenciar(request):
         nome = request.GET.get('nome')
 
         if nome:
-            usuarios = Usuario.objects.filter(nome=nome).order_by('-id')
+            usuarios = User.objects.filter(username=nome).order_by('-id')
             usuariosLen = len(usuarios)
         else:
-            usuarios = Usuario.objects.all().order_by('-id')
+            usuarios = User.objects.all().order_by('-id')
             usuariosLen = len(usuarios)
 
         return render(request, 'gerenciar_usuarios.html', 
@@ -37,7 +37,7 @@ def gerenciar(request):
 
 def cadastrar_usuario(request):
 
-    if request.user_is_authenticated:
+    if request.user.is_authenticated:
 
 
         dados = {
@@ -65,10 +65,21 @@ def cadastrar_usuario(request):
         else:
             dados['status'] = False
 
-        user = User.objects.create_user(dados['nome'], dados['email'], dados['password'])
 
-        if dados['nivel'] == 1:
-            user.is_staff = True
+        if dados['nivel'] == '2':
+            dados['nivel'] = True
+        else:
+            dados['nivel'] = False
+
+        
+        user = User.objects.create_user(
+            dados['nome'], 
+            dados['email'], 
+            dados['password'],
+            is_staff = dados['nivel'],
+            is_active = dados['status'],
+            cpf = dados['cpf'],
+            telefone = dados['telefone'])
 
         user.save()
 
@@ -86,16 +97,16 @@ def alterar_status_usuario(request, id):
 
         try:
 
-            usuario = Usuario.objects.get(id=id)
+            usuario = User.objects.get(id=id)
 
-            usuario.status = not usuario.status
+            usuario.is_active = not usuario.is_active
 
             usuario.save()
 
-            if usuario.status:
-                messages.add_message(request, constants.SUCCESS, f"O usuario(a) {usuario.nome} foi ativado com sucesso!")
+            if usuario.is_active:
+                messages.add_message(request, constants.SUCCESS, f"O usuario(a) {usuario.username} foi ativado com sucesso!")
             else:
-                messages.add_message(request, constants.SUCCESS, f"O usuario(a) {usuario.nome} foi inativado com sucesso!")
+                messages.add_message(request, constants.SUCCESS, f"O usuario(a) {usuario.username} foi inativado com sucesso!")
 
         except Usuario.DoesNotExist:
 
