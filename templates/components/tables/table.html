@@ -126,9 +126,47 @@
                                 </td>
                             </div>
                         </tr>
+                        
+                {% elif model == 'professores' %}
+                        <tr>
+                            <th scope="row">{{dado.id}}</th>
+                            <td>{{dado.nome}}</td>
+                            <td>{{dado.email}}</td>
+                            <td>{{dado.cpf}}</td>
+                            <td>{{dado.registro}}</td>
+                            <td>{{dado.get_status_display}}</td>
+                            <div>
+                                <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
+                                <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
+                                <td class="icon-container">
+                                {% if dado.status %}
+                                    <a href="/professores/alterar_status_professor/{{dado.id}}" 
+                                    class="bg-danger 
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-ban fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Inativar">
+                                        </i>
+                                    </a>
+                                {% else %}
+                                    <a href="/professores/alterar_status_professor/{{dado.id}}" 
+                                    class="bg-success
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-check fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Ativar">
+                                        </i>
+                                    </a>
+                                {% endif %}
+                                </td>
+                        </tr>
                 {% endif %}
                         {% empty %}
-                            <td colspan="6" class="text-center">Nenhum dado encontrado</td>
+                            <td colspan="7" class="text-center">Nenhum dado encontrado</td>
             {% endfor %}
             </tbody>
         </table>
