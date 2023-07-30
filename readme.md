@@ -1,4 +1,4 @@
-# App GymPass
+# App GymForce
 
 ## 💻 Sobre o projeto
 - <p>Projeto em desenvolvimento...</p>
@@ -49,10 +49,6 @@ Instale também a biblioteca para converter HTML em PDF para que você consiga g
 
 <code>pip install weasyprint</code>
 <code>pip install pillow</code>
-
-Também vamos instalar a biblioteca bcrypt que nos permite encryptar as senhas antes de cadastra-las.
-
-<code>pip install bcrypt</code>
 
 Outra biblioteca necessaria é a que gerencia a conexão com o banco de dados postgres:
 
