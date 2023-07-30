@@ -1,4 +1,4 @@
-# App GymPass
+# App GymForce
 
 ## 💻 Sobre o projeto
 - <p>Projeto em desenvolvimento...</p>
