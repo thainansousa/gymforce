@@ -62,7 +62,7 @@
                         <tr>
                             <th scope="row">{{mensalidade.id}}</th>
                             <td>{{mensalidade.nome}}</td>
-                            <td>R$ {{mensalidade.valor}}</td>
+                            <td>R$ {{mensalidade.valor|floatformat:2}}</td>
                             <td>{{mensalidade.get_status_display}}</td>
                             <div>
                                 <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
