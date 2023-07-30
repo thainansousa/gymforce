@@ -35,7 +35,7 @@ def novo(request):
 def gerenciar(request):
 
     if request.user.is_authenticated:
-        aluno = request.GET.get('nome')
+        aluno = request.GET.get('name')
 
         if aluno:
             alunos = Aluno.objects.filter(nome=aluno)
