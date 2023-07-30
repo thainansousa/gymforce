@@ -30,60 +30,10 @@
         {% endif %}
 
        {% include 'components/filtro/filtro.html' with name="nome" placeholder="Nome do treino" titulo="Gerenciar Treinos" %}
-        
-        <div class="row mt-4">
-            <div class="col">
-                <table class="table table-striped border shadow align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Status</th>
-                            <th scope="col" colspan="3"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for  treino in treinos%}
-                        <tr>
-                            <th scope="row">{{treino.id}}</th>
-                            <td>{{treino.nome}}</td>
-                            <td>{{treino.get_status_display}}</td>
-                             <div>
-                                <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
-                                <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
-                                <td class="icon-container">
-                                {% if treino.status %}
-                                    <a href="/treinos/alterar_status_treino/{{treino.id}}" 
-                                    class="bg-danger 
-                                    text-white 
-                                    link-underline 
-                                    link-underline-opacity-0">
-                                        <i class="fa fa-ban fa-lg" 
-                                            aria-hidden="true" 
-                                            title="Inativar">
-                                        </i>
-                                    </a>
-                                {% else %}
-                                    <a href="/treinos/alterar_status_treino/{{treino.id}}" 
-                                    class="bg-success
-                                    text-white 
-                                    link-underline 
-                                    link-underline-opacity-0">
-                                        <i class="fa fa-check fa-lg" 
-                                            aria-hidden="true" 
-                                            title="Ativar">
-                                        </i>
-                                    </a>
-                                {% endif %}
-                                </td>
-                            </div>
-                            {% empty %}
-                                <td colspan="4" class="text-center">Nenhum treino encontrado</td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+       
+       {% with '# Nome Status' as list %}
+            {% include 'components/tables/table.html' with theadFields=list.split colspan="3" dados=treinos model="treinos" %}
+       {% endwith %}
+       
     <script src="{% static '/global/js/global.js' %}"></script>
 {% endblock %}
