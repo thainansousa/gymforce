@@ -20,12 +20,10 @@ def gerenciar(request):
 
         if fantasia:
             empresas = Empresa.objects.filter(fantasia=fantasia).order_by('-id')
-            empresasLen = len(empresas)
         else:
             empresas = Empresa.objects.all().order_by('-id')
-            empresasLen = len(empresas)
 
-        return render(request, 'gerenciar_empresas.html', {'empresas': empresas, 'empresasLen': empresasLen})
+        return render(request, 'gerenciar_empresas.html', {'empresas': empresas})
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

@@ -20,12 +20,9 @@ def gerenciar(request):
 
         if nome:
             mensalidades = Mensalidade.objects.filter(nome=nome).order_by('-id')
-            mensalidadesLen = len(mensalidades)
         else:
             mensalidades = Mensalidade.objects.all().order_by('-id')
-            mensalidadesLen = len(mensalidades)
-
-        return render(request, 'gerenciar_mensalidades.html', {'mensalidades': mensalidades, 'mensalidadesLen': mensalidadesLen})
+        return render(request, 'gerenciar_mensalidades.html', {'mensalidades': mensalidades})
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

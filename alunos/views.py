@@ -39,12 +39,10 @@ def gerenciar(request):
 
         if aluno:
             alunos = Aluno.objects.filter(nome=aluno)
-            alunosLen = len(alunos)
         else:
             alunos = Aluno.objects.all().order_by('-id')
-            alunosLen = len(alunos)
 
-        return render(request, 'gerenciar_alunos.html', {'alunos': alunos, 'alunosLen': alunosLen})
+        return render(request, 'gerenciar_alunos.html', {'alunos': alunos})
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
@@ -127,7 +125,6 @@ def gerenciarTreinoAluno(request, id):
                 aluno = Aluno.objects.get(id=id)
                 treinos = Treino.objects.all()
                 treinos_aluno = Treino_Aluno.objects.filter(aluno_id=id).order_by('-id')
-                treino_alunoLen = len(treinos_aluno)
             except Aluno.DoesNotExist:
 
                 messages.add_message(request, constants.ERROR, 'O aluno informado não existe!')
@@ -137,8 +134,7 @@ def gerenciarTreinoAluno(request, id):
             return render(request, 'gerenciar_treino_alunos.html', {
                 'aluno': aluno, 
                 'treinos': treinos, 
-                'treinos_aluno': treinos_aluno,
-                'treino_alunoLen': treino_alunoLen})
+                'treinos_aluno': treinos_aluno})
         
         elif (request.method == 'POST'):
 

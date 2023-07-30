@@ -23,14 +23,12 @@ def gerenciar(request):
 
         if nome:
             usuarios = User.objects.filter(username=nome).order_by('-id')
-            usuariosLen = len(usuarios)
         else:
             usuarios = User.objects.all().order_by('-id')
-            usuariosLen = len(usuarios)
 
         return render(request, 'gerenciar_usuarios.html', 
-        {'usuarios': usuarios,
-        'usuariosLen': usuariosLen})
+        {'usuarios': usuarios})
+    
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

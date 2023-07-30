@@ -55,14 +55,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
-
-                    {% if treinosLen == 0 %}
-                        <tr>
-                            <td colspan="4" class="text-center">Nenhum treino encontrado</td>
-                        </tr>
-                    {% endif %}
-
                     {% for  treino in treinos%}
                         <tr>
                             <th scope="row">{{treino.id}}</th>
@@ -97,6 +89,8 @@
                                 {% endif %}
                                 </td>
                             </div>
+                            {% empty %}
+                                <td colspan="4" class="text-center">Nenhum treino encontrado</td>
                         </tr>
                     {% endfor %}
                     </tbody>

@@ -17,13 +17,11 @@ def gerenciar(request):
 
     if request.user.is_authenticated:
 
-
         professor = request.GET.get('nome')
 
         if professor:
             professores = Professor.objects.filter(nome=professor).order_by('-id')
-            professoresLen = len(professores)
-            return render(request, 'gerenciarProfessores.html', {'professores': professores, 'professoresLen': professoresLen})
+            return render(request, 'gerenciarProfessores.html', {'professores': professores})
         else:
             professores = Professor.objects.all().order_by('-id')
             return render(request, 'gerenciarProfessores.html', {'professores': professores})
@@ -34,7 +32,6 @@ def gerenciar(request):
 def cadastrar_professor(request):
 
     if request.user.is_authenticated:
-
 
         dados = {
             'nome': request.POST.get('nome'),

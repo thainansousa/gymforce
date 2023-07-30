@@ -58,12 +58,6 @@
                     </thead>
                     <tbody>
 
-                    {% if alunosLen == 0 %}
-                            <tr>
-                                <td colspan="6" class="text-center">Nenhum aluno(a) encontrado</td>
-                            </tr>
-                    {% endif %}
-
                     {% for aluno in alunos %}
 
                         <tr>
@@ -103,6 +97,8 @@
                                 {% endif %}
                                 </td>
                             </div>
+                            {% empty %}
+                                <td colspan="6" class="text-center">Nenhum aluno(a) encontrado</td>
                         </tr>
                     {% endfor %}
                     </tbody>

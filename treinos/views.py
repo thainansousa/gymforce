@@ -22,12 +22,10 @@ def gerenciar(request):
 
         if treino:
             treinos = Treino.objects.filter(nome=treino).order_by('-id')
-            treinosLen = len(treinos)
         else:
             treinos = Treino.objects.all().order_by('-id')
-            treinosLen = len(treinos)
 
-        return render(request, 'gerenciar_treinos.html', {'treinos': treinos, 'treinosLen': treinosLen})
+        return render(request, 'gerenciar_treinos.html', {'treinos': treinos})
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

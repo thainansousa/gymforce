@@ -89,10 +89,6 @@
                     </thead>
                     <tbody>
 
-                        {% if treino_alunoLen == 0 %}
-                             <td colspan="6" class="text-center">Nenhum treino cadastrado para esse aluno</td>
-                        {% endif %}
-
                         {% for treino in treinos_aluno %}
                                 <tr>
                                     <th scope="row">{{treino.id}}</th>
@@ -101,8 +97,10 @@
                                     <td>{{treino.treino_qtd}}</td>
                                     <td>{{treino.get_treino_dia_display}}</td>
                                     <td class="icon-container"><a href="/alunos/excluir_treino_aluno/{{treino.id}}" class="bg-danger text-white link-underline link-underline-opacity-0"><i class="fa fa-trash fa-lg" aria-hidden="true" title="Excluir treino"></i></a></td>                            </div>
+
+                                    {% empty %}
+                                        <td colspan="6" class="text-center">Nenhum treino cadastrado para esse aluno</td>
                                 </tr>
-                        
                         {% endfor %}
 
                     </tbody>

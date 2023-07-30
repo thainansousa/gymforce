@@ -58,12 +58,6 @@
                     </thead>
                     <tbody>
 
-                    {% if mensalidadesLen == 0 %}
-                        <tr>
-                            <td colspan="5" class="text-center">Nenhuma mensalidade encontrada</td>
-                        </tr>
-                    {% endif %}
-
                     {% for mensalidade in mensalidades %}
                         <tr>
                             <th scope="row">{{mensalidade.id}}</th>
@@ -99,6 +93,8 @@
                                 {% endif %}
                                 </td>
                             </div>
+                            {% empty %}
+                                <td colspan="5" class="text-center">Nenhuma mensalidade encontrada</td>
                         </tr>
                     {% endfor %}
                     </tbody>

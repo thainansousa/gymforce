@@ -59,12 +59,6 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {% if usuariosLen == 0 %}
-                        <tr class="text-center">
-                            <td colspan="7">Nenhum usuario encontrado</td>
-                        </tr>
-                    {% endif %}
-
                     {% for usuario in usuarios %}
                         <tr>
                             <th scope="row">{{usuario.id}}</th>
@@ -102,6 +96,10 @@
                                 {% endif %}
                                 </td>
                             </div>
+
+                            {% empty %}
+
+                            <td colspan="7" class="text-center">Nenhum usuario encontrado</td>
                     {% endfor %}
                         </tr>
                     </tbody>
