@@ -71,18 +71,8 @@
                             <td>{{usuario.username}}</td>
                             <td>{{usuario.email}}</td>
                             <td>{{usuario.cpf}}</td>
-
-                            {% if usuario.is_staff %}
-                                <td>Administrador</td>
-                            {% else %}
-                                <td>Usuario</td>
-                            {% endif %}
-
-                            {% if usuario.is_active %}
-                                <td>Ativo</td>
-                            {% else %}
-                                <td>Inativo</td>
-                            {% endif %}
+                            <td>{{usuario.get_is_staff_display}}</td>
+                            <td>{{usuario.get_is_active_display}}</td>
                             <div>
                                 <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
                                 <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
