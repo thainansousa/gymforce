@@ -120,6 +120,7 @@ def alterar_status_aluno(request, id):
 def gerenciarTreinoAluno(request, id):
 
     if request.user.is_authenticated:
+
         if (request.method == 'GET'):
 
             try:
@@ -170,9 +171,9 @@ def gerenciarTreinoAluno(request, id):
             messages.add_message(request, constants.SUCCESS, 'Treino do aluno cadastrado com sucesso!')
 
             return redirect(f'/alunos/gerenciar/treinos/{id}')
-        else:
-            messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
-            return redirect('/')
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')
 
 def excluir_treino_aluno(request, id):
 
@@ -208,20 +209,20 @@ def imprimir_treino_aluno(request, id):
 
         if len(treino_dia) > 0:
 
-            nomeDoAluno  = Aluno.objects.get(id=id)
+            aluno  = Aluno.objects.get(id=id)
 
             path_template = os.path.join(settings.BASE_DIR, 'templates/partials/treino_aluno.html')
             path_output = BytesIO()
 
-            template_render = render_to_string(path_template, {'treinos': treino_dia, 'aluno': nomeDoAluno.nome})
+            template_render = render_to_string(path_template, {'treinos': treino_dia, 'aluno': aluno.nome})
 
             HTML(string=template_render).write_pdf(path_output)
 
             path_output.seek(0)
 
-            return FileResponse(path_output, filename="treinoDoDia.pdf")
+            return FileResponse(path_output, filename=f"Treino do dia para {aluno.nome}.pdf")
         else:
-            messages.add_message(request, constants.ERROR, 'O aluno não tem treinos cadastrado para hoje!')
+            messages.add_message(request, constants.ERROR, 'O aluno não tem treinos cadastrados para hoje!')
             return redirect(f'/alunos/gerenciar/treinos/{id}')
 
     else:
