@@ -89,6 +89,43 @@
                             </td>
                         </div>
                     </tr>
+
+                {% elif model == 'financeiro' %}
+                     <tr>
+                        <th scope="row">{{dado.id}}</th>
+                        <td>{{dado.nome}}</td>
+                        <td>R$ {{dado.valor|floatformat:2}}</td>
+                        <td>{{dado.get_status_display}}</td>
+                            <div>
+                                <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
+                                <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
+                                <td class="icon-container">
+                                {% if dado.status %}
+                                    <a href="/financeiro/alterar_status_mensalidade/{{dado.id}}" 
+                                    class="bg-danger 
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-ban fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Inativar">
+                                        </i>
+                                    </a>
+                                {% else %}
+                                    <a href="/financeiro/alterar_status_mensalidade/{{dado.id}}" 
+                                    class="bg-success
+                                    text-white 
+                                    link-underline 
+                                    link-underline-opacity-0">
+                                        <i class="fa fa-check fa-lg" 
+                                            aria-hidden="true" 
+                                            title="Ativar">
+                                        </i>
+                                    </a>
+                                {% endif %}
+                                </td>
+                            </div>
+                        </tr>
                 {% endif %}
                         {% empty %}
                             <td colspan="6" class="text-center">Nenhum dado encontrado</td>
