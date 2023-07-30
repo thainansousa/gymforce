@@ -30,69 +30,9 @@
 
         {% include 'components/filtro/filtro.html' with name="fantasia" placeholder="Nome fantasia" titulo="Gerenciar Empresas" %}
         
-        <div class="row mt-4">
-            <div class="col">
-                <table class="table table-striped border shadow align-middle">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Razão Social</th>
-                            <th scope="col">Nome Fantasia</th>
-                            <th scope="col">CNPJ</th>
-                            <th scope="col">Status</th>
-                            <th scope="col" colspan="4"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    {% if empresaLen == 0 %}
-                            <tr>
-                                <td colspan="6" class="text-center">Nenhuma empresa encontrado</td>
-                            </tr>
-                    {% endif %}
-
-                    {% for empresa in empresas %}
-
-                        <tr>
-                            <th scope="row">{{empresa.id}}</th>
-                            <td>{{empresa.razaoSocial}}</td>
-                            <td>{{empresa.fantasia}}</td>
-                            <td>{{empresa.cnpj}}</td>
-                            <td>{{empresa.get_status_display}}</td>
-                           <div>
-                                <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
-                                <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
-                                <td class="icon-container">
-                                {% if empresa.status %}
-                                    <a href="/empresas/alterar_status_empresa/{{empresa.id}}" 
-                                    class="bg-danger 
-                                    text-white 
-                                    link-underline 
-                                    link-underline-opacity-0">
-                                        <i class="fa fa-ban fa-lg" 
-                                            aria-hidden="true" 
-                                            title="Inativar">
-                                        </i>
-                                    </a>
-                                {% else %}
-                                    <a href="/empresas/alterar_status_empresa/{{empresa.id}}" 
-                                    class="bg-success
-                                    text-white 
-                                    link-underline 
-                                    link-underline-opacity-0">
-                                        <i class="fa fa-check fa-lg" 
-                                            aria-hidden="true" 
-                                            title="Ativar">
-                                        </i>
-                                    </a>
-                                {% endif %}
-                                </td>
-                            </div>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        {% with "# Razão-Social Nome-Fantasia CNPJ Status" as list %}
+            {% include 'components/tables/table.html' with theadFields=list.split colspan="3" dados=empresas model="empresas" %}
+        {% endwith %}
+        
     <script src="{% static '/global/js/global.js' %}"></script>
 {% endblock %}

@@ -30,7 +30,7 @@
         {% include 'components/filtro/filtro.html' with name="name" placeholder="Nome completo" titulo="Gerenciar Alunos" %}
 
         {% with '# Nome Email CPF Mensalidade Status' as list %}
-            {% include 'components/tables/table.html' with theadFields=list.split colspan="4" dados=alunos icon_treino=True model='alunos' %}
+            {% include 'components/tables/table.html' with theadFields=list.split colspan="4" dados=alunos model='alunos' %}
         {% endwith %}
     
     <script src="{% static '/global/js/global.js' %}"></script>

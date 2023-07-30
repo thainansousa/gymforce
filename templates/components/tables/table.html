@@ -13,51 +13,87 @@
             <tbody>
             {% for dado in dados %}
 
-                <tr>
-                    <th scope="row">{{dado.id}}</th>
-                    <td>{{dado.nome}}</td>
-                    <td>{{dado.email}}</td>
-                    <td>{{dado.cpf}}</td>
-                    <td>{{dado.mensalidade}}</td>
-                    <td>{{dado.get_status_display}}</td>
-                    <div>
-                        {% if icon_treino %}
+                {% if model == 'alunos' %}
+                    <tr>
+                        <th scope="row">{{dado.id}}</th>
+                        <td>{{dado.nome}}</td>
+                        <td>{{dado.email}}</td>
+                        <td>{{dado.cpf}}</td>
+                        <td>{{dado.mensalidade}}</td>
+                        <td>{{dado.get_status_display}}</td>
+                        <div>
                             <td class="icon-container"><a href="/alunos/gerenciar/treinos/{{aluno.id}}" class="bg-info text-white link-underline link-underline-opacity-0"><i class="fa fa-bolt fa-lg" aria-hidden="true" title="Treinos"></i></a></td>
-                        {% endif %}
-                        <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
-                        <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
-                        <td class="icon-container">
-                        {% if dado.status %}
-                            <a href="/{{model}}/alterar_status_aluno/{{dado.id}}" 
-                            class="bg-danger 
-                            text-white 
-                            link-underline 
-                            link-underline-opacity-0">
-                                <i class="fa fa-ban fa-lg" 
-                                    aria-hidden="true" 
-                                    title="Inativar">
-                                </i>
-                            </a>
-                        {% else %}
-                            <a href="/{{model}}/alterar_status_aluno/{{dado.id}}" 
-                            class="bg-success
-                            text-white 
-                            link-underline 
-                            link-underline-opacity-0">
-                                <i class="fa fa-check fa-lg" 
-                                    aria-hidden="true" 
-                                    title="Ativar">
-                                </i>
-                            </a>
-                        {% endif %}
-                        </td>
-                    </div>
-                    {% empty %}
-                        <td colspan="6" class="text-center">Nenhum dado encontrado</td>
-                </tr>
+                            <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
+                            <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
+                            <td class="icon-container">
+                            {% if dado.status %}
+                                <a href="/alunos/alterar_status_aluno/{{dado.id}}" 
+                                class="bg-danger 
+                                text-white 
+                                link-underline 
+                                link-underline-opacity-0">
+                                    <i class="fa fa-ban fa-lg" 
+                                        aria-hidden="true" 
+                                        title="Inativar">
+                                    </i>
+                                </a>
+                            {% else %}
+                                <a href="/alunos/alterar_status_aluno/{{dado.id}}" 
+                                class="bg-success
+                                text-white 
+                                link-underline 
+                                link-underline-opacity-0">
+                                    <i class="fa fa-check fa-lg" 
+                                        aria-hidden="true" 
+                                        title="Ativar">
+                                    </i>
+                                </a>
+                            {% endif %}
+                            </td>
+                        </div>
+                    </tr>
+                {% elif model == 'empresas' %}
+                     <tr>
+                        <th scope="row">{{dado.id}}</th>
+                        <td>{{dado.razaoSocial}}</td>
+                        <td>{{dado.fantasia}}</td>
+                        <td>{{dado.cnpj}}</td>
+                        <td>{{dado.get_status_display}}</td>
+                        <div>
+                            <td class="icon-container"><a href="#" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
+                            <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
+                            <td class="icon-container">
+                            {% if dado.status %}
+                                <a href="/empresas/alterar_status_empresa/{{dado.id}}" 
+                                class="bg-danger 
+                                text-white 
+                                link-underline 
+                                link-underline-opacity-0">
+                                    <i class="fa fa-ban fa-lg" 
+                                        aria-hidden="true" 
+                                        title="Inativar">
+                                    </i>
+                                </a>
+                            {% else %}
+                                <a href="/empresas/alterar_status_empresa/{{dado.id}}" 
+                                class="bg-success
+                                text-white 
+                                link-underline 
+                                link-underline-opacity-0">
+                                    <i class="fa fa-check fa-lg" 
+                                        aria-hidden="true" 
+                                        title="Ativar">
+                                    </i>
+                                </a>
+                            {% endif %}
+                            </td>
+                        </div>
+                    </tr>
+                {% endif %}
+                        {% empty %}
+                            <td colspan="6" class="text-center">Nenhum dado encontrado</td>
             {% endfor %}
             </tbody>
-
         </table>
     </div>
 </div>
