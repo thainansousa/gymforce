@@ -3,6 +3,11 @@ from django.db import models
 from financeiro.models import Mensalidade
 
 class Aluno(models.Model):
+
+    choices_status = (
+        (True, 'Ativo'),
+        (False, 'Inativo')
+    )
     
     nome = models.CharField(max_length=255)
     rg = models.CharField(max_length=25)
@@ -11,7 +16,7 @@ class Aluno(models.Model):
     telefone = models.CharField(max_length=25)
     email = models.CharField(max_length=255)
     mensalidade = models.ForeignKey(Mensalidade, on_delete=models.DO_NOTHING)
-    status = models.BooleanField(default=True)
+    status = models.BooleanField(default=True, choices=choices_status)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
