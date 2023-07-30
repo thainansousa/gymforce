@@ -206,18 +206,23 @@ def imprimir_treino_aluno(request, id):
 
         treino_dia = Treino_Aluno.objects.filter(aluno_id=id, treino_dia=diaFormatado)
 
-        nomeDoAluno  = Aluno.objects.get(id=id)
+        if len(treino_dia) > 0:
 
-        path_template = os.path.join(settings.BASE_DIR, 'templates/partials/treino_aluno.html')
-        path_output = BytesIO()
+            nomeDoAluno  = Aluno.objects.get(id=id)
 
-        template_render = render_to_string(path_template, {'treinos': treino_dia, 'aluno': nomeDoAluno.nome})
+            path_template = os.path.join(settings.BASE_DIR, 'templates/partials/treino_aluno.html')
+            path_output = BytesIO()
 
-        HTML(string=template_render).write_pdf(path_output)
+            template_render = render_to_string(path_template, {'treinos': treino_dia, 'aluno': nomeDoAluno.nome})
 
-        path_output.seek(0)
+            HTML(string=template_render).write_pdf(path_output)
 
-        return FileResponse(path_output, filename="treinoDoDia.pdf")
+            path_output.seek(0)
+
+            return FileResponse(path_output, filename="treinoDoDia.pdf")
+        else:
+            messages.add_message(request, constants.ERROR, 'O aluno não tem treinos cadastrado para hoje!')
+            return redirect(f'/alunos/gerenciar/treinos/{id}')
 
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
