@@ -42,8 +42,8 @@
 
                 <form action="{% url 'auth' %}" method="POST">{% csrf_token %}
                     <div class="form-input">
-                        <label for="email">Nome de usuario</label>
-                        <input type="text" name="username" id="username" placeholder="Informe seu nome de usuario" required/>
+                        <label for="email">Email ou Usuario</label>
+                        <input type="text" name="username" id="username" placeholder="Informe seu email ou usuario" required/>
                     </div>
 
                      <div class="form-input">

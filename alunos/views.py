@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import render, redirect
 
 from financeiro.models import Mensalidade
@@ -5,6 +7,20 @@ from .models import Aluno
 from treinos.models import Treino, Treino_Aluno
 from django.contrib.messages import constants
 from django.contrib import messages
+
+from datetime import datetime
+
+from django.conf import settings
+
+from io import BytesIO
+
+from django.template.loader import render_to_string
+
+from weasyprint import HTML
+
+from django.http import FileResponse
+
+from templates.services.calcularDiaDaSemana import calcularDiaDaSemana
 
 def novo(request):
 
@@ -175,6 +191,34 @@ def excluir_treino_aluno(request, id):
             messages.add_message(request, constants.ERROR, 'O aluno não possui esse treino cadastrado!')
     
             return redirect(f'/alunos/gerenciar/')
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')
+    
+
+def imprimir_treino_aluno(request, id):
+    
+    if request.user.is_authenticated:
+
+        diaDaSemana = datetime.now().weekday()
+
+        diaFormatado = calcularDiaDaSemana(diaDaSemana)
+
+        treino_dia = Treino_Aluno.objects.filter(aluno_id=id, treino_dia=diaFormatado)
+
+        nomeDoAluno  = Aluno.objects.get(id=id)
+
+        path_template = os.path.join(settings.BASE_DIR, 'templates/partials/treino_aluno.html')
+        path_output = BytesIO()
+
+        template_render = render_to_string(path_template, {'treinos': treino_dia, 'aluno': nomeDoAluno.nome})
+
+        HTML(string=template_render).write_pdf(path_output)
+
+        path_output.seek(0)
+
+        return FileResponse(path_output, filename="treinoDoDia.pdf")
+
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

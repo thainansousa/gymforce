@@ -45,9 +45,10 @@ Agora vamos instalar o django:
 
 <code>pip install django</code>
 
-Instale também a biblioteca para converter HTML em PDF para que você consiga gerar o relatorio em PDF.
+Instale também a biblioteca para converter HTML em PDF para que você consiga gerar o relatorio em PDF. Por padrão a biblioteca weasyprint usa algumas funcões da biblioteca pillow, sendo necessario também instalar a pillow.
 
 <code>pip install weasyprint</code>
+<code>pip install pillow</code>
 
 Também vamos instalar a biblioteca bcrypt que nos permite encryptar as senhas antes de cadastra-las.
 
