@@ -7,13 +7,18 @@ class Usuario(models.Model):
         ('2', 'Administrador'),
     )
 
+    choices_status = (
+        (True, 'Ativo'),
+        (False, 'Inativo')
+    )
+
     nome = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
     telefone = models.CharField(max_length=25)
     cpf = models.CharField(max_length=25)
     nivel_administrativo = models.CharField(max_length=1, choices=choices_nivel_adm)
-    status = models.BooleanField()
+    status = models.BooleanField(choices=choices_status)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
