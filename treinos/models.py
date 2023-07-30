@@ -2,9 +2,14 @@ from django.db import models
 
 from alunos.models import Aluno
 
+choices_status = (
+    (True, 'Ativo'),
+    (False, 'Inativo')
+)
+
 class Treino(models.Model):
     nome = models.CharField(max_length=80)
-    status = models.BooleanField(default=True)
+    status = models.BooleanField(default=True, choices=choices_status)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -22,11 +27,6 @@ class Treino_Aluno(models.Model):
         ('SEX', 'SEXTA'),
         ('SAB', 'SÁBADO'),
         ('DOM', 'DOMINGO'),
-    )
-
-    choices_status = (
-        (True, 'Ativo'),
-        (False, 'Inativo')
     )
 
     treino = models.ForeignKey(Treino, on_delete=models.DO_NOTHING)
