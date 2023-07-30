@@ -9,8 +9,6 @@
 {% endblock %}
 
 {% block 'body' %}
-        <h1 class="fs-3">Gerenciar Professores</h1>
-
          {% if messages %}
             {% for message in messages %}       
                <div id="globalMessage" class="alert {{message.tags}} messageAnimation">
@@ -31,16 +29,7 @@
             {% endfor %}
         {% endif %}
 
-        <div class="row mt-4">
-                <form action="" class="row">
-                    <div class="col-4">
-                        <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
-                    </div>
-                    <div class="col-2 d-grid">
-                        <button type="submit" class="btn btn-primary">Filtrar</button>
-                    </div>
-                </form>
-        </div>
+        {% include 'components/filtro/filtro.html' with name="nome" placeholder="Nome completo" titulo="Gerenciar Professores" %}
         
         <div class="row mt-4">
             <div class="col">

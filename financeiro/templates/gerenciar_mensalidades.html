@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block 'body' %}
-        <h1 class="fs-3">Gerenciar Mensalidades</h1>
 
          {% if messages %}
             {% for message in messages %}       
@@ -31,16 +30,7 @@
             {% endfor %}
         {% endif %}
         
-        <div class="row mt-4">
-                <form action="" class="row">
-                    <div class="col-4">
-                        <input type="text" name="plano" class="form-control" placeholder="Nome do Plano" aria-label="Nome do Plano">
-                    </div>
-                    <div class="col-2 d-grid">
-                        <button type="submit" class="btn btn-primary">Filtrar</button>
-                    </div>
-                </form>
-        </div>
+        {% include 'components/filtro/filtro.html' with name="plano" placeholder="Nome do plano" titulo="Gerenciar Mensalidades" %}
         
         <div class="row mt-4">
             <div class="col">
