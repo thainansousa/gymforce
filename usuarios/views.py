@@ -3,7 +3,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.messages import constants
 
-from .models import Usuario
+#from .models import Usuario
 
 from django.contrib.auth.models import User
 
@@ -20,9 +20,10 @@ def gerenciar(request):
     if request.user.is_authenticated:
 
         nome = request.GET.get('nome')
-
+        
         if nome:
-            usuarios = User.objects.filter(username=nome).order_by('-id')
+            nome.lower()
+            usuarios = User.objects.filter(email=nome).order_by('-id')
         else:
             usuarios = User.objects.all().order_by('-id')
 
@@ -37,10 +38,9 @@ def cadastrar_usuario(request):
 
     if request.user.is_authenticated:
 
-
         dados = {
-            'nome': request.POST.get('nome'),
-            'email': request.POST.get('email'),
+            'nome': request.POST.get('nome').lower(),
+            'email': request.POST.get('email').lower(),
             'telefone': request.POST.get('telefone'),
             'cpf': request.POST.get('cpf'),
             'password': request.POST.get('password'),
@@ -48,6 +48,17 @@ def cadastrar_usuario(request):
             'nivel': request.POST.get('nivel'),
             'status': request.POST.get('status'),
         }
+
+        emailExist = User.objects.filter(email=dados['email'])
+        usernameExist = User.objects.filter(username=dados['nome'])
+
+        if len(emailExist) >= 1:
+            messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
+            return redirect('/usuario/novo')
+        
+        if len(usernameExist) >= 1:
+            messages.add_message(request, constants.ERROR, 'O nome de usuario informado ja existe.')
+            return redirect('/usuario/novo')
 
         for i in dados:
             if len(dados[i].strip()) == 0:
@@ -68,7 +79,6 @@ def cadastrar_usuario(request):
             dados['nivel'] = True
         else:
             dados['nivel'] = False
-
         
         user = User.objects.create_user(
             dados['nome'], 
@@ -92,7 +102,6 @@ def alterar_status_usuario(request, id):
 
     if request.user.is_authenticated:
 
-
         try:
 
             usuario = User.objects.get(id=id)
@@ -106,7 +115,7 @@ def alterar_status_usuario(request, id):
             else:
                 messages.add_message(request, constants.SUCCESS, f"O usuario(a) {usuario.username} foi inativado com sucesso!")
 
-        except Usuario.DoesNotExist:
+        except User.DoesNotExist:
 
             messages.add_message(request, constants.ERROR, "O usuario(a) informada não existe!")
 
