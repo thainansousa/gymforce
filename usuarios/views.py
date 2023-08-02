@@ -22,8 +22,8 @@ def gerenciar(request):
         nome = request.GET.get('nome')
         
         if nome:
-            nome.lower()
-            usuarios = User.objects.filter(email=nome).order_by('-id')
+            nome = nome.lower()
+            usuarios = User.objects.filter(username=nome).order_by('-id')
         else:
             usuarios = User.objects.all().order_by('-id')
 

@@ -19,6 +19,7 @@ def gerenciar(request):
         nome = request.GET.get('plano')
 
         if nome:
+            nome = nome.lower()
             mensalidades = Mensalidade.objects.filter(nome=nome).order_by('-id')
         else:
             mensalidades = Mensalidade.objects.all().order_by('-id')
@@ -32,7 +33,7 @@ def cadastrar_mensalidade(request):
     if request.user.is_authenticated:
     
         dados = {
-            'nome_do_plano': request.POST.get('plano'),
+            'nome_do_plano': request.POST.get('plano').lower(),
             'valor': request.POST.get('valor')
         }
 

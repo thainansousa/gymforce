@@ -20,6 +20,7 @@ def gerenciar(request):
         professor = request.GET.get('nome')
 
         if professor:
+            professor = professor.lower()
             professores = Professor.objects.filter(nome=professor).order_by('-id')
             return render(request, 'gerenciarProfessores.html', {'professores': professores})
         else:
@@ -34,17 +35,28 @@ def cadastrar_professor(request):
     if request.user.is_authenticated:
 
         dados = {
-            'nome': request.POST.get('nome'),
+            'nome': request.POST.get('nome').lower(),
             'cpf': request.POST.get('cpf'),
             'registro': request.POST.get('registro'),
             'telefone': request.POST.get('telefone'),
-            'email': request.POST.get('email'),
+            'email': request.POST.get('email').lower(),
         }
 
         for dado in dados:
             if len(dados[dado].strip()) == 0:
                 messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
                 return redirect('/professores/novo')
+            
+        emailExist = Professor.objects.filter(email=dados['email'])
+        registroExist = Professor.objects.filter(registro=dados['registro'])
+
+        if len(emailExist) == 1:
+            messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
+            return redirect('/professores/novo')
+        
+        if len(registroExist) == 1:
+            messages.add_message(request, constants.ERROR, 'O registro informado já foi cadastrado.')
+            return redirect('/professores/novo')
             
 
         professor = Professor(
