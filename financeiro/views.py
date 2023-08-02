@@ -41,6 +41,13 @@ def cadastrar_mensalidade(request):
                 messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
                 return redirect('/financeiro/novo')
 
+        planoExist = Mensalidade.objects.filter(nome=dados['nome_do_plano'])
+
+        if len(planoExist) == 1:
+            messages.add_message(request, constants.ERROR, 'Esse plano já foi cadastrado.')
+            return redirect('/financeiro/novo')
+
+
         mensalidade = Mensalidade(
             nome = dados['nome_do_plano'],
             valor = dados['valor']
