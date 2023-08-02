@@ -38,7 +38,8 @@ def gerenciar(request):
         aluno = request.GET.get('name')
 
         if aluno:
-            alunos = Aluno.objects.filter(nome=aluno)
+            aluno = aluno.lower()
+            alunos = Aluno.objects.filter(nome=aluno).order_by('-id')
         else:
             alunos = Aluno.objects.all().order_by('-id')
 
@@ -54,12 +55,12 @@ def cadastrar_aluno(request):
     if request.user.is_authenticated:
 
         dados = {
-        'nome': request.POST.get('nome'),
+        'nome': request.POST.get('nome').lower(),
         'rg': request.POST.get('rg'),
         'dt_nasc': request.POST.get('dt_nasc'),
         'cpf': request.POST.get('cpf'),
         'telefone': request.POST.get('telefone'),
-        'email': request.POST.get('email'),
+        'email': request.POST.get('email').lower(),
         'mensalidade': request.POST.get('mensalidade')
     }
 
@@ -68,6 +69,13 @@ def cadastrar_aluno(request):
             if len(dados[dado].strip()) == 0:
                 messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
                 return redirect('/alunos/novo')
+            
+
+        emailExist = Aluno.objects.filter(email=dados['email'])
+
+        if len(emailExist) == 1:
+            messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
+            return redirect('/alunos/novo')
             
 
         alunos = Aluno(
