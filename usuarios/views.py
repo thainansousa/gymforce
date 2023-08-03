@@ -7,6 +7,8 @@ from django.contrib.messages import constants
 
 from django.contrib.auth.models import User
 
+from brutils import is_valid_cpf, format_cpf, remove_symbols_cpf
+
 def novo(request):
     if request.user.is_authenticated:
 
@@ -52,6 +54,12 @@ def cadastrar_usuario(request):
         emailExist = User.objects.filter(email=dados['email'])
         usernameExist = User.objects.filter(username=dados['nome'])
 
+        cpfWithOutSimbols = remove_symbols_cpf(dados['cpf'])
+
+        if not is_valid_cpf(cpfWithOutSimbols):
+            messages.add_message(request, constants.ERROR, 'CPF inválido.')
+            return redirect('/usuario/novo')
+
         if len(emailExist) >= 1:
             messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
             return redirect('/usuario/novo')
@@ -86,7 +94,7 @@ def cadastrar_usuario(request):
             dados['password'],
             is_staff = dados['nivel'],
             is_active = dados['status'],
-            cpf = dados['cpf'],
+            cpf = format_cpf(cpfWithOutSimbols),
             telefone = dados['telefone'])
 
         user.save()
@@ -164,6 +172,12 @@ def editar_usuario(request, id):
                 emailExist = User.objects.filter(email=dados['email'])
                 usernameExist = User.objects.filter(username=dados['nome'])
 
+                cpfWithOutSimbols = remove_symbols_cpf(dados['cpf'])
+
+                if not is_valid_cpf(cpfWithOutSimbols):
+                    messages.add_message(request, constants.ERROR, 'CPF inválido.')
+                    return redirect(f'/usuario/editar_usuario/{usuario.id}')
+
                 if len(emailExist) == 1:
                     if emailExist[0].id != usuario.id:
                         messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
@@ -177,7 +191,7 @@ def editar_usuario(request, id):
                 usuario.username = dados['nome']
                 usuario.email = dados['email']
                 usuario.telefone = dados['telefone']
-                usuario.cpf = dados['cpf']
+                usuario.cpf = format_cpf(cpfWithOutSimbols)
                 usuario.nivel = dados['nivel']
                 usuario.status = dados['status']
 

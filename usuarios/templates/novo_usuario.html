@@ -42,19 +42,23 @@
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo" required value="{% if edit %}{{usuario.username}}{% endif %}"/>
+                            <label class="mb-1" for="nome">Nome completo</label>
+                            <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome completo" aria-label="Nome Completo" required value="{% if edit %}{{usuario.username}}{% endif %}"/>
                         </div>
                         <div class="col">
-                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email" required value="{% if edit %}{{usuario.email}}{% endif %}"/>
+                            <label class="mb-1" for="email">E-mail</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Ex: meuemail@email.com" aria-label="Email" required value="{% if edit %}{{usuario.email}}{% endif %}"/>
                         </div>
                     </div>
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="text" name="telefone" class="form-control" placeholder="Número de Telefone" aria-label="Número de Telefone" required value="{% if edit %}{{usuario.telefone}}{% endif %}"/>
+                            <label class="mb-1" for="telefone">Telefone</label>
+                            <input type="text" id="telefone" name="telefone" class="form-control" placeholder="Somente números" aria-label="Número de Telefone" required value="{% if edit %}{{usuario.telefone}}{% endif %}"/>
                         </div>
                         <div class="col">
-                            <input type="text" name="cpf" class="form-control" placeholder="CPF" aria-label="CPF" required value="{% if edit %}{{usuario.cpf}}{% endif %}"/>
+                            <label class="mb-1" for="cpf">CPF</label>
+                            <input type="text" name="cpf" id="cpf" class="form-control" placeholder="Somente números" aria-label="CPF" required value="{% if edit %}{{usuario.cpf}}{% endif %}"/>
                         </div>
                     </div>
 
@@ -70,10 +74,12 @@
 
                         <div class="row mb-4">
                             <div class="col">
-                                <input type="text" name="password" class="form-control" placeholder="Senha" aria-label="Senha" required/>
+                                <label class="mb-1" for="password">Senha</label>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Senha" aria-label="Senha" required/>
                             </div>
                             <div class="col">
-                                <input type="password" name="password2" class="form-control" placeholder="Confirme sua senha" aria-label="Confirme sua senha" required/>
+                                <label class="mb-1" for="password2">Confirme sua senha</label>
+                                <input type="password" id="password2" name="password2" class="form-control" placeholder="Confirme sua senha" aria-label="Confirme sua senha" required/>
                             </div>
                         </div>
 
@@ -81,23 +87,22 @@
 
                     <div class="row mb-4">
                         <div class="col">
-                            <select class="form-select" name="nivel" required>
+                            <label class="mb-1" for="nivel">Nivel adminsitrativo</label>
+                            <select class="form-select" name="nivel" id="nivel" required>
                                 <option value="" selected>Selecione o nivel administrativo</option>
                                 <option value="1" {% if not usuario.is_staff and edit%} selected {% endif %}>Normal</option>
                                 <option value="2" {% if usuario.is_staff and edit%} selected {% endif %}>Administrador</option>
                             </select>
                         </div>
                         <div class="col">
-                            <select class="form-select" name="status" required>
+                            <label class="mb-1" for="status">Status</label>
+                            <select class="form-select" name="status" id="status" required>
                                 <option value="" selected>Selecione o status</option>
                                 <option value="1" {% if usuario.is_active and edit%} selected {% endif %}>Ativo</option>
                                 <option value="0" {% if not usuario.is_active and edit%} selected {% endif %}>Inativo</option>
                             </select>
                         </div>
                     </div>
-                    {% if edit %}
-                        <input type="text" name="edit" value="True" class="invisible"/>
-                    {% endif %}
                     <div class="row">
                         <div class="col-3 d-grid">
                             <button type="submit" class="btn btn-outline-primary">{% if not edit %}Cadastrar{% else %}Salvar{% endif %}</button>
