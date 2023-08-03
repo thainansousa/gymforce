@@ -7,7 +7,7 @@
 {% block 'head' %}{% endblock %}
 
 {% block 'body' %}
-        <h1 class="fs-3">Novo usuário</h1>
+        <h1 class="fs-3">{% if edit %}Editar usuário{% else %}Novo usuário{% endif %}</h1>
 
         {% if messages %}
             {% for message in messages %}       
@@ -31,7 +31,7 @@
         
         <div class="card shadow rounded">
             <div class="card-body">
-                <form action="{% url 'cadastrar_usuario' %}" method="POST">{% csrf_token %}
+                <form action="{% if not edit %} {% url 'cadastrar_usuario' %} {% else %} {% url 'editarUsuario' usuario.id %} {% endif %}" method="POST">{% csrf_token %}
 
                     <div class="row mb-2 mt-2">
                         <div class="col">
@@ -42,23 +42,25 @@
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo" required/>
+                            <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo" required value="{% if edit %}{{usuario.username}}{% endif %}"/>
                         </div>
                         <div class="col">
-                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email" required/>
+                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email" required value="{% if edit %}{{usuario.email}}{% endif %}"/>
                         </div>
                     </div>
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="text" name="telefone" class="form-control" placeholder="Número de Telefone" aria-label="Número de Telefone" required/>
+                            <input type="text" name="telefone" class="form-control" placeholder="Número de Telefone" aria-label="Número de Telefone" required value="{% if edit %}{{usuario.telefone}}{% endif %}"/>
                         </div>
                         <div class="col">
-                            <input type="text" name="cpf" class="form-control" placeholder="CPF" aria-label="CPF" required/>
+                            <input type="text" name="cpf" class="form-control" placeholder="CPF" aria-label="CPF" required value="{% if edit %}{{usuario.cpf}}{% endif %}"/>
                         </div>
                     </div>
 
                     <hr>
+
+                    {% if not edit %}
 
                     <div class="row mb-2 mt-2">
                         <div class="col">
@@ -66,34 +68,39 @@
                         </div>
                     </div>
 
-                    <div class="row mb-4">
-                        <div class="col">
-                            <input type="password" name="password" class="form-control" placeholder="Senha" aria-label="Senha" required/>
+                        <div class="row mb-4">
+                            <div class="col">
+                                <input type="text" name="password" class="form-control" placeholder="Senha" aria-label="Senha" required/>
+                            </div>
+                            <div class="col">
+                                <input type="password" name="password2" class="form-control" placeholder="Confirme sua senha" aria-label="Confirme sua senha" required/>
+                            </div>
                         </div>
-                        <div class="col">
-                            <input type="password" name="password2" class="form-control" placeholder="Confirme sua senha" aria-label="Confirme sua senha" required/>
-                        </div>
-                    </div>
+
+                    {% endif %}
 
                     <div class="row mb-4">
                         <div class="col">
                             <select class="form-select" name="nivel" required>
                                 <option value="" selected>Selecione o nivel administrativo</option>
-                                <option value="1">Normal</option>
-                                <option value="2">Administrador</option>
+                                <option value="1" {% if not usuario.is_staff and edit%} selected {% endif %}>Normal</option>
+                                <option value="2" {% if usuario.is_staff and edit%} selected {% endif %}>Administrador</option>
                             </select>
                         </div>
                         <div class="col">
                             <select class="form-select" name="status" required>
                                 <option value="" selected>Selecione o status</option>
-                                <option value="1">Ativo</option>
-                                <option value="0">Inativo</option>
+                                <option value="1" {% if usuario.is_active and edit%} selected {% endif %}>Ativo</option>
+                                <option value="0" {% if not usuario.is_active and edit%} selected {% endif %}>Inativo</option>
                             </select>
                         </div>
                     </div>
+                    {% if edit %}
+                        <input type="text" name="edit" value="True" class="invisible"/>
+                    {% endif %}
                     <div class="row">
                         <div class="col-3 d-grid">
-                            <button type="submit" class="btn btn-outline-primary">Cadastrar</button>
+                            <button type="submit" class="btn btn-outline-primary">{% if not edit %}Cadastrar{% else %}Salvar{% endif %}</button>
                         </div>
                     </div>
                 </form>

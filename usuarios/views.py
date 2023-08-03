@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 def novo(request):
     if request.user.is_authenticated:
 
-        return render(request, 'novo_usuario.html')
+        return render(request, 'novo_usuario.html', {'edit': False})
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
@@ -120,6 +120,77 @@ def alterar_status_usuario(request, id):
             messages.add_message(request, constants.ERROR, "O usuario(a) informada não existe!")
 
         return redirect('/usuario/gerenciar')
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')
+    
+def editar_usuario(request, id):
+
+
+    if request.user.is_authenticated:
+
+        if (request.method == 'GET'):
+
+            try:
+
+                usuario = User.objects.get(id=id)
+
+                return render(request, 'novo_usuario.html', {'id': id, 'edit': True, 'usuario': usuario})
+            except User.DoesNotExist:
+                messages.add_message(request, constants.ERROR, 'O usuario informado não existe.')
+                return redirect('/usuario/gerenciar')
+            
+        elif (request.method == 'POST'):
+            
+            dados = {
+                'nome': request.POST.get('nome').lower(),
+                'email': request.POST.get('email').lower(),
+                'telefone': request.POST.get('telefone'),
+                'cpf': request.POST.get('cpf'),
+                'nivel': request.POST.get('nivel'),
+                'status': request.POST.get('status'),
+            }
+
+            
+            for dado in dados:
+                if len(dados[dado].strip()) == 0:
+                    messages.add_message(request, constants.ERROR, "Preencha todos os campos!")
+                    return redirect(f'/usuario/editar_usuario/{id}')
+
+            try:
+
+                usuario = User.objects.get(id=id)
+
+                emailExist = User.objects.filter(email=dados['email'])
+                usernameExist = User.objects.filter(username=dados['nome'])
+
+                if len(emailExist) == 1:
+                    if emailExist[0].id != usuario.id:
+                        messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
+                        return redirect(f'/usuario/editar_usuario/{usuario.id}')
+                if len(usernameExist) == 1:
+                    if usernameExist[0].id != usuario.id:
+                        messages.add_message(request, constants.ERROR, 'O usuario informado já foi cadastrado.')
+                        return redirect(f'/usuario/editar_usuario/{usuario.id}')
+                    
+
+                usuario.username = dados['nome']
+                usuario.email = dados['email']
+                usuario.telefone = dados['telefone']
+                usuario.cpf = dados['cpf']
+                usuario.nivel = dados['nivel']
+                usuario.status = dados['status']
+
+                usuario.save()
+
+                messages.add_message(request, constants.SUCCESS, f'O usuario {usuario.username} foi editado com sucesso.')
+
+                return redirect('/usuario/gerenciar')
+            
+            except User.DoesNotExist:
+                messages.add_message(request, constants.ERROR, 'O usuario informado não existe.')
+                return redirect('/usuario/gerenciar')
+            
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
