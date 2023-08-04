@@ -34,17 +34,23 @@
                 <form action="{% if not edit %}{% url 'cadastrarEmpresa' %}{% else %}{% url 'editarEmpresa' empresa.id %}{% endif %}" method="POST">{% csrf_token %}
                     <div class="row">
                         <div class="col-6">
-                            <input type="text" name="razaoSocial" class="form-control" placeholder="Razão Social" value="{% if edit %}{{empresa.razaoSocial}}{% endif %}" required/>
+                            <label class="mb-1" for="razaoSocial">Razão Social</label>
+                            <input type="text" id="razaoSocial" name="razaoSocial" class="form-control" placeholder="Razão Social" value="{% if edit %}{{empresa.razaoSocial}}{% endif %}" required/>
                         </div>
                         <div class="col-6">
-                            <input type="text" name="fantasia" class="form-control" placeholder="Nome Fantasia" value="{% if edit %}{{empresa.fantasia}}{% endif %}" required/>
+                            <label class="mb-1" for="fantasia">Nome Fantasia</label>
+                            <input type="text" id="fantasia" name="fantasia" class="form-control" placeholder="Nome Fantasia" value="{% if edit %}{{empresa.fantasia}}{% endif %}" required/>
                         </div>
                     </div>
 
                     <div class="row mt-4">
-                        <div class="col">
-                            <input type="text" name="cnpj" class="form-control" placeholder="CNPJ" value="{% if edit %}{{empresa.cnpj}}{% endif %}" required/>
+                        <div class="col-6">
+                            <label class="mb-1" for="cnpj">CNPJ</label>
+                            <input type="text" id="cnpj" name="cnpj" class="form-control" placeholder="Somente números" value="{% if edit %}{{empresa.cnpj}}{% endif %}" required/>
                         </div>
+                    </div>
+
+                    <div class="row mt-4">
                         <div class="col-4">
                             <button type="submit" class="btn btn-primary w-100">{% if not edit %}Cadastrar{% else %}Salvar{% endif %}</button>
                         </div>

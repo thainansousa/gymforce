@@ -5,6 +5,8 @@ from django.contrib import messages
 
 from .models import Empresa
 
+from brutils import remove_symbols_cnpj, is_valid_cnpj, format_cnpj
+
 def novo(request):
 
     if request.user.is_authenticated:
@@ -19,6 +21,7 @@ def gerenciar(request):
         fantasia = request.GET.get('fantasia')
 
         if fantasia:
+            fantasia = fantasia.lower()
             empresas = Empresa.objects.filter(fantasia=fantasia).order_by('-id')
         else:
             empresas = Empresa.objects.all().order_by('-id')
@@ -32,27 +35,43 @@ def cadastrar_empresa(request):
 
     if request.user.is_authenticated:
          dados = {
-            'razaoSocial': request.POST.get('razaoSocial'),
-            'fantasia': request.POST.get('fantasia'),
+            'razaoSocial': request.POST.get('razaoSocial').lower(),
+            'fantasia': request.POST.get('fantasia').lower(),
             'cnpj': request.POST.get('cnpj')
         }
+         
+         for dado in dados:
+            if len(dados[dado].strip()) == 0:
+                messages.add_message(request, constants.ERROR, 'Preencha todos os campos')
+                return redirect('/empresas/novo')
+        
+            cnpjWithOutSimbols = remove_symbols_cnpj(dados['cnpj'])
 
-    for dado in dados:
-        if len(dados[dado].strip()) == 0:
-            messages.add_message(request, constants.ERROR, 'Preencha todos os campos')
+            cnpjIsValid = is_valid_cnpj(cnpjWithOutSimbols)
+
+            cnpjFormated = format_cnpj(cnpjWithOutSimbols)
+
+            if not cnpjIsValid:
+                messages.add_message(request, constants.ERROR, 'O CNPJ não é valido.')
+                return redirect('/empresas/novo')
+            
+            cnpjExist = Empresa.objects.filter(cnpj=cnpjFormated)
+
+            if cnpjExist:
+                messages.add_message(request, constants.ERROR, 'CNPJ já cadastrado.')
+                return redirect('/empresas/novo') 
+
+            empresa = Empresa(
+                razaoSocial = dados['razaoSocial'],
+                fantasia = dados['fantasia'],
+                cnpj = cnpjFormated
+            )
+
+            empresa.save()
+
+            messages.add_message(request, constants.SUCCESS, 'Empresa cadastrada com sucesso!')
+
             return redirect('/empresas/novo')
-
-        empresa = Empresa(
-            razaoSocial = dados['razaoSocial'],
-            fantasia = dados['fantasia'],
-            cnpj = dados['cnpj']
-        )
-
-        empresa.save()
-
-        messages.add_message(request, constants.SUCCESS, 'Empresa cadastrada com sucesso!')
-
-        return redirect('/empresas/novo')
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
@@ -95,28 +114,45 @@ def editar_empresa(request, id):
                 return redirect('/empresas/gerenciar')
         else:
             try:
-                empresa = Empresa.objects.get(id=id)
+                    empresa = Empresa.objects.get(id=id)
 
-                dados = {
-                    'razaoSocial': request.POST.get('razaoSocial').lower(),
-                    'fantasia': request.POST.get('fantasia').lower(),
-                    'cnpj': request.POST.get('cnpj')
-                }
+                    dados = {
+                        'razaoSocial': request.POST.get('razaoSocial').lower(),
+                        'fantasia': request.POST.get('fantasia').lower(),
+                        'cnpj': request.POST.get('cnpj')
+                    }
 
-                for dado in dados:
-                    if len(dados[dado].strip()) == 0:
-                        messages.add_message(request, constants.ERROR, 'Preencha todos os campos.')
-                        return redirect(f'/empresas/editar_empresa/{empresa.id}')
+                    for dado in dados:
+                        if len(dados[dado].strip()) == 0:
+                            messages.add_message(request, constants.ERROR, 'Preencha todos os campos.')
+                            return redirect(f'/empresas/editar_empresa/{empresa.id}')
+                    
+                    cnpjWithOutSimbols = remove_symbols_cnpj(dados['cnpj'])
 
-                empresa.razaoSocial = dados['razaoSocial']
-                empresa.fantasia = dados['fantasia']
-                empresa.cnpj= dados['cnpj']
+                    cnpjIsValid = is_valid_cnpj(cnpjWithOutSimbols)
 
-                empresa.save()
+                    cnpjFormated = format_cnpj(cnpjWithOutSimbols)
 
-                messages.add_message(request, constants.SUCCESS, f'A empresa {empresa.fantasia} foi editada com sucesso.')
+                    if not cnpjIsValid:
+                        messages.add_message(request, constants.ERROR, 'O CNPJ não é valido.')
+                        return redirect('/empresas/novo')
+            
+                    cnpjExist = Empresa.objects.filter(cnpj=cnpjFormated)
 
-                return redirect('/empresas/gerenciar')
+                    if cnpjExist:
+                        if not cnpjExist[0].id == empresa.id:
+                            messages.add_message(request, constants.ERROR, 'CNPJ já cadastrado.')
+                            return redirect(f'/empresas/editar_empresa/{empresa.id}') 
+
+                    empresa.razaoSocial = dados['razaoSocial']
+                    empresa.fantasia = dados['fantasia']
+                    empresa.cnpj= dados['cnpj']
+
+                    empresa.save()
+
+                    messages.add_message(request, constants.SUCCESS, f'A empresa {empresa.fantasia} foi editada com sucesso.')
+
+                    return redirect('/empresas/gerenciar')
             
             except Empresa.DoesNotExist:
                 messages.add_message(request, constants.ERROR, 'A empresa informada não existe.')
