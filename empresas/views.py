@@ -23,7 +23,7 @@ def gerenciar(request):
         else:
             empresas = Empresa.objects.all().order_by('-id')
 
-        return render(request, 'gerenciar_empresas.html', {'empresas': empresas})
+        return render(request, 'gerenciar_empresas.html', {'empresas': empresas, 'edit': False})
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
@@ -80,3 +80,44 @@ def alterar_status_empresa(request, id):
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
+    
+
+def editar_empresa(request, id):
+
+    if request.user.is_authenticated:
+        
+        if (request.method) == 'GET':
+            try:
+                empresa = Empresa.objects.get(id=id)
+                return render(request, 'nova_empresa.html', {'edit': True, 'empresa': empresa})
+            except Empresa.DoesNotExist:
+                messages.add_message(request, constants.ERROR, 'A empresa informada não existe.')
+                return redirect('/empresas/gerenciar')
+        else:
+            try:
+                empresa = Empresa.objects.get(id=id)
+
+                dados = {
+                    'razaoSocial': request.POST.get('razaoSocial').lower(),
+                    'fantasia': request.POST.get('fantasia').lower(),
+                    'cnpj': request.POST.get('cnpj')
+                }
+
+                for dado in dados:
+                    if len(dados[dado].strip()) == 0:
+                        messages.add_message(request, constants.ERROR, 'Preencha todos os campos.')
+                        return redirect(f'/empresas/editar_empresa/{empresa.id}')
+
+                empresa.razaoSocial = dados['razaoSocial']
+                empresa.fantasia = dados['fantasia']
+                empresa.cnpj= dados['cnpj']
+
+                empresa.save()
+
+                messages.add_message(request, constants.SUCCESS, f'A empresa {empresa.fantasia} foi editada com sucesso.')
+
+                return redirect('/empresas/gerenciar')
+            
+            except Empresa.DoesNotExist:
+                messages.add_message(request, constants.ERROR, 'A empresa informada não existe.')
+                return redirect('/empresas/gerenciar')
