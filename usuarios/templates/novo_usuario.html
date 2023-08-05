@@ -90,16 +90,16 @@
                             <label class="mb-1" for="nivel">Nivel adminsitrativo</label>
                             <select class="form-select" name="nivel" id="nivel" required>
                                 <option value="" selected>Selecione o nivel administrativo</option>
-                                <option value="1" {% if not usuario.is_staff and edit%} selected {% endif %}>Normal</option>
-                                <option value="2" {% if usuario.is_staff and edit%} selected {% endif %}>Administrador</option>
+                                <option value="1" {% if edit and not usuario.is_staff %} selected {% endif %}>Normal</option>
+                                <option value="2" {% if edit and usuario.is_staff %} selected {% endif %}>Administrador</option>
                             </select>
                         </div>
                         <div class="col">
                             <label class="mb-1" for="status">Status</label>
                             <select class="form-select" name="status" id="status" required>
                                 <option value="" selected>Selecione o status</option>
-                                <option value="1" {% if usuario.is_active and edit%} selected {% endif %}>Ativo</option>
-                                <option value="0" {% if not usuario.is_active and edit%} selected {% endif %}>Inativo</option>
+                                <option value="1" {% if edit and usuario.is_active %} selected {% endif %}>Ativo</option>
+                                <option value="0" {% if edit and not usuario.is_active%} selected {% endif %}>Inativo</option>
                             </select>
                         </div>
                     </div>

@@ -52,53 +52,66 @@ def cadastrar_usuario(request):
         usernameExist = User.objects.filter(username__iexact=dados['nome'])
 
         cpfWithOutSimbols = remove_symbols_cpf(dados['cpf'])
+        cpfFormated = format_cpf(cpfWithOutSimbols)
+
+        cpfExist = User.objects.filter(cpf=cpfFormated)
 
         if not is_valid_cpf(cpfWithOutSimbols):
+
             messages.add_message(request, constants.ERROR, 'CPF inválido.')
             return redirect('/usuario/novo')
+        
+        elif len(emailExist) >= 1:
 
-        if len(emailExist) >= 1:
             messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
             return redirect('/usuario/novo')
         
-        if len(usernameExist) >= 1:
+        elif len(usernameExist) >= 1:
+
             messages.add_message(request, constants.ERROR, 'O nome de usuario informado ja existe.')
             return redirect('/usuario/novo')
+        
+        elif len(cpfExist) >= 1:
 
-        for i in dados:
-            if len(dados[i].strip()) == 0:
-                messages.add_message(request, constants.ERROR, "Preencha todos os campos!")
+            messages.add_message(request, constants.ERROR, 'O CPF informado ja foi cadastrado.')
+            return redirect('/usuario/novo')
+        
+        else:
+
+            for i in dados:
+                if len(dados[i].strip()) == 0:
+                    messages.add_message(request, constants.ERROR, "Preencha todos os campos!")
+                    return redirect('/usuario/novo')
+                
+            if dados['password'] != dados['password2']:
+                messages.add_message(request, constants.ERROR, "As senhas não combinam, tente novamente.")
                 return redirect('/usuario/novo')
             
-        if dados['password'] != dados['password2']:
-            messages.add_message(request, constants.ERROR, "As senhas não combinam, tente novamente.")
+            if dados['status'] == '1':
+                dados['status'] = True
+            else:
+                dados['status'] = False
+
+
+            if dados['nivel'] == '2':
+                dados['nivel'] = True
+            else:
+                dados['nivel'] = False
+            
+            user = User.objects.create_user(
+                dados['nome'], 
+                dados['email'], 
+                dados['password'],
+                is_staff = dados['nivel'],
+                is_active = dados['status'],
+                cpf = cpfFormated,
+                telefone = dados['telefone'])
+
+            user.save()
+
+            messages.add_message(request, constants.SUCCESS, f"Usuario {dados['nome']} cadastrado com sucesso!")
+
             return redirect('/usuario/novo')
-
-        if dados['status'] == '1':
-            dados['status'] = True
-        else:
-            dados['status'] = False
-
-
-        if dados['nivel'] == '2':
-            dados['nivel'] = True
-        else:
-            dados['nivel'] = False
-        
-        user = User.objects.create_user(
-            dados['nome'], 
-            dados['email'], 
-            dados['password'],
-            is_staff = dados['nivel'],
-            is_active = dados['status'],
-            cpf = format_cpf(cpfWithOutSimbols),
-            telefone = dados['telefone'])
-
-        user.save()
-
-        messages.add_message(request, constants.SUCCESS, f"Usuario {dados['nome']} cadastrado com sucesso!")
-
-        return redirect('/usuario/novo')
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
@@ -171,33 +184,51 @@ def editar_usuario(request, id):
 
                 cpfWithOutSimbols = remove_symbols_cpf(dados['cpf'])
 
+                cpfFormated = format_cpf(cpfWithOutSimbols)
+
+                cpfExist = User.objects.filter(cpf=cpfFormated)
+
                 if not is_valid_cpf(cpfWithOutSimbols):
+                    
+                    print('CPF INVALIDO')
                     messages.add_message(request, constants.ERROR, 'CPF inválido.')
                     return redirect(f'/usuario/editar_usuario/{usuario.id}')
+                
+                elif emailExist[0].id != usuario.id:
+                    messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
+                    return redirect(f'/usuario/editar_usuario/{usuario.id}')
 
-                if len(emailExist) == 1:
-                    if emailExist[0].id != usuario.id:
-                        messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
-                        return redirect(f'/usuario/editar_usuario/{usuario.id}')
-                if len(usernameExist) == 1:
-                    if usernameExist[0].id != usuario.id:
-                        messages.add_message(request, constants.ERROR, 'O usuario informado já foi cadastrado.')
-                        return redirect(f'/usuario/editar_usuario/{usuario.id}')
-                    
+                elif usernameExist[0].id != usuario.id:
+                    messages.add_message(request, constants.ERROR, 'O nome de usuario informado ja existe.')
+                    return redirect(f'/usuario/editar_usuario/{usuario.id}')
+                
+                elif cpfExist[0].id != usuario.id:
+                    messages.add_message(request, constants.ERROR, 'O CPF informado ja foi cadastrado.')
+                    return redirect(f'/usuario/editar_usuario/{usuario.id}')
+                
+                else:
 
-                usuario.username = dados['nome']
-                usuario.email = dados['email']
-                usuario.telefone = dados['telefone']
-                usuario.cpf = format_cpf(cpfWithOutSimbols)
-                usuario.nivel = dados['nivel']
-                usuario.status = dados['status']
+                    if dados['status'] == '1':
+                        dados['status'] = True
+                    else:
+                        dados['status'] = False
 
-                usuario.save()
+                    if dados['nivel'] == '2':
+                        dados['nivel'] = True
+                    else:
+                        dados['nivel'] = False
+                   
+                    usuario.username = dados['nome']
+                    usuario.email = dados['email']
+                    usuario.telefone = dados['telefone']
+                    usuario.cpf = dados['cpf']
+                    usuario.is_staff = dados['nivel']
+                    usuario.is_active = dados['status']
 
-                messages.add_message(request, constants.SUCCESS, f'O usuario {usuario.username} foi editado com sucesso.')
+                    usuario.save()
 
-                return redirect('/usuario/gerenciar')
-            
+                    return redirect('/usuario/gerenciar')
+                        
             except User.DoesNotExist:
                 messages.add_message(request, constants.ERROR, 'O usuario informado não existe.')
                 return redirect('/usuario/gerenciar')
