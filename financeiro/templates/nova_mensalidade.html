@@ -7,7 +7,7 @@
 {% block 'head' %}{% endblock %}
 
 {% block 'body' %}
-        <h1 class="fs-3">Novo Plano de Mensalidade</h1>
+        <h1 class="fs-3">{% if not edit %}Novo Plano de Mensalidade{% else %}Editar Plano de Mensalidade{% endif %}</h1>
 
         {% if messages %}
             {% for message in messages %}       
@@ -31,7 +31,7 @@
         
         <div class="card shadow rounded">
             <div class="card-body">
-                <form action="{% url 'cadastrarMensalidade' %}" method="POST">{% csrf_token %}
+                <form action="{% if not edit %}{% url 'cadastrarMensalidade' %}{% else %}{% url 'editarPlanoMensalidade' mensalidade.id %}{% endif %}" method="POST">{% csrf_token %}
                     <div class="row mb-2 mt-2">
                         <div class="col">
                             <h3 class="fs-5">Informações Gerais</h3>
@@ -39,15 +39,20 @@
                     </div>
 
                     <div class="row mb-4">
-                        <div class="col-4">
-                            <input type="text" name="plano" class="form-control" placeholder="Nome do plano de mensalidade" 
-                            aria-label="Nome do plano de mensalidade" required>
+                        <div class="col-6">
+                            <label for="plano" class="mb-1">Nome do plano</label>
+                            <input type="text" id="plano" name="plano" class="form-control" placeholder="Nome do plano de mensalidade" 
+                            aria-label="Nome do plano de mensalidade" value="{% if edit %}{{mensalidade.nome}}{% endif %}" required/>
                         </div>
-                        <div class="col-4">
-                            <input type="number" name="valor" class="form-control" placeholder="Valor" aria-label="Valor" required>
+                        <div class="col-6">
+                            <label for="valor" class="mb-1">Valor</label>
+                            <input type="text" id="valor" name="valor" class="form-control" placeholder="Somente números" aria-label="Somente números" value="{% if edit %}{{mensalidade.valor}}{% endif %}" required/>
                         </div>
+                    </div>
+
+                    <div class="row">
                         <div class="col-3 d-grid">
-                            <button type="submit" class="btn btn-outline-primary">Cadastrar Plano</button>
+                            <button type="submit" class="btn btn-outline-primary">{% if not edit %}Cadastrar Plano{% else %}Salvar{% endif %}</button>
                         </div>
                     </div>
                 </form>
