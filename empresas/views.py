@@ -21,8 +21,7 @@ def gerenciar(request):
         fantasia = request.GET.get('fantasia')
 
         if fantasia:
-            fantasia = fantasia.lower()
-            empresas = Empresa.objects.filter(fantasia=fantasia).order_by('-id')
+            empresas = Empresa.objects.filter(fantasia__icontains=fantasia).order_by('-id')
         else:
             empresas = Empresa.objects.all().order_by('-id')
 
@@ -35,8 +34,8 @@ def cadastrar_empresa(request):
 
     if request.user.is_authenticated:
          dados = {
-            'razaoSocial': request.POST.get('razaoSocial').lower(),
-            'fantasia': request.POST.get('fantasia').lower(),
+            'razaoSocial': request.POST.get('razaoSocial'),
+            'fantasia': request.POST.get('fantasia'),
             'cnpj': request.POST.get('cnpj')
         }
          
@@ -117,8 +116,8 @@ def editar_empresa(request, id):
                     empresa = Empresa.objects.get(id=id)
 
                     dados = {
-                        'razaoSocial': request.POST.get('razaoSocial').lower(),
-                        'fantasia': request.POST.get('fantasia').lower(),
+                        'razaoSocial': request.POST.get('razaoSocial'),
+                        'fantasia': request.POST.get('fantasia'),
                         'cnpj': request.POST.get('cnpj')
                     }
 
