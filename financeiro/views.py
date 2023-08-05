@@ -19,8 +19,7 @@ def gerenciar(request):
         nome = request.GET.get('plano')
 
         if nome:
-            nome = nome.lower()
-            mensalidades = Mensalidade.objects.filter(nome=nome).order_by('-id')
+            mensalidades = Mensalidade.objects.filter(nome__iexact=nome).order_by('-id')
         else:
             mensalidades = Mensalidade.objects.all().order_by('-id')
         return render(request, 'gerenciar_mensalidades.html', {'edit': False, 'mensalidades': mensalidades})
@@ -33,7 +32,7 @@ def cadastrar_mensalidade(request):
     if request.user.is_authenticated:
     
         dados = {
-            'nome_do_plano': request.POST.get('plano').lower(),
+            'nome_do_plano': request.POST.get('plano'),
             'valor': request.POST.get('valor')
         }
 
@@ -67,7 +66,6 @@ def cadastrar_mensalidade(request):
 def alterar_status_mensalidade(request, id):
 
     if request.user.is_authenticated:
-
 
         try:
 
@@ -109,11 +107,11 @@ def editar_plano_mensalidade(request, id):
                 planoMensalidade = Mensalidade.objects.get(id=id)
 
                 dados = {
-                    'plano': request.POST.get('plano').lower(),
+                    'plano': request.POST.get('plano'),
                     'valor': request.POST.get('valor')
                 }
 
-                planoExist = Mensalidade.objects.filter(nome=dados['plano'])
+                planoExist = Mensalidade.objects.filter(nome__iexact=dados['plano'])
 
                 if planoExist:
                     if not planoExist[0].id == planoMensalidade.id:
