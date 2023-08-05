@@ -194,15 +194,15 @@ def editar_usuario(request, id):
                     messages.add_message(request, constants.ERROR, 'CPF inválido.')
                     return redirect(f'/usuario/editar_usuario/{usuario.id}')
                 
-                elif emailExist[0].id != usuario.id:
+                elif emailExist and emailExist[0].id != usuario.id:
                     messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
                     return redirect(f'/usuario/editar_usuario/{usuario.id}')
 
-                elif usernameExist[0].id != usuario.id:
+                elif usernameExist and usernameExist[0].id != usuario.id:
                     messages.add_message(request, constants.ERROR, 'O nome de usuario informado ja existe.')
                     return redirect(f'/usuario/editar_usuario/{usuario.id}')
                 
-                elif cpfExist[0].id != usuario.id:
+                elif cpfExist and cpfExist[0].id != usuario.id:
                     messages.add_message(request, constants.ERROR, 'O CPF informado ja foi cadastrado.')
                     return redirect(f'/usuario/editar_usuario/{usuario.id}')
                 
