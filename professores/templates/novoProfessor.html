@@ -9,7 +9,7 @@
 {% block 'body' %}
 
     <div class="container">
-        <h1 class="fs-3">Novo Professor</h1>
+        <h1 class="fs-3">{% if not edit %}Novo Professor{% else %}Editar Professor{% endif %}</h1>
 
          {% if messages %}
             {% for message in messages %}       
@@ -33,7 +33,7 @@
 
         <div class="card shadow rounded">
             <div class="card-body">
-                <form action="{% url 'cadastrarProfessor' %}" method="POST">{% csrf_token %}
+                <form action="{% if not edit %}{% url 'cadastrarProfessor' %}{% else %}{% url 'editarProfessor' professor.id %}{% endif %}" method="POST">{% csrf_token %}
 
                     <div class="row mb-2 mt-2">
                         <div class="col">
@@ -43,13 +43,16 @@
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo" required/>
+                            <label for="nome" class="mb-1">Nome</label>
+                            <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo" value="{% if edit %}{{professor.nome}}{% endif %}" required/>
                         </div>
                         <div class="col">
-                            <input type="text" name="cpf" class="form-control" placeholder="CPF" aria-label="CPF" required/>
+                            <label for="cpf" class="mb-1">CPF</label>
+                            <input type="text" id="cpf" name="cpf" class="form-control" placeholder="Somente números" aria-label="CPF" value="{% if edit %}{{professor.cpf}}{% endif %}" required/>
                         </div>
                         <div class="col">
-                            <input type="text" name="registro" class="form-control" placeholder="Nº registro" aria-label="Nº registro" required/>
+                            <label for="registro" class="mb-1">Nº do Registro</label>
+                            <input type="text" id="registro" name="registro" class="form-control" placeholder="Nº registro" aria-label="Nº registro" value="{% if edit %}{{professor.registro}}{% endif %}" required/>
                         </div>
                     </div>
 
@@ -63,18 +66,18 @@
 
                     <div class="row mb-4">
                         <div class="col-4">
-                            <input type="text" name="telefone" class="form-control" placeholder="Telefone" aria-label="Telefone" required/>
+                            <label for="telefone" class="mb-1">Telefone</label>
+                            <input type="text" id="telefone" name="telefone" class="form-control" placeholder="Somente números" aria-label="Telefone" value="{% if edit %}{{professor.telefone}}{% endif %}" required/>
                         </div>
                         <div class="col">
-                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email" required/>
+                            <label for="email" class="mb-1">E-mail</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Email" aria-label="Email" value="{% if edit %}{{professor.email}}{% endif %}" required/>
                         </div>
                     </div>
 
-                    <hr>
-
                      <div class="row mt-4">
                         <div class="col-3 d-grid">
-                            <button type="submit" class="btn btn-outline-primary">Cadastrar Professor</button>
+                            <button type="submit" class="btn btn-outline-primary">{% if not edit %}Cadastrar Professor{% else %}Salvar{% endif %}</button>
                         </div>
                     </div>
                 </form>
