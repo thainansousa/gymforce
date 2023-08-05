@@ -3,8 +3,6 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.messages import constants
 
-#from .models import Usuario
-
 from django.contrib.auth.models import User
 
 from brutils import is_valid_cpf, format_cpf, remove_symbols_cpf
@@ -24,8 +22,7 @@ def gerenciar(request):
         nome = request.GET.get('nome')
         
         if nome:
-            nome = nome.lower()
-            usuarios = User.objects.filter(username=nome).order_by('-id')
+            usuarios = User.objects.filter(username__icontains=nome).order_by('-id')
         else:
             usuarios = User.objects.all().order_by('-id')
 
@@ -41,8 +38,8 @@ def cadastrar_usuario(request):
     if request.user.is_authenticated:
 
         dados = {
-            'nome': request.POST.get('nome').lower(),
-            'email': request.POST.get('email').lower(),
+            'nome': request.POST.get('nome'),
+            'email': request.POST.get('email'),
             'telefone': request.POST.get('telefone'),
             'cpf': request.POST.get('cpf'),
             'password': request.POST.get('password'),
@@ -51,8 +48,8 @@ def cadastrar_usuario(request):
             'status': request.POST.get('status'),
         }
 
-        emailExist = User.objects.filter(email=dados['email'])
-        usernameExist = User.objects.filter(username=dados['nome'])
+        emailExist = User.objects.filter(email__iexact=dados['email'])
+        usernameExist = User.objects.filter(username__iexact=dados['nome'])
 
         cpfWithOutSimbols = remove_symbols_cpf(dados['cpf'])
 
@@ -151,8 +148,8 @@ def editar_usuario(request, id):
         elif (request.method == 'POST'):
             
             dados = {
-                'nome': request.POST.get('nome').lower(),
-                'email': request.POST.get('email').lower(),
+                'nome': request.POST.get('nome'),
+                'email': request.POST.get('email'),
                 'telefone': request.POST.get('telefone'),
                 'cpf': request.POST.get('cpf'),
                 'nivel': request.POST.get('nivel'),
@@ -169,8 +166,8 @@ def editar_usuario(request, id):
 
                 usuario = User.objects.get(id=id)
 
-                emailExist = User.objects.filter(email=dados['email'])
-                usernameExist = User.objects.filter(username=dados['nome'])
+                emailExist = User.objects.filter(email__iexact=dados['email'])
+                usernameExist = User.objects.filter(username__iexact=dados['nome'])
 
                 cpfWithOutSimbols = remove_symbols_cpf(dados['cpf'])
 
