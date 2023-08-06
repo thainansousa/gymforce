@@ -29,7 +29,7 @@ import re
 def novo(request):
 
     if request.user.is_authenticated:
-        mensalidades = Mensalidade.objects.all()
+        mensalidades = Mensalidade.objects.filter(status=True)
 
         return render(request, 'novo_aluno.html', {'mensalidades': mensalidades, 'edit': False})
     else:
@@ -263,7 +263,7 @@ def editar_aluno(request, id):
         if (request.method) == 'GET':
             try:
                 aluno = Aluno.objects.get(id=id)
-                mensalidades = Mensalidade.objects.all()
+                mensalidades = Mensalidade.objects.filter(status=True)
                 return render(request, 'novo_aluno.html', {'edit': True, 'aluno': aluno, 'mensalidades': mensalidades})
             except Aluno.DoesNotExist:
                 messages.add_message(request, constants.ERROR, 'O aluno informado não existe.')
