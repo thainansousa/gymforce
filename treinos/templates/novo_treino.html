@@ -8,7 +8,7 @@
 
 {% block 'body' %}
     <div class="container">
-        <h1 class="fs-3">Novo Treino</h1>
+        <h1 class="fs-3">{% if not edit %}Novo Treino{% else %}Editar Treino{% endif %}</h1>
 
          {% if messages %}
             {% for message in messages %}       
@@ -32,7 +32,7 @@
 
         <div class="card shadow rounded">
             <div class="card-body">
-                <form action="{% url 'cadastrarTreino' %}" method="POST">{% csrf_token %}
+                <form action="{% if not edit %}{% url 'cadastrarTreino' %}{% else %}{% url 'editarTreino' treino.id %}{% endif %}" method="POST">{% csrf_token %}
                         <div class="row mb-2 mt-2">
                             <div class="col">
                                 <h3 class="fs-5">Informações Gerais</h3>
@@ -41,10 +41,10 @@
 
                         <div class="row mb-4">
                             <div class="col-6">
-                                <input type="text" name="nome" class="form-control" placeholder="Nome do Treino" aria-label="Nome do Treino" requierd/>
+                                <input type="text" name="nome" class="form-control" placeholder="Nome do Treino" aria-label="Nome do Treino" value="{% if edit %}{{treino.nome}}{% endif %}" required/>
                             </div>
                                 <div class="col-3 d-grid">
-                                    <button type="submit" class="btn btn-outline-primary">Cadastrar Treino</button>
+                                    <button type="submit" class="btn btn-outline-primary">{% if not edit %}Cadastrar Treino{% else %}Salvar{% endif %}</button>
                                 </div>
                             </div>
                         </div>

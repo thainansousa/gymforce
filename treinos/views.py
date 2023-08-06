@@ -8,7 +8,7 @@ from .models import Treino
 def novo(request):
     if request.user.is_authenticated:
 
-        return render(request, 'novo_treino.html')
+        return render(request, 'novo_treino.html', {'edit': False})
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
@@ -82,6 +82,48 @@ def alterar_status_treino(request, id):
             messages.add_message(request, constants.ERROR, 'O treino informado não foi encontrado.')
         
         return redirect('/treinos/gerenciar')
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')
+    
+def editar_treino(request, id):
+
+    if request.user.is_authenticated:
+        if (request.method) == 'GET':
+            try:
+                treino = Treino.objects.get(id=id)
+                return render(request, 'novo_treino.html', {'edit': True, 'treino': treino})
+            except Treino.DoesNotExist:
+                messages.add_message(request, constants.ERROR, 'O treino informado não existe.')
+                return redirect('/treinos/gerenciar/')
+        else:
+            try:
+                treino = Treino.objects.get(id=id)
+
+                nome = request.POST.get('nome')
+
+                if len(nome.strip()) == 0:
+                    messages.add_message(request, constants.ERROR, 'Preencha todos os campos.')
+                    return redirect(f'/treinos/editar_treino/{treino.id}')
+                
+                treinoExist = Treino.objects.filter(nome__iexact=nome)
+
+                if treinoExist and treinoExist[0].id != treino.id:
+                    messages.add_message(request, constants.ERROR, 'Já existe um treino com esse nome.')
+                    return redirect(f'/treinos/editar_treino/{treino.id}')
+                else:
+                    treino.nome = nome
+
+                    treino.save()
+
+                    messages.add_message(request, constants.SUCCESS, 'Treino editado com sucesso.')
+
+                    return redirect('/treinos/gerenciar/')
+                
+            except Treino.DoesNotExist:
+                messages.add_message(request, constants.ERROR, 'O treino informada não existe.')
+                return redirect('/treinos/gerenciar')
+
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
