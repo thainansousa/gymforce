@@ -21,8 +21,7 @@ def gerenciar(request):
         treino = request.GET.get('nome')
 
         if treino:
-            treino = treino.lower()
-            treinos = Treino.objects.filter(nome=treino).order_by('-id')
+            treinos = Treino.objects.filter(nome__iexact=treino).order_by('-id')
         else:
             treinos = Treino.objects.all().order_by('-id')
 
@@ -36,10 +35,16 @@ def cadastrar_treino(request):
     if request.user.is_authenticated:
         
 
-        nome = request.POST.get('nome').lower()
+        nome = request.POST.get('nome')
 
         if len(nome.strip()) == 0:
             messages.add_message(request, constants.ERROR, 'Preencha o campo nome do treino')
+            return redirect('/treinos/novo')
+        
+        treinoExist = Treino.objects.filter(nome__iexact=nome)
+
+        if treinoExist:
+            messages.add_message(request, constants.ERROR, 'Esse treino ja foi cadastrado.')
             return redirect('/treinos/novo')
         
         treino = Treino(
