@@ -106,7 +106,7 @@ def alterar_status_aluno(request, id):
 
             aluno.status = not aluno.status
 
-            aluno.save()
+            aluno.delete()
 
             if aluno.status:
                 messages.add_message(request, constants.SUCCESS, f'O aluno(a) {aluno.nome} foi ativado com sucesso!')
