@@ -43,11 +43,11 @@
                     <div class="row mb-4">
                         <div class="col">
                             <label for="nome" class="mb-1">Nome</label>
-                            <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo" value="{% if edit %}{{aluno.nome}}{% endif %}"/>
+                            <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo" value="{% if edit %}{{aluno.nome}}{% endif %}" required/>
                         </div>
                         <div class="col">
                             <label for="rg" class="mb-1">RG</label>
-                            <input type="text" id="rg" name="rg" class="form-control" placeholder="Somente numeros" aria-label="RG" value="{% if edit %}{{aluno.rg}}{% endif %}"/>
+                            <input type="text" id="rg" name="rg" class="form-control" placeholder="Somente numeros" aria-label="RG" value="{% if edit %}{{aluno.rg}}{% endif %}" required/>
                         </div>
                     </div>
 
@@ -55,12 +55,12 @@
                     {% if not edit %}
                         <div class="col">
                             <label for="dt_nasc" class="mb-1">Data de nascimento</label>
-                            <input type="date" id="dt_nasc" name="dt_nasc" class="form-control" placeholder="Data de nascimento" aria-label="Data de nascimento" value="{% if edit %}{{aluno.data_nascimento}}{% endif %}"/>
+                            <input type="date" id="dt_nasc" name="dt_nasc" class="form-control" placeholder="Data de nascimento" aria-label="Data de nascimento" value="{% if edit %}{{aluno.data_nascimento}}{% endif %}" required/>
                         </div>
                     {% endif %}
                         <div class="col">
                             <label for="cpf" class="mb-1">CPF</label>
-                            <input type="text" id="cpf" name="cpf" class="form-control" placeholder="Somente numeros" aria-label="CPF" value="{% if edit %}{{aluno.cpf}}{% endif %}"/>
+                            <input type="text" id="cpf" name="cpf" class="form-control" placeholder="Somente numeros" aria-label="CPF" value="{% if edit %}{{aluno.cpf}}{% endif %}" required/>
                         </div>
                     </div>
 
@@ -75,11 +75,11 @@
                     <div class="row mb-4">
                         <div class="col">
                             <label for="telefone" class="mb-1">Telefone</label>
-                            <input type="number" name="telefone" class="form-control" placeholder="Somente numeros" aria-label="Telefone" value="{% if edit %}{{aluno.telefone}}{% endif %}"/>
+                            <input type="number" name="telefone" class="form-control" placeholder="Somente numeros" aria-label="Telefone" value="{% if edit %}{{aluno.telefone}}{% endif %}" required/>
                         </div>
                         <div class="col">
                             <label for="email" class="mb-1">E-mail</label>
-                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email" value="{% if edit %}{{aluno.email}}{% endif %}"/>
+                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email" value="{% if edit %}{{aluno.email}}{% endif %}" required/>
                         </div>
                     </div>
 
@@ -94,7 +94,7 @@
                     <div class="row mb-4">
                         <div class="col">
                             <label for="mensalidade" class="mb-1">Mensalidade</label>
-                            <select class="form-select" id="mensalidade" name="mensalidade">
+                            <select class="form-select" id="mensalidade" name="mensalidade" required>
                                 {% if not edit %}
                                     <option value="" selected>Selecione o plano de mensalidade</option>
                                 {% endif %}
