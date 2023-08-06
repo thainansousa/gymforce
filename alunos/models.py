@@ -15,7 +15,7 @@ class Aluno(models.Model):
     data_nascimento = models.DateField()
     telefone = models.CharField(max_length=25)
     email = models.CharField(max_length=255)
-    mensalidade = models.ForeignKey(Mensalidade, on_delete=models.CASCADE)
+    mensalidade = models.ForeignKey(Mensalidade, on_delete=models.DO_NOTHING)
     status = models.BooleanField(default=True, choices=choices_status)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

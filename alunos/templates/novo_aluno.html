@@ -7,7 +7,7 @@
 {% block 'head' %}{% endblock %}
 
 {% block 'body' %}
-        <h1 class="fs-3">Novo aluno</h1>
+        <h1 class="fs-3">{% if not edit %}Novo aluno{% else %}Editar aluno{% endif %}</h1>
 
          {% if messages %}
             {% for message in messages %}       
@@ -31,7 +31,7 @@
 
          <div class="card shadow rounded">
             <div class="card-body">
-                <form action="{% url 'cadastrarAluno' %}" method="POST"> {% csrf_token %}
+                <form action="{% if not edit %}{% url 'cadastrarAluno' %}{% else %}{% url 'editarAluno' aluno.id %}{% endif %}" method="POST"> {% csrf_token %}
 
                     <div class="row mb-2 mt-2">
                         <div class="col">
@@ -42,19 +42,25 @@
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="text" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo">
+                            <label for="nome" class="mb-1">Nome</label>
+                            <input type="text" id="nome" name="nome" class="form-control" placeholder="Nome Completo" aria-label="Nome Completo" value="{% if edit %}{{aluno.nome}}{% endif %}"/>
                         </div>
                         <div class="col">
-                            <input type="text" name="rg" class="form-control" placeholder="RG" aria-label="RG">
+                            <label for="rg" class="mb-1">RG</label>
+                            <input type="text" id="rg" name="rg" class="form-control" placeholder="Somente numeros" aria-label="RG" value="{% if edit %}{{aluno.rg}}{% endif %}"/>
                         </div>
                     </div>
 
                     <div class="row mb-4">
+                    {% if not edit %}
                         <div class="col">
-                            <input type="date" name="dt_nasc" class="form-control" placeholder="Data de nascimento" aria-label="Data de nascimento">
+                            <label for="dt_nasc" class="mb-1">Data de nascimento</label>
+                            <input type="date" id="dt_nasc" name="dt_nasc" class="form-control" placeholder="Data de nascimento" aria-label="Data de nascimento" value="{% if edit %}{{aluno.data_nascimento}}{% endif %}"/>
                         </div>
+                    {% endif %}
                         <div class="col">
-                            <input type="text" name="cpf" class="form-control" placeholder="CPF" aria-label="CPF">
+                            <label for="cpf" class="mb-1">CPF</label>
+                            <input type="text" id="cpf" name="cpf" class="form-control" placeholder="Somente numeros" aria-label="CPF" value="{% if edit %}{{aluno.cpf}}{% endif %}"/>
                         </div>
                     </div>
 
@@ -68,10 +74,12 @@
 
                     <div class="row mb-4">
                         <div class="col">
-                            <input type="number" name="telefone" class="form-control" placeholder="Telefone" aria-label="Telefone">
+                            <label for="telefone" class="mb-1">Telefone</label>
+                            <input type="number" name="telefone" class="form-control" placeholder="Somente numeros" aria-label="Telefone" value="{% if edit %}{{aluno.telefone}}{% endif %}"/>
                         </div>
                         <div class="col">
-                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email">
+                            <label for="email" class="mb-1">E-mail</label>
+                            <input type="email" name="email" class="form-control" placeholder="Email" aria-label="Email" value="{% if edit %}{{aluno.email}}{% endif %}"/>
                         </div>
                     </div>
 
@@ -85,20 +93,21 @@
 
                     <div class="row mb-4">
                         <div class="col">
-                            <select class="form-select" name="mensalidade">
-                                <option value="" selected>Selecione o plano de mensalidade</option>
+                            <label for="mensalidade" class="mb-1">Mensalidade</label>
+                            <select class="form-select" id="mensalidade" name="mensalidade">
+                                {% if not edit %}
+                                    <option value="" selected>Selecione o plano de mensalidade</option>
+                                {% endif %}
                             {% for mensalidade in mensalidades %}
-                                <option value="{{mensalidade.id}}">{{mensalidade.nome}}</option>
+                                <option value="{{mensalidade.id}}" {% if edit and aluno.mensalidade.id == mensalidade.id %} selected {% endif %}>{{mensalidade.nome}}</option>
                             {% endfor %}
                             </select>
                         </div>
                     </div>
 
-                    <hr>
-
                     <div class="row mt-4">
                         <div class="col-3 d-grid">
-                            <button type="submit" class="btn btn-outline-primary">Cadastrar Aluno</button>
+                            <button type="submit" class="btn btn-outline-primary">{% if not edit %}Cadastrar Aluno{% else %}Salvar{% endif %}</button>
                         </div>
                     </div>
 

@@ -22,12 +22,16 @@ from django.http import FileResponse
 
 from templates.services.calcularDiaDaSemana import calcularDiaDaSemana
 
+from brutils import remove_symbols_cpf, is_valid_cpf, format_cpf
+
+import re
+
 def novo(request):
 
     if request.user.is_authenticated:
         mensalidades = Mensalidade.objects.all()
 
-        return render(request, 'novo_aluno.html', {'mensalidades': mensalidades})
+        return render(request, 'novo_aluno.html', {'mensalidades': mensalidades, 'edit': False})
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
@@ -38,8 +42,7 @@ def gerenciar(request):
         aluno = request.GET.get('name')
 
         if aluno:
-            aluno = aluno.lower()
-            alunos = Aluno.objects.filter(nome=aluno).order_by('-id')
+            alunos = Aluno.objects.filter(nome__iexact=aluno).order_by('-id')
         else:
             alunos = Aluno.objects.all().order_by('-id')
 
@@ -55,12 +58,12 @@ def cadastrar_aluno(request):
     if request.user.is_authenticated:
 
         dados = {
-        'nome': request.POST.get('nome').lower(),
+        'nome': request.POST.get('nome'),
         'rg': request.POST.get('rg'),
         'dt_nasc': request.POST.get('dt_nasc'),
         'cpf': request.POST.get('cpf'),
         'telefone': request.POST.get('telefone'),
-        'email': request.POST.get('email').lower(),
+        'email': request.POST.get('email'),
         'mensalidade': request.POST.get('mensalidade')
     }
 
@@ -71,28 +74,49 @@ def cadastrar_aluno(request):
                 return redirect('/alunos/novo')
             
 
-        emailExist = Aluno.objects.filter(email=dados['email'])
+        cpfWithOutSymbols = remove_symbols_cpf(dados['cpf'])
 
-        if len(emailExist) == 1:
+        cpfIsValid = is_valid_cpf(cpfWithOutSymbols)
+
+        cpfFormated = format_cpf(cpfWithOutSymbols)
+
+        emailExist = Aluno.objects.filter(email__iexact=dados['email'])
+        cpfExist = Aluno.objects.filter(cpf__iexact=cpfFormated)
+
+        rgPattern = re.compile("[0-9]+")
+
+        rgIsValid = re.fullmatch(rgPattern, dados['rg'])
+
+
+        if not cpfIsValid:
+            messages.add_message(request, constants.ERROR, 'O CPF informado não é valido.')
+            return redirect('/alunos/novo/')
+        elif emailExist:
             messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
+            return redirect('/alunos/novo/')
+        elif cpfExist:
+            messages.add_message(request, constants.ERROR, 'O CPF informado já foi cadastrado.')
+            return redirect('/alunos/novo/')
+        elif rgIsValid == None:
+            messages.add_message(request, constants.ERROR, 'Informe apenas os números do RG.')
+            return redirect('/alunos/novo/')
+        else:
+
+            alunos = Aluno(
+                nome = dados['nome'],
+                rg = dados['rg'],
+                cpf = dados['cpf'],
+                data_nascimento = dados['dt_nasc'],
+                telefone = dados['telefone'],
+                email = dados['email'],
+                mensalidade_id = dados['mensalidade']
+            )
+
+            alunos.save()
+
+            messages.add_message(request, constants.SUCCESS, f'Aluno(a) {dados["nome"]} cadastrado com sucesso!')
+
             return redirect('/alunos/novo')
-            
-
-        alunos = Aluno(
-            nome = dados['nome'],
-            rg = dados['rg'],
-            cpf = dados['cpf'],
-            data_nascimento = dados['dt_nasc'],
-            telefone = dados['telefone'],
-            email = dados['email'],
-            mensalidade_id = dados['mensalidade']
-        )
-
-        alunos.save()
-
-        messages.add_message(request, constants.SUCCESS, f'Aluno(a) {dados["nome"]} cadastrado com sucesso!')
-
-        return redirect('/alunos/novo')
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
@@ -106,7 +130,7 @@ def alterar_status_aluno(request, id):
 
             aluno.status = not aluno.status
 
-            aluno.delete()
+            aluno.save()
 
             if aluno.status:
                 messages.add_message(request, constants.SUCCESS, f'O aluno(a) {aluno.nome} foi ativado com sucesso!')
@@ -229,6 +253,80 @@ def imprimir_treino_aluno(request, id):
             messages.add_message(request, constants.ERROR, 'O aluno não tem treinos cadastrados para hoje!')
             return redirect(f'/alunos/gerenciar/treinos/{id}')
 
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')
+    
+def editar_aluno(request, id):
+
+    if request.user.is_authenticated:
+        if (request.method) == 'GET':
+            try:
+                aluno = Aluno.objects.get(id=id)
+                mensalidades = Mensalidade.objects.all()
+                return render(request, 'novo_aluno.html', {'edit': True, 'aluno': aluno, 'mensalidades': mensalidades})
+            except Aluno.DoesNotExist:
+                messages.add_message(request, constants.ERROR, 'O aluno informado não existe.')
+                return redirect('/alunos/gerenciar')
+        else:
+            try:
+                aluno = Aluno.objects.get(id=id)
+
+                dados = {
+                    'nome': request.POST.get('nome'),
+                    'rg': request.POST.get('rg'),
+                    'cpf': request.POST.get('cpf'),
+                    'telefone': request.POST.get('telefone'),
+                    'email': request.POST.get('email'),
+                    'mensalidade': request.POST.get('mensalidade')
+                }
+
+                for dado in dados:
+                    if len(dados[dado].strip()) == 0:
+                        messages.add_message(request, constants.ERROR, 'Preencha todos os campos!')
+                        return redirect(f'/alunos/editar_aluno/{aluno.id}')
+                
+                cpfWithOutSymbols = remove_symbols_cpf(dados['cpf'])
+
+                cpfIsValid = is_valid_cpf(cpfWithOutSymbols)
+
+                cpfFormated = format_cpf(cpfWithOutSymbols)
+
+                emailExist = Aluno.objects.filter(email__iexact=dados['email'])
+                cpfExist = Aluno.objects.filter(cpf=cpfFormated)
+
+                rgPattern = re.compile("[0-9]+")
+
+                rgIsValid = re.fullmatch(rgPattern, dados['rg'])
+
+                if not cpfIsValid:
+                    messages.add_message(request, constants.ERROR, 'O CPF informado não é valido.')
+                    return redirect(f'/alunos/editar_aluno/{aluno.id}')
+                elif emailExist and emailExist[0].id != aluno.id:
+                    messages.add_message(request, constants.ERROR, 'O email informado já foi cadastrado.')
+                    return redirect(f'/alunos/editar_aluno/{aluno.id}')
+                elif cpfExist and cpfExist[0].id != aluno.id:
+                    messages.add_message(request, constants.ERROR, 'O CPF informado já foi cadastrado.')
+                    return redirect(f'/alunos/editar_aluno/{aluno.id}')
+                elif rgIsValid == None:
+                    messages.add_message(request, constants.ERROR, 'Informe apenas os números do RG.')
+                    return redirect(f'/alunos/editar_aluno/{aluno.id}')
+                else:
+                    aluno.nome = dados['nome']
+                    aluno.rg = dados['rg']
+                    aluno.cpf = cpfFormated
+                    aluno.telefone = dados['telefone']
+                    aluno.email = dados['email']
+                    aluno.mensalidade_id = dados['mensalidade']
+
+                    aluno.save()
+
+                    messages.add_message(request, constants.SUCCESS, f'O aluno {aluno.nome} foi editado com sucesso.')
+                    return redirect('/alunos/gerenciar/')
+                
+            except Aluno.DoesNotExist:
+                messages.add_message(request, constants.ERROR, 'O aluno informado não existe.')
+                return redirect('/alunos/gerenciar')
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
