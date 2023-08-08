@@ -236,3 +236,17 @@ def editar_usuario(request, id):
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
+    
+def detalhes_usuario(request, id):
+
+    if request.user.is_authenticated:
+        try:
+            user = User.objects.get(id=id)
+
+            return render(request, 'detalhes_usuario.html', {'usuario': user})
+        except User.DoesNotExist:
+            messages.add_message(request, constants.ERROR, 'O usuario informado não existe.')
+            return redirect('/usuario/gerenciar')
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')

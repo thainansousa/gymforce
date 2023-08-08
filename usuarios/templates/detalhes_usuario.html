@@ -1,0 +1,55 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+{% block 'title' %}GymForce - Detalhes do usuário{% endblock %}
+
+{% block 'head' %}{% endblock %}
+
+{% block 'body' %}
+    <h1 class="fs-3">Detalhes do usuario {{usuario.username}}</h1>
+
+    <ul class="list-group list-group-horizontal mb-3 mt-3">
+        <div>
+            <li class="list-group-item list-group-item-primary">ID</li>
+            <li class="list-group-item">{{usuario.id}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">Nome</li>
+            <li class="list-group-item">{{usuario.username}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">E-mail</li>
+            <li class="list-group-item">{{usuario.email}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">CPF</li>
+            <li class="list-group-item">{{usuario.cpf}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">Telefone</li>
+            <li class="list-group-item">{{usuario.telefone}}</li>
+        </div>
+        
+        <div>
+            <li class="list-group-item list-group-item-primary">Data cadastro</li>
+            <li class="list-group-item">{{usuario.date_joined}}</li>
+        </div>
+    </ul>
+
+    <ul class="list-group list-group-horizontal">
+        <div>
+            <li class="list-group-item list-group-item-primary">Nivel de acesso</li>
+            <li class="list-group-item">{{usuario.get_is_staff_display}}</li>
+        </div>
+
+         <div>
+            <li class="list-group-item list-group-item-primary">Status</li>
+            <li class="list-group-item">{{usuario.get_is_active_display}}</li>
+        </div>
+    </ul>
+{% endblock %}
