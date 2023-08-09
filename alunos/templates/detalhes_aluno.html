@@ -1,0 +1,71 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+{% block 'title' %}GymForce - Detalhes do aluno{% endblock %}
+
+{% block 'head' %}{% endblock %}
+
+{% block 'body' %}
+    <h1 class="fs-3">Detalhes do aluno {{aluno.nome}}</h1>
+
+    <ul class="list-group list-group-horizontal mb-3 mt-3">
+        <div>
+            <li class="list-group-item list-group-item-primary">ID</li>
+            <li class="list-group-item">{{aluno.id}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">Nome</li>
+            <li class="list-group-item">{{aluno.nome}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">E-mail</li>
+            <li class="list-group-item">{{aluno.email}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">CPF</li>
+            <li class="list-group-item">{{aluno.cpf}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">RG</li>
+            <li class="list-group-item">{{aluno.rg}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">Telefone</li>
+            <li class="list-group-item">{{aluno.telefone}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">Data de nascimento</li>
+            <li class="list-group-item">{{aluno.data_nascimento}}</li>
+        </div>
+        
+    </ul>
+
+    <ul class="list-group list-group-horizontal">
+        <div>
+            <li class="list-group-item list-group-item-primary">Mensalidade</li>
+            <li class="list-group-item">{{aluno.mensalidade}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">Valor da mensalidade</li>
+            <li class="list-group-item">{{aluno.mensalidade.valor}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">Data cadastro</li>
+            <li class="list-group-item">{{aluno.created_at}}</li>
+        </div>
+
+         <div>
+            <li class="list-group-item list-group-item-primary">Status</li>
+            <li class="list-group-item">{{aluno.get_status_display}}</li>
+        </div>
+    </ul>
+{% endblock %}

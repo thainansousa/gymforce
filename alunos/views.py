@@ -330,3 +330,20 @@ def editar_aluno(request, id):
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
+    
+def detalhes_aluno(request, id):
+
+    if request.user.is_authenticated:
+        try:
+            aluno = Aluno.objects.get(id=id)
+
+            return render(request, 'detalhes_aluno.html', {'aluno': aluno})
+        
+        except Aluno.DoesNotExist:
+
+            messages.add_message(request, constants.ERROR, 'O aluno informado não existe.')
+            return redirect('/alunos/gerenciar')
+    else:
+        
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')
