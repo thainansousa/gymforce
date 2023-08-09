@@ -202,3 +202,16 @@ def editar_professor(request, id):
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
+    
+def detalhes_professor(request, id):
+    if request.user.is_authenticated:
+        try:
+            professor = Professor.objects.get(id=id)
+
+            return render(request, 'detalhes_professor.html', {'professor': professor})
+        except Professor.DoesNotExist:
+            messages.add_message(request, constants.ERROR, 'O professor informado não existe.')
+            return redirect('/professores/gerenciar')
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')
