@@ -171,7 +171,6 @@
                             <td>{{dado.get_status_display}}</td>
                              <div>
                                 <td class="icon-container"><a href="{% url 'editarTreino' dado.id %}" class="bg-warning text-white link-underline link-underline-opacity-0"><i class="fa fa-pencil fa-lg" aria-hidden="true" title="Editar"></i></a></td>
-                                <td class="icon-container"><a href="#" class="bg-primary text-white link-underline link-underline-opacity-0"><i class="fa fa-info-circle fa-lg" aria-hidden="true" title="Mais informações"></i></a></td>
                                 <td class="icon-container">
                                 {% if dado.status %}
                                     <a href="/treinos/alterar_status_treino/{{dado.id}}" 

@@ -32,7 +32,7 @@
        {% include 'components/filtro/filtro.html' with name="nome" placeholder="Nome do treino" titulo="Gerenciar Treinos" %}
        
        {% with '# Nome Status' as list %}
-            {% include 'components/tables/table.html' with theadFields=list.split colspan="3" dados=treinos model="treinos" %}
+            {% include 'components/tables/table.html' with theadFields=list.split colspan="2" dados=treinos model="treinos" %}
        {% endwith %}
        
     <script src="{% static '/global/js/global.js' %}"></script>
