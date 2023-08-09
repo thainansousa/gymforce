@@ -1,0 +1,40 @@
+{% extends 'bases/base.html' %}
+
+{% load static %}
+
+{% block 'title' %}GymForce - Detalhes Empresa{% endblock %}
+
+{% block 'head' %}{% endblock %}
+
+{% block 'body' %}
+    <h1 class="fs-3">Detalhes da empresa {{empresa.fantasia}}</h1>
+
+
+    <ul class="list-group list-group-horizontal mt-3">
+        <div>
+            <li class="list-group-item list-group-item-primary">ID</li>
+            <li class="list-group-item">{{empresa.id}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">Razão Social</li>
+            <li class="list-group-item">{{empresa.razaoSocial}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">Nome Fantasia</li>
+            <li class="list-group-item">{{empresa.fantasia}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">CNPJ</li>
+            <li class="list-group-item">{{empresa.cnpj}}</li>
+        </div>
+
+        <div>
+            <li class="list-group-item list-group-item-primary">Cadastrada em:</li>
+            <li class="list-group-item">{{empresa.created_at}}</li>
+        </div>
+
+    </ul>
+{% endblock %}

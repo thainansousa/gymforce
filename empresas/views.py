@@ -156,3 +156,21 @@ def editar_empresa(request, id):
             except Empresa.DoesNotExist:
                 messages.add_message(request, constants.ERROR, 'A empresa informada não existe.')
                 return redirect('/empresas/gerenciar')
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')  
+    
+def detalhes_empresa(request, id):
+
+    if request.user.is_authenticated:
+        try:
+            empresa = Empresa.objects.get(id=id)
+
+            return render(request, 'detalhes_empresa.html', {'empresa': empresa})
+        
+        except Empresa.DoesNotExist:
+            messages.add_message(request, constants.ERROR, 'A empresa informada não existe.')
+            return redirect('/empresas/gerenciar')
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')  
