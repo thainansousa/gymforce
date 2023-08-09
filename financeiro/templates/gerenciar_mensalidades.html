@@ -33,7 +33,7 @@
         {% include 'components/filtro/filtro.html' with name="plano" placeholder="Nome do plano" titulo="Gerenciar Mensalidades" %}
         
         {% with '# Plano Valor Status' as list %}
-            {% include 'components/tables/table.html' with theadFields=list.split colspan="3" dados=mensalidades model="financeiro" %}
+            {% include 'components/tables/table.html' with theadFields=list.split colspan="2" dados=mensalidades model="financeiro" %}
         {% endwith %}
     <script src="{% static '/global/js/global.js' %}"></script>
 {% endblock %}
