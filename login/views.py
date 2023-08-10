@@ -33,3 +33,7 @@ def logout(request):
     logout_user(request)
 
     return redirect('/')
+
+def recuperar_senha(request):
+
+    return render(request, 'recuperar_senha.html')
