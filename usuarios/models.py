@@ -1,28 +1,30 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-class Usuario(models.Model):
-
-    choices_nivel_adm = (
-        ('1', 'Normal'),
-        ('2', 'Administrador'),
-    )
+class CustomUser(AbstractUser):
 
     choices_status = (
         (True, 'Ativo'),
         (False, 'Inativo')
     )
+    choices_nivel_adm = (
+        (True, 'Administrador'),
+        (False, 'Usuario')
+    )
 
-    nome = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    password = models.CharField(max_length=255)
-    telefone = models.CharField(max_length=25)
-    cpf = models.CharField(max_length=25)
-    nivel_administrativo = models.CharField(max_length=1, choices=choices_nivel_adm)
-    status = models.BooleanField(choices=choices_status)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    is_staff = models.BooleanField(
+        ("staff status"),
+        default=False,
+        choices=choices_nivel_adm
+    )
+    is_active = models.BooleanField(
+        ("active"),
+        default=True,
+        choices=choices_status
+    )
 
+    cpf = models.CharField(max_length=30, null=False, blank=False, default="")
+    telefone = models.CharField(max_length=30, null=False, blank=False, default="")
 
-    def __self__(self):
-        return self.email
-
+    def __str__(self):
+        return self.username

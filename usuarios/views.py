@@ -3,7 +3,9 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.messages import constants
 
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
+
+from usuarios.models import CustomUser
 
 from brutils import is_valid_cpf, format_cpf, remove_symbols_cpf
 
@@ -22,9 +24,9 @@ def gerenciar(request):
         nome = request.GET.get('nome')
         
         if nome:
-            usuarios = User.objects.filter(username__icontains=nome).order_by('-id')
+            usuarios = CustomUser.objects.filter(username__icontains=nome).order_by('-id')
         else:
-            usuarios = User.objects.all().order_by('-id')
+            usuarios = CustomUser.objects.all().order_by('-id')
 
         return render(request, 'gerenciar_usuarios.html', 
         {'usuarios': usuarios})
@@ -48,13 +50,13 @@ def cadastrar_usuario(request):
             'status': request.POST.get('status'),
         }
 
-        emailExist = User.objects.filter(email__iexact=dados['email'])
-        usernameExist = User.objects.filter(username__iexact=dados['nome'])
+        emailExist = CustomUser.objects.filter(email__iexact=dados['email'])
+        usernameExist = CustomUser.objects.filter(username__iexact=dados['nome'])
 
         cpfWithOutSimbols = remove_symbols_cpf(dados['cpf'])
         cpfFormated = format_cpf(cpfWithOutSimbols)
 
-        cpfExist = User.objects.filter(cpf=cpfFormated)
+        cpfExist = CustomUser.objects.filter(cpf=cpfFormated)
 
         if not is_valid_cpf(cpfWithOutSimbols):
 
@@ -98,7 +100,7 @@ def cadastrar_usuario(request):
             else:
                 dados['nivel'] = False
             
-            user = User.objects.create_user(
+            user = CustomUser.objects.create_user(
                 dados['nome'], 
                 dados['email'], 
                 dados['password'],
@@ -122,7 +124,7 @@ def alterar_status_usuario(request, id):
 
         try:
 
-            usuario = User.objects.get(id=id)
+            usuario = CustomUser.objects.get(id=id)
 
             usuario.is_active = not usuario.is_active
 
@@ -133,7 +135,7 @@ def alterar_status_usuario(request, id):
             else:
                 messages.add_message(request, constants.SUCCESS, f"O usuario(a) {usuario.username} foi inativado com sucesso!")
 
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
 
             messages.add_message(request, constants.ERROR, "O usuario(a) informada não existe!")
 
@@ -151,10 +153,10 @@ def editar_usuario(request, id):
 
             try:
 
-                usuario = User.objects.get(id=id)
+                usuario = CustomUser.objects.get(id=id)
 
                 return render(request, 'novo_usuario.html', {'id': id, 'edit': True, 'usuario': usuario})
-            except User.DoesNotExist:
+            except CustomUser.DoesNotExist:
                 messages.add_message(request, constants.ERROR, 'O usuario informado não existe.')
                 return redirect('/usuario/gerenciar')
             
@@ -177,16 +179,16 @@ def editar_usuario(request, id):
 
             try:
 
-                usuario = User.objects.get(id=id)
+                usuario = CustomUser.objects.get(id=id)
 
-                emailExist = User.objects.filter(email__iexact=dados['email'])
-                usernameExist = User.objects.filter(username__iexact=dados['nome'])
+                emailExist = CustomUser.objects.filter(email__iexact=dados['email'])
+                usernameExist = CustomUser.objects.filter(username__iexact=dados['nome'])
 
                 cpfWithOutSimbols = remove_symbols_cpf(dados['cpf'])
 
                 cpfFormated = format_cpf(cpfWithOutSimbols)
 
-                cpfExist = User.objects.filter(cpf=cpfFormated)
+                cpfExist = CustomUser.objects.filter(cpf=cpfFormated)
 
                 if not is_valid_cpf(cpfWithOutSimbols):
                     
@@ -229,7 +231,7 @@ def editar_usuario(request, id):
 
                     return redirect('/usuario/gerenciar')
                         
-            except User.DoesNotExist:
+            except CustomUser.DoesNotExist:
                 messages.add_message(request, constants.ERROR, 'O usuario informado não existe.')
                 return redirect('/usuario/gerenciar')
             
@@ -241,10 +243,10 @@ def detalhes_usuario(request, id):
 
     if request.user.is_authenticated:
         try:
-            user = User.objects.get(id=id)
+            user = CustomUser.objects.get(id=id)
 
             return render(request, 'detalhes_usuario.html', {'usuario': user})
-        except User.DoesNotExist:
+        except CustomUser.DoesNotExist:
             messages.add_message(request, constants.ERROR, 'O usuario informado não existe.')
             return redirect('/usuario/gerenciar')
     else:
