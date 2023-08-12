@@ -11,6 +11,10 @@ from usuarios.models import CustomUser
 
 from .models import RecuperarSenha
 
+from django.contrib.auth.models import User
+
+import uuid
+
 def login(request):
     return render(request, 'login.html')
 
@@ -44,21 +48,63 @@ def recuperar_senha(request):
     elif (request.method) == 'POST':
 
         email = request.POST.get('email')
-
+    
         try:
 
             user = CustomUser.objects.get(email__iexact=email)
 
             reset = RecuperarSenha(
-                user_id = user.id
+                user_id = user.id,
             )
 
             reset.save()
 
-            messages.add_message(request, constants.ERROR, 'Token para recuperação de senha gerado com sucesso.')
+            print(str(reset.token))
 
-            return redirect('/')
+            messages.add_message(request, constants.SUCCESS, 'Informe o token enviado em seu email e sua nova senha.')
+            return redirect('/recuperar_senha/token')
 
         except CustomUser.DoesNotExist:
             messages.add_message(request, constants.ERROR, 'O email informado não existe.')
             return redirect('/')
+        
+def token_auth(request):
+    if (request.method) == 'GET':
+        return render(request, 'alterar_senha.html')
+    elif (request.method) == 'POST':
+        
+        user_token = request.POST.get('token')
+        newPassword = request.POST.get('password')
+
+        if len(user_token.strip()) == 0 or len(newPassword.strip()) == 0:
+            messages.add_message(request, constants.ERROR, 'Preencha todos os campos.')
+            return redirect('/recuperar_senha/token/')
+        
+        try:
+
+            tk = RecuperarSenha.objects.get(token=str(user_token))
+
+            if tk:
+                if not tk.status:
+
+                    user = CustomUser.objects.get(id=tk.user_id)
+
+                    user.set_password(newPassword)
+
+                    user.save()
+
+                    messages.add_message(request, constants.SUCCESS, 'Senha alterada com sucesso.')
+
+                    tk.status = not tk.status
+
+                    tk.save()
+
+                    return redirect('/')
+                else:
+                    messages.add_message(request, constants.ERROR, 'O token informado expirou.')
+                    return redirect('/')
+        except RecuperarSenha.DoesNotExist:
+            messages.add_message(request, constants.ERROR, 'O token não existe.')
+            return redirect('/')
+
+        

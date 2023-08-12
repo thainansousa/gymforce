@@ -1,0 +1,63 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>GymForce - Alterar Senha</title>
+        <link rel="stylesheet" href="{% static 'login/css/login.css' %}">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            rel="stylesheet"
+            integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+            crossorigin="anonymous"
+        >
+    </head>
+    <body>
+        <div class="container">
+            <div class="card">
+                <h3>GymForce - Alterar Senha</h3>
+
+               {% if messages %}
+                    {% for message in messages %}       
+                        {% if message.tags == 'alert-success' %}
+                                <div id="globalMessage" class="msgType msgTypeSuccess messageAnimation">
+                                    <div>
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        {{message}}
+                                    </div>
+                                    <div class="spinner-container"></div>
+                                </div>
+                            {% else %}
+                                <div id="globalMessage" class="msgType msgTypeDanger messageAnimation">
+                                    <div>
+                                        <i class="fa fa-ban" aria-hidden="true"></i>
+                                        {{message}}
+                                    </div>
+                                    <div class="spinner-container"></div>
+                                </div>
+                            {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+                <form action="{% url 'tokenAuth' %}" method="POST">{% csrf_token %}
+                    <div class="form-input">
+                        <label for="token">Informe o seu token</label>
+                        <input type="text" name="token" id="token" placeholder="Informe o token" required/>
+                    </div>
+
+                    <div class="form-input">
+                        <label for="password">Informe sua nova senha</label>
+                        <input type="password" name="password" id="password" placeholder="Informe sua nova senha" required/>
+                    </div>
+                    <button type="submit" class="btn-login">Alterar senha</button>
+                </form>
+                
+                <div class="recuperar-senha">
+                    <a href="{% url 'login' %}">Fazer login</a>
+                </div>
+            </div>
+        </div>
+    </body>
+<script src="{% static 'global/js/global.js' %}"></script>
+</html>
