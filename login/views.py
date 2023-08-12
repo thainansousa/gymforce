@@ -61,7 +61,7 @@ def recuperar_senha(request):
             
             print(tokenFormated)
 
-            messages.add_message(request, constants.SUCCESS, 'Informe o token enviado em seu email e sua nova senha.')
+            messages.add_message(request, constants.SUCCESS, 'Informe o token printado no console e sua nova senha.')
             return redirect('/recuperar_senha/token')
 
         except CustomUser.DoesNotExist:
