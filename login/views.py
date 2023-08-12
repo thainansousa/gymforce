@@ -11,9 +11,7 @@ from usuarios.models import CustomUser
 
 from .models import RecuperarSenha
 
-from django.contrib.auth.models import User
-
-import uuid
+from django.core.mail import send_mail
 
 def login(request):
     return render(request, 'login.html')
@@ -59,7 +57,9 @@ def recuperar_senha(request):
 
             reset.save()
 
-            print(str(reset.token))
+            tokenFormated = str(reset.token)
+            
+            print(tokenFormated)
 
             messages.add_message(request, constants.SUCCESS, 'Informe o token enviado em seu email e sua nova senha.')
             return redirect('/recuperar_senha/token')
