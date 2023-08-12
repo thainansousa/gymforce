@@ -18,7 +18,7 @@
             <div class="card">
                 <h3>GymForce - Recuperar senha</h3>
 
-                <form action="{% url 'auth' %}" method="POST">{% csrf_token %}
+                <form action="{% url 'recuperarSenha' %}" method="POST">{% csrf_token %}
                     <div class="form-input">
                         <label for="email">Informe o seu email cadastrado</label>
                         <input type="text" name="email" id="email" placeholder="Informe seu email" required/>

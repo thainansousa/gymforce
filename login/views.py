@@ -7,6 +7,10 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login as login_user
 from django.contrib.auth import logout as logout_user
 
+from usuarios.models import CustomUser
+
+from .models import RecuperarSenha
+
 def login(request):
     return render(request, 'login.html')
 
@@ -35,5 +39,26 @@ def logout(request):
     return redirect('/')
 
 def recuperar_senha(request):
+    if (request.method) == 'GET':
+        return render(request, 'recuperar_senha.html')
+    elif (request.method) == 'POST':
 
-    return render(request, 'recuperar_senha.html')
+        email = request.POST.get('email')
+
+        try:
+
+            user = CustomUser.objects.get(email__iexact=email)
+
+            reset = RecuperarSenha(
+                user_id = user.id
+            )
+
+            reset.save()
+
+            messages.add_message(request, constants.ERROR, 'Token para recuperação de senha gerado com sucesso.')
+
+            return redirect('/')
+
+        except CustomUser.DoesNotExist:
+            messages.add_message(request, constants.ERROR, 'O email informado não existe.')
+            return redirect('/')
