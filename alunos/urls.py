@@ -10,5 +10,6 @@ urlpatterns = [
     path('excluir_treino_aluno/<int:id>', views.excluir_treino_aluno, name="excluirTreinoAluno"),
     path('imprimir_treino_aluno/<int:id>', views.imprimir_treino_aluno, name="imprimirTreinoAluno"),
     path('editar_aluno/<int:id>', views.editar_aluno, name="editarAluno"),
-    path('detalhes_aluno/<int:id>', views.detalhes_aluno, name="detalhesAluno")
+    path('detalhes_aluno/<int:id>', views.detalhes_aluno, name="detalhesAluno"),
+    path('gerar_relatorio_aluno/', views.gerar_relatorio_aluno, name='gerarRelatorioAluno')
 ]

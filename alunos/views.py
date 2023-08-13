@@ -347,3 +347,23 @@ def detalhes_aluno(request, id):
         
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')
+    
+def gerar_relatorio_aluno(request):
+    if request.user.is_authenticated:
+
+        alunos = Aluno.objects.all()
+        qtdAlunos = len(alunos)
+
+        path_template = os.path.join(settings.BASE_DIR, 'templates/partials/relatorio_alunos.html')
+        path_output = BytesIO()
+
+        template_render = render_to_string(path_template, {'alunos': alunos, 'qtdAlunos': qtdAlunos})
+
+        HTML(string=template_render).write_pdf(path_output)
+
+        path_output.seek(0)
+
+        return FileResponse(path_output, filename='Relatório de alunos.pdf')
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')

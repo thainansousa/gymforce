@@ -1,0 +1,20 @@
+
+<head>
+    <title>Relatório de alunos</title>
+</head>
+<div class="card">
+
+    <table style="border: 1px solid;">
+        <tr>
+            <th style="border: 1px solid; padding: 10px;">Aluno</th>
+            <th style="border: 1px solid; padding: 10px;">Valor mensalidade</th>
+        </tr>
+        {% for aluno in alunos %}
+            <tr class="linha">
+                <td width="10%" style="border: 1px solid; padding: 10px;">{{aluno.nome}}</td>
+                <td style="border: 1px solid; padding: 10px;">{{aluno.mensalidade.valor}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+        <p>Total de alunos: {{qtdAlunos}}</p>
+</div>
