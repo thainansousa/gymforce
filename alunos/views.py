@@ -105,7 +105,7 @@ def cadastrar_aluno(request):
             alunos = Aluno(
                 nome = dados['nome'],
                 rg = dados['rg'],
-                cpf = dados['cpf'],
+                cpf = cpfFormated,
                 data_nascimento = dados['dt_nasc'],
                 telefone = dados['telefone'],
                 email = dados['email'],
