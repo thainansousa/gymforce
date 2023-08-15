@@ -7,6 +7,17 @@ from .models import Professor
 
 from brutils import remove_symbols_cpf, is_valid_cpf, format_cpf
 
+import os
+
+from django.conf import settings
+from io import BytesIO
+
+from django.template.loader import render_to_string
+
+from weasyprint import HTML
+
+from django.http import FileResponse
+
 def novo(request):
     if request.user.is_authenticated:
     
@@ -212,6 +223,31 @@ def detalhes_professor(request, id):
         except Professor.DoesNotExist:
             messages.add_message(request, constants.ERROR, 'O professor informado não existe.')
             return redirect('/professores/gerenciar')
+    else:
+        messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
+        return redirect('/')
+
+
+def gerar_relatorio_professores(request):
+
+    if request.user.is_authenticated:
+        try:
+            professores = Professor.objects.all()
+            qtdProfessores = len(professores)
+
+            path_template = os.path.join(settings.BASE_DIR, 'templates/partials/relatorio_professores.html')
+            path_output = BytesIO()
+
+
+            template_render = render_to_string(path_template, {'professores': professores, 'qtdProfessores': qtdProfessores})
+            HTML(string=template_render).write_pdf(path_output)
+
+            path_output.seek(0)
+
+            return FileResponse(path_output, filename='Relatorio de professores.pdf')
+        except:
+            messages.add_message(request,constants.ERROR, 'Houve um erro ao gerar o relatorio')
+            return redirect('/')
     else:
         messages.add_message(request, constants.ERROR, 'Você precisa estar autenticado para acessar esta página.')
         return redirect('/')

@@ -1,14 +1,15 @@
-# App GymForce
+# WebApp GymForce
 
 ## 💻 Sobre o projeto
-- <p>Projeto em desenvolvimento...</p>
+- <p>Versão 1.0.0</p>
 - <p>Academia Digital 🚀</p>
-- <p>A finalidade deste projeto é desenvolver e aprimorar os conhecimentos na linguagem <strong>python e framework django.</strong></p>
+- <p>A finalidade deste projeto é desenvolver e aprimorar os conhecimentos na linguagem <strong>python e framework django.</strong> E torna-lo opensource para que todas as academias que estão começando e não tem dinheiro para contratar um sistema no mercado ou também para professores de Educação Fisica que queiram montar seu negocio consigam ter um sistema gratuito, precisando apenas duma maquina com o python e o postgresql instalado.</p>
+- <p>A primeira versão é algo ainda muito "cru", mas pretendo ir evoluindo o sistema até chegar em algo mais "enxuto"</p>
+- <p>Na próxima versão pretendo trazer o executavel, pois, ninguem merece está a todo momento rodando comando no terminal kkkkkk.</p>
 ## 🛠 Tecnologias
 
 - Python
 - Django
-
 
 ### Pré-requisitos
 
@@ -53,15 +54,29 @@ Este comando ira instalar todas as dependencias listadas no arquivo requirements
 
 * Lembrando que é necessário ter instalado o postgresql em sua maquina, rodando na porta padrão 5432, com usuario postgres e senha admin. Além disso precisa ser criado um banco de dados com o nome de gymforce;
 
-### Para quem está no windows é preciso executar o seguinte passo para conseguir gerar o relatório em PDF:
+##### Após isso vamos criar um usuaro para acessar o sistema, através do comando:
 
-Baixe o GTK3 pelo site:
+#### Linux
 
-<code>https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases</code>
+<code>python3 manage.py createsuperuser</code>
 
-* Apos baixar, instale e reinicie a maquina.
+* Será pedido um nome de usuario um email  e uma senha.
 
-Após ter o django instalado é hora de rodar o projeto:
+* Esse usuario é necessário para ter o primeiro acesso ao sistema. Pois ao rodar o projeto nesta versão atual ele ainda não cria um usuario por padrão.
+
+#### Windows
+
+<code>python3 manage.py createsuperuser</code>
+
+#### <p style="color:#ec5353">Para quem está no windows é preciso executar o seguinte passo para conseguir gerar o relatório em PDF:</p>
+
+1º Baixe o GTK3 pelo site:
+
+<a href="https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases">https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases</a>
+
+2º Apos baixar, instale e reinicie a maquina.
+
+Após isso é hora de rodar o projeto:
 
 #### Linux
 
@@ -71,4 +86,11 @@ Após ter o django instalado é hora de rodar o projeto:
 
 <code>python manage.py runserver</code>
 
-Acesse a url <code>http://localhost:8000/</code>
+Acesse a url <code>http://127.0.0.1:8000/</code>
+
+Ou
+
+<code>http://localhost:8000/</code>
+
+
+#### <p style="line-height: 25px">* Caso não tenha conseguido rodar o projeto, fale comigo no thainandev@gmail.com como assunto <span style="color:#ec5353">"PROBLEMAS GYMFORCE"</span> que irei te ajudar.</p>
